@@ -1,0 +1,39 @@
+{
+  "name": "naa",
+  "private": true,
+  "version": "0.1.0",
+  "description": "基于 NestJs + Antd 编写的一款前后端分离的权限管理系统",
+  "author": {
+    "name": "hexuntao",
+    "email": "hexuntao@gmail.com",
+    "url": "https://github.com/hexuntao"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/hexuntao/naa",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hexuntao/naa.git"
+  },
+  "bugs": {
+    "url": "https://github.com/hexuntao/naa/issues"
+  },
+  "engines": {
+    "node": ">=16.14.1",
+    "pnpm": ">=8.1.0"
+  },
+  "packageManager": "pnpm@8.6.10",
+  "scripts": {
+    "build": "turbo run build",
+    "clean": "turbo clean",
+    "dev": "turbo dev --no-cache  --continue",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "lint": "turbo lint",
+    "test": "turbo test"
+  },
+  "devDependencies": {
+    "@turbo/gen": "^1.9.7",
+    "eslint": "^7.32.0",
+    "prettier": "^2.5.1",
+    "turbo": "latest"
+  }
+}
