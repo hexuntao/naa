@@ -14,5 +14,10 @@ module.exports = {
       'warn',
       { allowConstantExport: true },
     ],
+    'react-refresh/only-export-components': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'react/display-name': 0,
+    'react/prop-types': 0,
+    '@typescript-eslint/no-unused-vars': [0],
   },
 };
