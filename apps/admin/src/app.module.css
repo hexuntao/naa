@@ -1,0 +1,3 @@
+.app {
+  @apply flex flex-wrap items-center justify-center flex-auto;
+}

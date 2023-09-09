@@ -1,19 +1,12 @@
+import React from 'react';
 import ReactDOM from 'react-dom/client';
-import NProgress from 'nprogress';
+
 import App from './App';
 
-import 'nprogress/nprogress.css';
+import './styles/index.css';
 
-NProgress.configure({
-  minimum: 0.3,
-  easing: 'ease',
-  speed: 800,
-  showSpinner: false,
-  parent: '#root',
-});
-
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLDivElement
+ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
 );
-
-root.render(<App />);

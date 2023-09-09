@@ -1,0 +1,9 @@
+.container {
+  @apply bg-neutral-100/40 shadow-black/20 backdrop-blur-sm shadow-md rounded-md p-5 m-5 min-w-[20rem];
+}
+
+body(:global(.dark)) {
+  .container {
+    @apply bg-neutral-800/40 shadow-slate-100/30;
+  }
+}

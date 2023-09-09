@@ -1,0 +1,19 @@
+{
+  "name": "@naa/utils",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc -w -p tsconfig.build.json",
+    "build": "tsc -b tsconfig.build.json",
+    "lint": "eslint . --ext ts,tsx"
+  },
+  "dependencies": {
+    "deepmerge": "^4.3.1"
+  },
+  "devDependencies": {
+    "@naa/eslint-config": "workspace:*",
+    "@naa/ts-config": "workspace:*",
+    "typescript": "^5.1.6"
+  }
+}

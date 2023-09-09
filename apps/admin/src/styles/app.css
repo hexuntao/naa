@@ -1,0 +1,24 @@
+html,
+body,
+#root,
+.ant-app {
+  @apply w-full p-0 m-0;
+}
+
+html {
+  @apply text-[100%]  h-[100vh];
+}
+
+body,
+#root,
+.ant-app {
+  @apply text-[0.875rem]  h-full flex;
+}
+
+body {
+  @apply bg-[url(./images/bg-light.png)];
+}
+
+body.dark {
+  @apply bg-[url(./images/bg-dark.png)];
+}

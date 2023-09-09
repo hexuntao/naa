@@ -1,7 +1,7 @@
 {
   "name": "naa",
   "private": true,
-  "version": "0.1.0",
+  "version": "1.0.1",
   "description": "基于 NestJs + Antd 编写的一款前后端分离的权限管理系统",
   "author": {
     "name": "hexuntao",
@@ -24,14 +24,20 @@
   "packageManager": "pnpm@8.6.10",
   "scripts": {
     "build": "turbo run build",
-    "clean": "turbo clean",
-    "dev": "turbo dev --no-cache  --continue",
+    "dev": "turbo run dev",
+    "api:dev": "turbo run dev --filter=api",
+    "api:cli": "turbo run cli --cwd=./apps/api --",
+    "admin:dev": "turbo run dev --filter=admin --filter=api",
+    "web:dev": "turbo run dev --filter=web --filter=api",
+    "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "lint": "turbo lint",
-    "test": "turbo test"
+    "upall": "pnpm up --filter @naa/* --latest && pnpm up --latest"
   },
   "devDependencies": {
-    "@turbo/gen": "^1.9.7",
-    "turbo": "latest"
+    "@naa/eslint-config": "workspace:*",
+    "@turbo/gen": "^1.10.12",
+    "eslint": "^8.47.0",
+    "prettier": "^3.0.1",
+    "turbo": "^1.10.13"
   }
 }
