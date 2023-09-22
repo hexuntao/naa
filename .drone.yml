@@ -19,7 +19,7 @@ steps:
         - cd /www/wwwroot
         - '[ -d ./nna ] && rm -rf ./nna'
         # 这一行很重要，因为没有的话，第一次克隆就会失败
-        - GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone -q git@github.com:hexuntao/naa.git ./nna
+        - git clone git@github.com:hexuntao/naa.git ./nna
         - cd nna
         - echo "$${ENVS}" > .env
         - 'source ~/.zshrc; pnpm i && pnpm build && pm2 restart ecosystem.config.js && pm2 save'
