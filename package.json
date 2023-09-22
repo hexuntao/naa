@@ -1,7 +1,7 @@
 {
   "name": "naa",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "基于 NestJs + Antd 编写的一款前后端分离的权限管理系统",
   "author": {
     "name": "hexuntao",

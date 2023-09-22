@@ -15,7 +15,7 @@
 安装
 
 ```bash
-git clone https://github.com/hexuntao/naa
+git clone https://github.com/hexuntao/naa.git
 cd nna
 
 pnpm install
@@ -27,9 +27,12 @@ pnpm install
 pnpm run dev
 ```
 
-前端页面: http://localhost:6000
+后端接口: http://localhost:6010
 
-后端接口: http://localhost:6001/api
+后台页面: http://localhost:6020
+
+前端页面: http://localhost:6030
+
 
 **打包**
 
