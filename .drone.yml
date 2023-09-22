@@ -8,7 +8,7 @@ steps:
       ENVS:
         from_secret: ENV_VARS
     settings:
-      host: SSH_HOST
+      host: 45.125.34.216
       username: SSH_USERNAME
       password: SSH_PASSWORD
       port: 22
