@@ -4,21 +4,18 @@ name: default
 steps:
   - name: deploy
     image: appleboy/drone-ssh
-    environment:
-      ENVS:
-        from_secret: ENV_VARS
     settings:
       host: 45.125.34.216
-      username: SSH_USERNAME
-      password: SSH_PASSWORD
+      username: root
+      key:
+        from_secret: SSH_KEY
       port: 22
       command_timeout: 2m
-      envs: [ENVS]
       script:
         - cd /www/wwwroot
         - '[ -d ./nna ] && rm -rf ./nna'
         # 这一行很重要，因为没有的话，第一次克隆就会失败
-        - git clone git@github.com:hexuntao/naa.git ./nna
+        - GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone -q git@github.com:hexuntao/naa.git ./nna
         - cd nna
         - echo "$${ENVS}" > .env
         - 'source ~/.zshrc; pnpm i && pnpm build && pm2 restart ecosystem.config.js && pm2 save'
