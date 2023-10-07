@@ -23,7 +23,7 @@
   },
   "packageManager": "pnpm@8.6.10",
   "scripts": {
-    "build": "turbo run build",
+    "build": "turbo run build --filter=api",
     "dev": "turbo run dev",
     "api:dev": "turbo run dev --filter=api",
     "api:cli": "turbo run cli --cwd=./apps/api --",
