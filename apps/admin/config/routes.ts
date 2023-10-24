@@ -14,8 +14,6 @@ import account from './routes/account';
 import system from './routes/system';
 
 export default [
-  account,
-  system,
   {
     name: '工作台',
     path: '/dashboard',
@@ -25,6 +23,8 @@ export default [
     path: '/',
     redirect: '/dashboard',
   },
+  { ...system },
+  { ...account },
   {
     name: 'login',
     path: '/login',

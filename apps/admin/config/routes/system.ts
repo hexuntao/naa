@@ -1,9 +1,8 @@
 export default {
-  path: '/system',
-  icon: 'icon-system',
-  component: null,
-  redirect: null,
   name: '系统设置',
+  path: '/system',
+  component: null,
+  // redirect: '/system/user',
   routes: [
     {
       path: '/system/user',

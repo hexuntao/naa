@@ -89,7 +89,7 @@ export default defineConfig({
    * @doc https://umijs.org/docs/max/layout-menu
    */
   layout: {
-    locale: true,
+    locale: false,
     ...defaultSettings,
   },
   /**
@@ -143,8 +143,7 @@ export default defineConfig({
   },
   requestRecord: {},
   define: {
-    'process.env': {
-    },
+    'process.env': {},
   },
   /**
    * @name <head> 中额外的 script
@@ -155,8 +154,7 @@ export default defineConfig({
     { src: '/scripts/loading.js', async: true },
   ],
   // 站点统计
-  analytics: {
-  },
+  analytics: {},
   metas: [
     // { name: '', content: '' },
   ],

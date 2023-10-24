@@ -1,12 +1,9 @@
-
 import { SettingDrawer } from '@ant-design/pro-components';
 import type { RunTimeLayoutConfig } from '@umijs/max';
-import React from 'react';
 
 import umiRequest from './utils/umiRequest';
 
 const isDev = process.env.NODE_ENV === 'development';
-
 
 /**
  * @see  https://umijs.org/zh-CN/plugins/plugin-initial-state
@@ -16,10 +13,12 @@ export async function getInitialState(): Promise<any> {
 }
 
 // ProLayout 支持的api https://procomponents.ant.design/components/layout
-export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
+export const layout: RunTimeLayoutConfig = ({
+  initialState,
+  setInitialState,
+}) => {
   return {
-    onPageChange: () => {
-    },
+    onPageChange: () => {},
     layoutBgImgList: [],
     links: [],
     menuHeaderRender: undefined,

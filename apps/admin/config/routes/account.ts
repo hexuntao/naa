@@ -1,8 +1,8 @@
 export default {
-  path: '/account',
   name: '个人中心',
-  layout: null,
-  redirect: './account/info',
+  path: '/account',
+  component: null,
+  // redirect: '/account/info',
   routes: [
     {
       name: '基本信息',
