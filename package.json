@@ -23,12 +23,12 @@
   },
   "packageManager": "pnpm@8.6.10",
   "scripts": {
-    "build": "turbo run build --filter=web --filter=api",
+    "build": "turbo run build",
     "dev": "turbo run dev",
-    "api:dev": "turbo run dev --filter=api",
-    "api:cli": "turbo run cli --cwd=./apps/api --",
-    "admin:dev": "turbo run dev --filter=admin --filter=api",
-    "web:dev": "turbo run dev --filter=web --filter=api",
+    "dev:api": "turbo run dev --filter=api",
+    "dev:admin": "turbo run dev --filter=admin --filter=api",
+    "dev:web": "turbo run dev --filter=web --filter=api",
+    "cli:api": "turbo run cli --cwd=./apps/api --",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "upall": "pnpm up --filter @naa/* --latest && pnpm up --latest"

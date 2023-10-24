@@ -49,7 +49,6 @@ declare type ReRequired<T> = {
 };
 
 /**
- * Wrapper type used to circumvent ESM modules circular dependency issue
- * caused by reflection metadata saving the type of the property.
+ * 防止SWC下循环依赖报错
  */
 declare type WrapperType<T> = T; // WrapperType === Relation
