@@ -1,17 +1,20 @@
-import { Exclude, Expose } from 'class-transformer';
+import { Exclude, Expose, Type } from 'class-transformer';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
+  DeleteDateColumn,
   Entity,
+  Index,
   JoinTable,
   ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryColumn,
-  Relation,
   UpdateDateColumn,
 } from 'typeorm';
+
+import type { Relation } from 'typeorm';
 
 import { PostBodyType } from '../constants';
 
@@ -28,14 +31,17 @@ export class PostEntity extends BaseEntity {
 
   @Expose()
   @Column({ comment: '文章标题' })
+  @Index({ fulltext: true })
   title: string;
 
   @Expose({ groups: ['post-detail'] })
   @Column({ comment: '文章内容', type: 'text' })
+  @Index({ fulltext: true })
   body: string;
 
   @Expose()
   @Column({ comment: '文章描述', nullable: true })
+  @Index({ fulltext: true })
   summary?: string;
 
   @Expose()
@@ -77,11 +83,24 @@ export class PostEntity extends BaseEntity {
   updatedAt: Date;
 
   @Expose()
+  @Type(() => Date)
+  @DeleteDateColumn({
+    comment: '删除时间',
+  })
+  deletedAt: Date;
+
+  /**
+   * 通过queryBuilder生成的评论数量(虚拟字段)
+   */
+  @Expose()
+  commentCount: number;
+
+  @Expose()
   @ManyToOne(() => CategoryEntity, (category) => category.posts, {
     nullable: true,
     onDelete: 'SET NULL',
   })
-  category: Relation<CategoryEntity> | null;
+  category: Relation<CategoryEntity>;
 
   @Expose()
   @ManyToMany(() => TagEntity, (tag) => tag.posts, {
@@ -89,12 +108,6 @@ export class PostEntity extends BaseEntity {
   })
   @JoinTable()
   tags: Relation<TagEntity>[];
-
-  /**
-   * 通过queryBuilder生成的评论数量(虚拟字段)
-   */
-  @Expose()
-  commentCount: number;
 
   @OneToMany(() => CommentEntity, (comment) => comment.post, {
     cascade: true,

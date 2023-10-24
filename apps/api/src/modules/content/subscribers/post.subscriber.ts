@@ -1,17 +1,27 @@
+import { Optional } from '@nestjs/common';
+import { isNil } from 'lodash';
 import { DataSource, EventSubscriber } from 'typeorm';
 
+import { Configure } from '@/modules/config/configure';
+import { BaseSubscriber } from '@/modules/database/base';
+
 import { PostBodyType } from '../constants';
-import { PostEntity } from '../entities/post.entity';
-import { PostRepository } from '../repositories/post.repository';
+import { PostEntity } from '../entities';
+import { PostRepository } from '../repositories';
 import { SanitizeService } from '../services/sanitize.service';
 
 @EventSubscriber()
-export class PostSubscriber {
+export class PostSubscriber extends BaseSubscriber<PostEntity> {
+  protected entity = PostEntity;
+
   constructor(
     protected dataSource: DataSource,
-    protected sanitizeService: SanitizeService,
     protected postRepository: PostRepository,
-  ) {}
+    protected configure: Configure,
+    @Optional() protected sanitizeService?: SanitizeService,
+  ) {
+    super(dataSource);
+  }
 
   listenTo() {
     return PostEntity;
@@ -22,7 +32,11 @@ export class PostSubscriber {
    * @param entity
    */
   async afterLoad(entity: PostEntity) {
-    if (entity.type === PostBodyType.HTML) {
+    if (
+      (await this.configure.get('content.htmlEnabled')) &&
+      !isNil(this.sanitizeService) &&
+      entity.type === PostBodyType.HTML
+    ) {
       entity.body = this.sanitizeService.sanitize(entity.body);
     }
   }

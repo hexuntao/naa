@@ -1,7 +1,20 @@
 import { isNil } from 'lodash';
-import { ObjectLiteral, SelectQueryBuilder } from 'typeorm';
+import { DataSource, ObjectLiteral, ObjectType, Repository, SelectQueryBuilder } from 'typeorm';
 
-import { PaginateOptions, PaginateReturn } from './types';
+import { createConnectionOptions } from '../config/helpers';
+import { ConfigureFactory, ConfigureRegister } from '../config/types';
+
+import { deepMerge } from '../core/helpers';
+
+import { CUSTOM_REPOSITORY_METADATA } from './constants';
+import {
+  DbConfig,
+  DbOptions,
+  OrderQueryType,
+  PaginateOptions,
+  PaginateReturn,
+  TypeormOption,
+} from './types';
 
 /**
  * 分页函数
@@ -66,3 +79,92 @@ export function treePaginate<E extends ObjectLiteral>(
     items,
   };
 }
+
+/**
+ * 为查询添加排序,默认排序规则为DESC
+ * @param qb 原查询
+ * @param alias 别名
+ * @param orderBy 查询排序
+ */
+export const getOrderByQuery = <E extends ObjectLiteral>(
+  qb: SelectQueryBuilder<E>,
+  alias: string,
+  orderBy?: OrderQueryType,
+) => {
+  if (isNil(orderBy)) return qb;
+  if (typeof orderBy === 'string') return qb.orderBy(`${alias}.${orderBy}`, 'DESC');
+  if (Array.isArray(orderBy)) {
+    for (const item of orderBy) {
+      typeof item === 'string'
+        ? qb.addOrderBy(`${alias}.${item}`, 'DESC')
+        : qb.addOrderBy(`${alias}.${item.name}`, item.order);
+    }
+    return qb;
+  }
+  return qb.orderBy(`${alias}.${(orderBy as any).name}`, (orderBy as any).order);
+};
+
+/**
+ * 获取自定义Repository的实例
+ * @param dataSource 数据连接池
+ * @param Repo repository类
+ */
+export const getCustomRepository = <T extends Repository<E>, E extends ObjectLiteral>(
+  dataSource: DataSource,
+  Repo: ClassType<T>,
+): T => {
+  if (isNil(Repo)) return null;
+  const entity = Reflect.getMetadata(CUSTOM_REPOSITORY_METADATA, Repo);
+  if (!entity) return null;
+  const base = dataSource.getRepository<ObjectType<any>>(entity);
+  return new Repo(base.target, base.manager, base.queryRunner) as T;
+};
+
+/**
+ * 创建数据库配置
+ * @param options 自定义配置
+ */
+export const createDbOptions = (options: DbConfig) => {
+  const newOptions: DbOptions = {
+    common: deepMerge(
+      {
+        charset: 'utf8mb4',
+        logging: ['error'],
+      },
+      options.common ?? {},
+      'replace',
+    ),
+    connections: createConnectionOptions(options.connections ?? []),
+  };
+  newOptions.connections = newOptions.connections.map((connection) => {
+    const entities = connection.entities ?? [];
+    const newOption = { ...connection, entities };
+    return deepMerge(
+      newOptions.common,
+      {
+        ...newOption,
+        autoLoadEntities: true,
+      } as any,
+      'replace',
+    ) as TypeormOption;
+  });
+  return newOptions;
+};
+
+/**
+ * 数据库配置构造器创建
+ * @param register
+ */
+export const createDbConfig: (
+  register: ConfigureRegister<RePartial<DbConfig>>,
+) => ConfigureFactory<DbConfig, DbOptions> = (register) => ({
+  register,
+  hook: (configure, value) => createDbOptions(value),
+  defaultRegister: () => ({
+    common: {
+      charset: 'utf8mb4',
+      logging: ['error'],
+    },
+    connections: [],
+  }),
+});

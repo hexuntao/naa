@@ -1,8 +1,7 @@
 import { ArgumentsHost, Catch, HttpException, HttpStatus, Type } from '@nestjs/common';
 import { BaseExceptionFilter } from '@nestjs/core';
 import { isObject } from 'lodash';
-import { EntityPropertyNotFoundError, QueryFailedError } from 'typeorm';
-import { EntityNotFoundError } from 'typeorm/error/EntityNotFoundError';
+import { EntityNotFoundError, EntityPropertyNotFoundError, QueryFailedError } from 'typeorm';
 
 /**
  * 全局过滤器,用于响应自定义异常

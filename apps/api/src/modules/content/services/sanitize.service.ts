@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import merge from 'deepmerge';
 import sanitizeHtml from 'sanitize-html';
+
+import { deepMerge } from '@/modules/core/helpers';
 
 @Injectable()
 export class SanitizeService {
@@ -20,11 +21,6 @@ export class SanitizeService {
   }
 
   sanitize(body: string, options?: sanitizeHtml.IOptions) {
-    return sanitizeHtml(
-      body,
-      merge(this.config, options ?? {}, {
-        arrayMerge: (_d, s, _o) => s,
-      }),
-    );
+    return sanitizeHtml(body, deepMerge(this.config, options ?? {}, 'replace'));
   }
 }

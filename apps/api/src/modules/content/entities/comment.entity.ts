@@ -1,16 +1,18 @@
-import { Exclude, Expose, Type } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 import {
   BaseEntity,
   Column,
   CreateDateColumn,
   Entity,
+  Index,
   ManyToOne,
   PrimaryColumn,
-  Relation,
   Tree,
   TreeChildren,
   TreeParent,
 } from 'typeorm';
+
+import type { Relation } from 'typeorm';
 
 import { PostEntity } from './post.entity';
 
@@ -24,17 +26,25 @@ export class CommentEntity extends BaseEntity {
 
   @Expose()
   @Column({ comment: '评论内容', type: 'text' })
+  @Index({ fulltext: true })
   body: string;
 
   @Expose()
-  @Type(() => Date)
   @CreateDateColumn({
     comment: '创建时间',
   })
   createdAt: Date;
 
-  @Expose()
+  @Expose({ groups: ['comment-list'] })
   depth = 0;
+
+  @Expose({ groups: ['comment-detail', 'comment-list'] })
+  @TreeParent({ onDelete: 'CASCADE' })
+  parent: Relation<CommentEntity> | null;
+
+  @Expose({ groups: ['comment-tree'] })
+  @TreeChildren({ cascade: true })
+  children: Relation<CommentEntity>[];
 
   @Expose()
   @ManyToOne(() => PostEntity, (post) => post.comments, {
@@ -45,11 +55,4 @@ export class CommentEntity extends BaseEntity {
     onUpdate: 'CASCADE',
   })
   post: Relation<PostEntity>;
-
-  @TreeParent({ onDelete: 'CASCADE' })
-  parent: Relation<CommentEntity> | null;
-
-  @Expose()
-  @TreeChildren({ cascade: true })
-  children: Relation<CommentEntity>[];
 }

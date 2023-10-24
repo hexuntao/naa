@@ -1,35 +1,48 @@
 import { Injectable } from '@nestjs/common';
+
 import { isNil, omit } from 'lodash';
+
 import { EntityNotFoundError } from 'typeorm';
 
+import { BaseService } from '@/modules/database/base';
+import { SelectTrashMode } from '@/modules/database/constants';
 import { treePaginate } from '@/modules/database/helpers';
 
-import { CreateCategoryDto, UpdateCategoryDto } from '../dtos';
-import { QueryCategoryDto } from '../dtos/category.dto';
-import { CategoryEntity } from '../entities';
+import { PaginateWithTrashedDto } from '@/modules/restful/dtos';
 
+import { CreateCategoryDto, QueryCategoryTreeDto, UpdateCategoryDto } from '../dtos';
+import { CategoryEntity } from '../entities';
 import { CategoryRepository } from '../repositories';
 
-/**
- * 分类数据操作
- */
 @Injectable()
-export class CategoryService {
-  constructor(protected repository: CategoryRepository) {}
+export class CategoryService extends BaseService<CategoryEntity, CategoryRepository> {
+  protected enableTrash = true;
+
+  constructor(protected repository: CategoryRepository) {
+    super(repository);
+  }
 
   /**
    * 查询分类树
    */
-  async findTrees() {
-    return this.repository.findTrees();
+  async findTrees(options: QueryCategoryTreeDto) {
+    const { trashed = SelectTrashMode.NONE } = options;
+    return this.repository.findTrees({
+      withTrashed: trashed === SelectTrashMode.ALL || trashed === SelectTrashMode.ONLY,
+      onlyTrashed: trashed === SelectTrashMode.ONLY,
+    });
   }
 
   /**
    * 获取分页数据
    * @param options 分页选项
    */
-  async paginate(options: QueryCategoryDto) {
-    const tree = await this.repository.findTrees();
+  async paginate(options: PaginateWithTrashedDto) {
+    const { trashed = SelectTrashMode.NONE } = options;
+    const tree = await this.repository.findTrees({
+      withTrashed: trashed === SelectTrashMode.ALL || trashed === SelectTrashMode.ONLY,
+      onlyTrashed: trashed === SelectTrashMode.ONLY,
+    });
     const data = await this.repository.toFlatTrees(tree);
     return treePaginate(options, data);
   }
@@ -39,7 +52,10 @@ export class CategoryService {
    * @param id
    */
   async detail(id: string) {
-    return this.repository.findOneByOrFail({ id });
+    return this.repository.findOneOrFail({
+      where: { id },
+      relations: ['parent'],
+    });
   }
 
   /**
@@ -60,7 +76,11 @@ export class CategoryService {
    */
   async update(data: UpdateCategoryDto) {
     await this.repository.update(data.id, omit(data, ['id', 'parent']));
-    const item = await this.detail(data.id);
+    await this.detail(data.id);
+    const item = await this.repository.findOneOrFail({
+      where: { id: data.id },
+      relations: ['parent'],
+    });
     const parent = await this.getParent(item.parent?.id, data.parent);
     const shouldUpdateParent =
       (!isNil(item.parent) && !isNil(parent) && item.parent.id !== parent.id) ||
@@ -69,30 +89,9 @@ export class CategoryService {
     // 父分类单独更新
     if (parent !== undefined && shouldUpdateParent) {
       item.parent = parent;
-      await this.repository.save(item);
+      await this.repository.save(item, { reload: true });
     }
     return item;
-  }
-
-  /**
-   * 删除分类
-   * @param id
-   */
-  async delete(id: string) {
-    const item = await this.repository.findOneOrFail({
-      where: { id },
-      relations: ['parent', 'children'],
-    });
-    // 把子分类提升一级
-    if (!isNil(item.children) && item.children.length > 0) {
-      const nchildren = [...item.children].map((c) => {
-        c.parent = item.parent;
-        return item;
-      });
-
-      await this.repository.save(nchildren);
-    }
-    return this.repository.remove(item);
   }
 
   /**
