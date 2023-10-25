@@ -6,10 +6,10 @@ import {
   statusColumn,
 } from '@/components/Crud';
 import { TreeSelect } from 'antd';
-import { User } from './types';
-import { getRoleList } from '../role/services';
-import { getOrgList } from '../org/services';
 import { getJobList } from '../job/services';
+import { getOrgList } from '../org/services';
+import { getRoleList } from '../role/services';
+import { User } from './types';
 
 const Columns: CrudColumnsType<User>[] = [
   {
@@ -163,8 +163,8 @@ const Columns: CrudColumnsType<User>[] = [
       fieldNames: { label: 'roleName', value: 'roleId' },
     },
     request: async () => {
-      const { data } = await getRoleList({ current: 1, pageSize: 9999 });
-      return data.list;
+      const { data } = await getRoleList({ page: 1, limit: 9999 });
+      return data.items;
     },
   },
   {

@@ -3,9 +3,15 @@
  */
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 
-import { FLAG, LOCALSTORAGE, REQUEST_METHODS, ROUTES, STATUS } from '@/utils/enums';
-import { User } from '@/pages/system/user/types';
 import { Menu } from '@/pages/system/menu/types';
+import { User } from '@/pages/system/user/types';
+import {
+  FLAG,
+  LOCALSTORAGE,
+  REQUEST_METHODS,
+  ROUTES,
+  STATUS,
+} from '@/utils/enums';
 
 /**
  * @description: 获取枚举的所有 key
@@ -21,6 +27,12 @@ export type EnumValues<T> = T[EnumKeys<T>];
  * @description: 状态
  */
 export type Status = EnumValues<typeof STATUS>;
+
+export type BaseTypes = {
+  id: string;
+  /** 删除时间 */
+  deletedAt?: string;
+};
 
 /**
  * @description: 创建和更新时间
@@ -56,23 +68,44 @@ export type SearchTimes = {
 export type Response<T = any> = {
   code?: number;
   data: T;
-  msg?: string;
+  message?: string;
 };
 
 /**
  * @description: 分页查询
  */
 export type PageResponse<T> = {
-  total: number;
-  list: T[];
+  meta: {
+    /**
+     * 当前页项目数量
+     */
+    itemCount: number;
+    /**
+     * 项目总数量
+     */
+    totalItems?: number;
+    /**
+     * 每页显示数量
+     */
+    perPage: number;
+    /**
+     * 总页数
+     */
+    totalPages?: number;
+    /**
+     * 当前页数
+     */
+    currentPage: number;
+  };
+  items: T[];
 };
 
 /**
  * @description: 默认分页查询参数
  */
 export type PaginationParams = {
-  current: number; // 当前页码
-  pageSize: number; // 每页条数
+  page?: number; // 当前页码
+  limit?: number; // 每页条数
 };
 
 /**

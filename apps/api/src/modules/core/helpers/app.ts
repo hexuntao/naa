@@ -86,7 +86,9 @@ export async function createBootModule(
       : new AppPipe({
           transform: true,
           whitelist: true,
-          forbidNonWhitelisted: true,
+          /** 如果设置为 true，则验证器将跳过验证对象中未定义的所有属性的验证 */
+          skipUndefinedProperties: true,
+          // forbidNonWhitelisted: true,
           forbidUnknownValues: true,
           validationError: { target: false },
         });

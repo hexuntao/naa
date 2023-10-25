@@ -54,7 +54,7 @@ export class CreateCategoryDto {
   })
   @IsNotEmpty({ groups: ['create'], message: '分类名称不得为空' })
   @IsOptional({ groups: ['update'] })
-  name: string;
+  name = '';
 
   /**
    * 父分类ID

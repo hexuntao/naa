@@ -6,10 +6,10 @@ import {
   sortColumn,
   statusColumn,
 } from '@/components/Crud';
-import { Org, OrgTypes } from './types';
-import { getOrgList } from './services';
 import { ORG_TYPE } from '@/utils';
 import { getUserList } from '../user/services';
+import { getOrgList } from './services';
+import { Org, OrgTypes } from './types';
 
 /**
  * @description: 组织类型
@@ -119,8 +119,8 @@ const Columns: CrudColumnsType<Org>[] = [
       },
     },
     request: async () => {
-      const { data } = await getUserList({ current: 1, pageSize: 9999 });
-      return data.list;
+      const { data } = await getUserList({ page: 1, limit: 9999 });
+      return data.items;
     },
   },
   /* 状态 */

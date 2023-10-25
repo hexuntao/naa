@@ -11,6 +11,7 @@
  * @doc https://umijs.org/docs/guides/routes
  */
 import account from './routes/account';
+import content from './routes/content';
 import system from './routes/system';
 
 export default [
@@ -23,8 +24,9 @@ export default [
     path: '/',
     redirect: '/dashboard',
   },
-  { ...system },
-  { ...account },
+  content,
+  system,
+  account,
   {
     name: 'login',
     path: '/login',

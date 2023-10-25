@@ -59,18 +59,6 @@ const Crud = <
   /** 弹窗表单标题 */
   const formTitle = currentRecord ? '编辑' : '新增';
 
-  /** 获取表格数据 */
-  const { runAsync: request } = useRequest(
-    async (params) => {
-      if (!api || !isFunction(api.list)) {
-        return {};
-      }
-      const result = await api.list(params);
-      return formatResponse<DataType[]>(result);
-    },
-    { manual: true },
-  );
-
   /** 弹窗开关闭change */
   const onOpenChange = (e: boolean) => {
     setOpenModal(e);
@@ -101,9 +89,11 @@ const Crud = <
       return console.warn('not delete api');
     }
 
-    const { code, msg } = await api.delete(record[rowKeyName]).finally(() => {
-      tableRef.current?.reload();
-    });
+    const { code, message: msg } = await api
+      .delete([record[rowKeyName]])
+      .finally(() => {
+        tableRef.current?.reload();
+      });
 
     if (isSuccess(code)) {
       message.success({ key: 'success', content: msg });
@@ -121,11 +111,11 @@ const Crud = <
       params[rowKeyName] = currentRecord[rowKeyName];
     }
 
-    const { code, msg } = await (params[rowKeyName] ? api.update : api.create)(params).finally(
-      () => {
-        tableRef.current?.reload();
-      },
-    );
+    const { code, message: msg } = await (params[rowKeyName]
+      ? api.update
+      : api.create)(params).finally(() => {
+      tableRef.current?.reload();
+    });
 
     if (isSuccess(code)) {
       message.success({ key: 'success', content: msg });
@@ -147,8 +137,14 @@ const Crud = <
       render: (_, record) => {
         return (
           <Space>
-            <Typography.Link onClick={() => onEdit(record)}>编辑</Typography.Link>
-            <Popconfirm title="是否确定删除?" placement="topLeft" onConfirm={() => onDel(record)}>
+            <Typography.Link onClick={() => onEdit(record)}>
+              编辑
+            </Typography.Link>
+            <Popconfirm
+              title="是否确定删除?"
+              placement="topLeft"
+              onConfirm={() => onDel(record)}
+            >
               <Typography.Link type="danger">删除</Typography.Link>
             </Popconfirm>
           </Space>
@@ -164,6 +160,25 @@ const Crud = <
     formColumns,
     currentRecord,
   }));
+
+  // 初始化 tableProps
+  const initTableProps = {
+    rowKey: rowKey,
+    actionRef: tableRef,
+    search: {
+      defaultCollapsed: false,
+    },
+    pagination: { pageSize: 10 },
+    toolBarRender: () => {
+      return [
+        <Button key="create" type="primary" onClick={onCreate}>
+          新增
+        </Button>,
+      ];
+    },
+    columns: tableColumns,
+    ...tableProps,
+  };
 
   // 初始 FormProps
   const initFormProps: any = {
@@ -193,25 +208,30 @@ const Crud = <
     };
   }
 
+  /** 获取表格数据 */
+  const { runAsync: request } = useRequest(
+    async (params = {}) => {
+      if (!api || !isFunction(api.list)) {
+        return {};
+      }
+      if (params.current) {
+        params.page = params.current;
+        params.current = undefined;
+      }
+      if (params.pageSize) {
+        params.limit = params.pageSize;
+        params.pageSize = undefined;
+      }
+      const result = await api.list(params);
+      return formatResponse<DataType[]>(result);
+    },
+    { manual: true },
+  );
   return (
     <div>
       <ProTable<DataType, Params, ValueType>
-        rowKey={rowKey}
-        actionRef={tableRef}
-        search={{
-          defaultCollapsed: false,
-        }}
-        pagination={{ pageSize: 10 }}
-        toolBarRender={() => {
-          return [
-            <Button key="create" type="primary" onClick={onCreate}>
-              新增
-            </Button>,
-          ];
-        }}
         request={request}
-        columns={tableColumns}
-        {...tableProps}
+        {...initTableProps}
       />
       <BetaSchemaForm<DataType> {...initFormProps} {...formProps} />
     </div>

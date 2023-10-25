@@ -15,8 +15,8 @@ import { debounce } from 'lodash'; // lodash 工具函数
 import Nprogress from 'nprogress';
 
 import { getLocalStorageItem, isSuccess, logoutToLogin } from '@/utils'; // 全局工具函数
-import { BASEURL, LOCALSTORAGE, REQUEST_CODE } from '..';
 import type { Response } from '@/utils/types';
+import { BASEURL, LOCALSTORAGE, REQUEST_CODE } from '..';
 
 /**
  * @description: 防抖函数统一处理异常错误
@@ -38,9 +38,9 @@ const umiRequest: RequestConfig = {
   errorConfig: {
     // 错误抛出
     errorThrower: (res: Response) => {
-      const { code, msg } = res;
+      const { code, message } = res;
       if (!isSuccess(code)) {
-        throw new Error(msg); // 抛出自制的错误
+        throw new Error(message); // 抛出自制的错误
       }
     },
     // 错误接收及处理
@@ -59,7 +59,7 @@ const umiRequest: RequestConfig = {
             // 这里加一个防抖
             Modal.success({
               title: '登录已失效,请重新登录!',
-              content: data.msg,
+              content: data.message,
               onOk: () => {
                 // 退出登录返回到登录页
                 logoutToLogin();
@@ -68,7 +68,7 @@ const umiRequest: RequestConfig = {
             });
             break;
           default:
-            debounceError(response.data.msg || '服务器内部发生错误！');
+            debounceError(response.data.message || '服务器内部发生错误！');
         }
       } else if (resquest) {
         // 请求已经成功发起，但没有收到响应
@@ -106,11 +106,11 @@ const umiRequest: RequestConfig = {
         switch (data.code) {
           // 成功发起请求并成功处理，一般用于数据库字段校验
           case REQUEST_CODE.NOSUCCESS:
-            debounceError(JSON.stringify(data.msg));
+            debounceError(JSON.stringify(data.message));
             break;
           // 成功发起请求，但是内部处理出现错误
           case REQUEST_CODE.BADREQUEST:
-            debounceError(JSON.stringify(data.msg));
+            debounceError(JSON.stringify(data.message));
             break;
           // 登录信息失效
           case REQUEST_CODE.UNAUTHORIZED:
@@ -137,23 +137,43 @@ const umiRequest: RequestConfig = {
  * @description: 导出封装的请求方法
  */
 export const httpRequest = {
-  get<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<Response<T>> {
+  get<T = any>(
+    url: string,
+    data?: object,
+    config?: AxiosRequestConfig,
+  ): Promise<Response<T>> {
     return request(url, { method: 'GET', params: data, ...config });
   },
 
-  post<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<Response<T>> {
+  post<T = any>(
+    url: string,
+    data?: object,
+    config?: AxiosRequestConfig,
+  ): Promise<Response<T>> {
     return request(url, { method: 'POST', data, ...config });
   },
 
-  put<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<Response<T>> {
+  put<T = any>(
+    url: string,
+    data?: object,
+    config?: AxiosRequestConfig,
+  ): Promise<Response<T>> {
     return request(url, { method: 'PUT', data, ...config });
   },
 
-  delete<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<Response<T>> {
+  delete<T = any>(
+    url: string,
+    data?: object,
+    config?: AxiosRequestConfig,
+  ): Promise<Response<T>> {
     return request(url, { method: 'DELETE', data, ...config });
   },
 
-  patch<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<Response<T>> {
+  patch<T = any>(
+    url: string,
+    data?: object,
+    config?: AxiosRequestConfig,
+  ): Promise<Response<T>> {
     return request(url, { method: 'PATCH', data, ...config });
   },
 };

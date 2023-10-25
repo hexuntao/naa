@@ -6,10 +6,10 @@ import {
   sortColumn,
 } from '@/components/Crud';
 import { TreeSelect } from 'antd';
-import { Job } from './types';
-import { getJobList } from './services';
 import { getOrgList } from '../org/services';
 import { getUserList } from '../user/services';
+import { getJobList } from './services';
+import { Job } from './types';
 
 const Columns: CrudColumnsType<Job>[] = [
   {
@@ -83,8 +83,8 @@ const Columns: CrudColumnsType<Job>[] = [
       },
     },
     request: async () => {
-      const { data } = await getUserList({ current: 1, pageSize: 9999 });
-      return data.list;
+      const { data } = await getUserList({ page: 1, limit: 9999 });
+      return data.items;
     },
   },
   /* 状态 */

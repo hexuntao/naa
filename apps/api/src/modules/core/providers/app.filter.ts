@@ -41,8 +41,9 @@ export class AppFilter<T = Error> extends BaseExceptionFilter<T> {
       }
     }
     const message = isObject(res)
-      ? res
+      ? { ...res, code: status }
       : {
+          code: status,
           statusCode: status,
           message: res,
         };

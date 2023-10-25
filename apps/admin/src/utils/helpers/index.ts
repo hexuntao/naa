@@ -1,25 +1,26 @@
-import { eq, get } from 'lodash';
-import {
-  PageResponse,
-  Response,
-  REQUEST_CODE,
-  getLocalStorageItem,
-  LockSleepTypes,
-  LOCALSTORAGE,
-  removeLocalStorageItem,
-  setLocalStorageItem,
-  ROUTES,
-} from '..';
 import { RequestData } from '@ant-design/pro-components';
 import { history } from '@umijs/max';
+import { eq, get } from 'lodash';
 import { stringify } from 'querystring';
+import {
+  LOCALSTORAGE,
+  LockSleepTypes,
+  PageResponse,
+  REQUEST_CODE,
+  ROUTES,
+  Response,
+  getLocalStorageItem,
+  removeLocalStorageItem,
+  setLocalStorageItem,
+} from '..';
 
 export * from './storage';
 
 /**
  * @description: 判断请求是否成功
  */
-export const isSuccess = (code?: number): boolean => eq(code, REQUEST_CODE.SUCCESS);
+export const isSuccess = (code?: number): boolean =>
+  eq(code, REQUEST_CODE.SUCCESS);
 
 /**
  * @description: 格式化请求数据
@@ -30,10 +31,10 @@ export const formatResponse = <T extends any[]>(
   // 解构响应值
   const { code, data } = response;
   return {
-    data: (get(data, 'list') || get(response, 'data') || []) as T[],
+    data: (get(data, 'items') || get(response, 'data') || []) as T[],
     // success 请返回 true，不然 table 会停止解析数据，即使有数据
     success: isSuccess(code),
-    total: get(data, 'total', 0) as number,
+    total: get(data, 'meta.totalItems', 0) as number,
   };
 };
 
@@ -70,7 +71,10 @@ export const logoutToLogin = () => {
   removeLocalStorageItem(LOCALSTORAGE.ACCESSTOKEN);
   // 取消睡眠弹窗
   if (lockSleep) {
-    setLocalStorageItem(LOCALSTORAGE.LOCKSLEEP, { ...lockSleep, isSleep: false });
+    setLocalStorageItem(LOCALSTORAGE.LOCKSLEEP, {
+      ...lockSleep,
+      isSleep: false,
+    });
   }
   // 重定向地址
   if (window.location.pathname !== ROUTES.LOGIN && !redirect) {
