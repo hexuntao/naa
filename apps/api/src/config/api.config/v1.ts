@@ -1,6 +1,7 @@
 import { Configure } from '@/modules/config/configure';
 import * as contentControllers from '@/modules/content/controllers';
 import { VersionOption } from '@/modules/restful/types';
+// import * as systemControllers from '@/modules/system/controllers';
 
 export const v1 = async (configure: Configure): Promise<VersionOption> => ({
   routes: [
@@ -24,6 +25,11 @@ export const v1 = async (configure: Configure): Promise<VersionOption> => ({
           path: 'content',
           controllers: Object.values(contentControllers),
         },
+        // {
+        //   name: 'system',
+        //   path: 'system',
+        //   controllers: Object.values(systemControllers),
+        // },
       ],
     },
   ],
