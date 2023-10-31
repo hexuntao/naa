@@ -17,15 +17,15 @@ import { App, AppConfig, CreateOptions } from '../types';
 import { createCommands } from './command';
 import { CreateModule } from './utils';
 
+// app实例常量
+export const app: App = { configure: new Configure(), commands: [] };
+
 /**
  * 创建一个应用
  * @param options 创建选项
  */
 export const createApp = (options: CreateOptions) => async (): Promise<App> => {
   const { config, builder } = options;
-
-  // 设置app的配置中心实例
-  const app: App = { configure: new Configure(), commands: [] };
   // 初始化配置实例
   await app.configure.initilize(config.factories, config.storage);
   // 如果没有app配置则使用默认配置
@@ -86,9 +86,7 @@ export async function createBootModule(
       : new AppPipe({
           transform: true,
           whitelist: true,
-          /** 如果设置为 true，则验证器将跳过验证对象中未定义的所有属性的验证 */
-          skipUndefinedProperties: true,
-          // forbidNonWhitelisted: true,
+          forbidNonWhitelisted: true,
           forbidUnknownValues: true,
           validationError: { target: false },
         });
@@ -144,8 +142,10 @@ export async function startApp(
   listened?: (app: App, startTime: Date) => () => Promise<void>,
 ) {
   const startTime = new Date();
-  const app = await creator();
-  const { container, configure } = app;
+  const { container, configure, commands } = await creator();
+  app.commands = commands;
+  app.container = container;
+  app.configure = configure;
   const { port, host } = await configure.get<AppConfig>('app');
   await container.listen(port, host, listened(app, startTime));
 }

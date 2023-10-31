@@ -1,8 +1,8 @@
 /* eslint-disable import/no-import-module-exports */
 import { MigrationInterface, QueryRunner } from 'typeorm';
 
-class QhkWVS1698214164772 implements MigrationInterface {
-  name = 'QhkWVS1698214164772';
+class HXTsWH1698743829544 implements MigrationInterface {
+  name = 'HXTsWH1698743829544';
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(
@@ -16,9 +16,6 @@ class QhkWVS1698214164772 implements MigrationInterface {
     );
     await queryRunner.query(
       `CREATE TABLE \`content_categories\` (\`id\` varchar(36) NOT NULL, \`name\` varchar(255) NOT NULL COMMENT '分类名称', \`customOrder\` int NOT NULL COMMENT '分类排序' DEFAULT '0', \`deletedAt\` datetime(6) NULL COMMENT '删除时间', \`mpath\` varchar(255) NULL DEFAULT '', \`parentId\` varchar(36) NULL, FULLTEXT INDEX \`IDX_d6aaf8517ca57297a8c3a44d3d\` (\`name\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
-    );
-    await queryRunner.query(
-      `CREATE TABLE \`content_bs\` (\`id\` varchar(36) NOT NULL, \`name\` varchar(255) NOT NULL COMMENT '分类名称', \`description\` varchar(255) NULL COMMENT '标签描述', \`deletedAt\` datetime(6) NULL COMMENT '删除时间', FULLTEXT INDEX \`IDX_421e02a50d959c3564c6c8e478\` (\`name\`), PRIMARY KEY (\`id\`)) ENGINE=InnoDB`,
     );
     await queryRunner.query(
       `CREATE TABLE \`content_posts_tags_content_tags\` (\`contentPostsId\` varchar(36) NOT NULL, \`contentTagsId\` varchar(36) NOT NULL, INDEX \`IDX_1e8c41827d0d509e70de1f6b70\` (\`contentPostsId\`), INDEX \`IDX_888e6754015ee17f9e22faae57\` (\`contentTagsId\`), PRIMARY KEY (\`contentPostsId\`, \`contentTagsId\`)) ENGINE=InnoDB`,
@@ -69,8 +66,6 @@ class QhkWVS1698214164772 implements MigrationInterface {
       `DROP INDEX \`IDX_1e8c41827d0d509e70de1f6b70\` ON \`content_posts_tags_content_tags\``,
     );
     await queryRunner.query(`DROP TABLE \`content_posts_tags_content_tags\``);
-    await queryRunner.query(`DROP INDEX \`IDX_421e02a50d959c3564c6c8e478\` ON \`content_bs\``);
-    await queryRunner.query(`DROP TABLE \`content_bs\``);
     await queryRunner.query(
       `DROP INDEX \`IDX_d6aaf8517ca57297a8c3a44d3d\` ON \`content_categories\``,
     );
@@ -88,4 +83,4 @@ class QhkWVS1698214164772 implements MigrationInterface {
   }
 }
 
-module.exports = QhkWVS1698214164772;
+module.exports = HXTsWH1698743829544;
