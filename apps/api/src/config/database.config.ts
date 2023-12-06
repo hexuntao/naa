@@ -20,7 +20,7 @@ export const database = createDbConfig((configure) => ({
       port: configure.env.get('DB_PORT', 3306),
       username: configure.env.get('DB_USER', 'root'),
       password: configure.env.get('DB_PASSWORD', '123456'),
-      database: configure.env.get('DB_NAME', '3r-room'),
+      database: configure.env.get('DB_NAME', 'db-name'),
       factories: [UserFactory, ContentFactory],
       seeders: [UserSeeder, ContentSeeder],
     },
