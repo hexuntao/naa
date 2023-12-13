@@ -1,7 +1,7 @@
 import * as path from 'path';
 
 import { RequestHandler } from 'express';
-import * as favicon from 'serve-favicon';
+import favicon from 'serve-favicon';
 
 /**
  * Favicon 中间件

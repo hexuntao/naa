@@ -37,6 +37,7 @@ export function NotMatches(
 ): PropertyDecorator {
   let modifiers: string;
   if (isValidationOptions(modifiersOrAnnotationOptions) && !validationOptions) {
+    // eslint-disable-next-line no-param-reassign
     validationOptions = modifiersOrAnnotationOptions;
   } else {
     modifiers = modifiersOrAnnotationOptions as string;
@@ -50,7 +51,7 @@ export function NotMatches(
         validate: (value, args): boolean =>
           notMatches(value, args?.constraints[0], args?.constraints[1]),
         defaultMessage: buildMessage(
-          (eachPrefix, args) =>
+          (eachPrefix, _args) =>
             `${eachPrefix}$property must not match $constraint1 regular expression`,
           validationOptions,
         ),

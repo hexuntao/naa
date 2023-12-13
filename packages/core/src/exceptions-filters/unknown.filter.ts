@@ -39,7 +39,7 @@ export class UnknownExceptionFilter implements ExceptionFilter {
   /**
    * 默认异常
    */
-  private DefaultException(exception: Error, request: Request): AjaxResult {
+  private DefaultException(exception: Error, _request: Request): AjaxResult {
     const response = exception instanceof HttpException ? exception.getResponse() : undefined;
     this.logger.error({ message: exception.message, response }, exception.stack);
     return AjaxResult.error('服务异常，请稍后重试', HttpStatus.INTERNAL_SERVER_ERROR);

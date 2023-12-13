@@ -18,7 +18,7 @@ export const User = createParamDecorator<keyof SysLoginUser>(
 /**
  * 用户信息 UserId 参数装饰器
  */
-export const UserId = createParamDecorator((data: string, ctx: ExecutionContext) => {
+export const UserId = createParamDecorator((_data: string, ctx: ExecutionContext) => {
   const request = ctx.switchToHttp().getRequest<Request>();
   const userId = request[SecurityConstants.USER_ID];
   return userId;
@@ -27,7 +27,7 @@ export const UserId = createParamDecorator((data: string, ctx: ExecutionContext)
 /**
  * 用户信息 UserName 参数装饰器
  */
-export const UserName = createParamDecorator((data: string, ctx: ExecutionContext) => {
+export const UserName = createParamDecorator((_data: string, ctx: ExecutionContext) => {
   const request = ctx.switchToHttp().getRequest<Request>();
   const userName = request[SecurityConstants.USER_NAME];
   return userName;
