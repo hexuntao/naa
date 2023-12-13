@@ -19,9 +19,6 @@
     "dev": {
       "cache": false,
       "persistent": true
-    },
-    "api#dev": {
-      "dependsOn": ["^build"]
     }
   }
 }

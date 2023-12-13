@@ -1,5 +1,0 @@
-html,
-body,
-#app {
-  @apply h-[100vh] w-full flex p-0 m-0;
-}
