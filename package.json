@@ -33,9 +33,11 @@
   },
   "devDependencies": {
     "@naa/eslint-config": "workspace:*",
+    "@naa/ts-config": "workspace:*",
     "@turbo/gen": "^1.11.2",
-    "eslint": "^8.47.0",
-    "prettier": "^3.0.1",
-    "turbo": "^1.11.2"
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.1",
+    "turbo": "^1.11.2",
+    "typescript": "^5.3.3"
   }
 }

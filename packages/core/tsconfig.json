@@ -1,0 +1,12 @@
+{
+  "extends": "@naa/ts-config/nestjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "./dist",
+    "module": "CommonJS",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  },
+  "include": ["src", "test", "typings/**/*.d.ts", "**.js"]
+}
