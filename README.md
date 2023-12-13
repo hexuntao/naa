@@ -8,7 +8,7 @@
 
 ### 说明
 
-使用 NestJs + Antd 等技术栈，并采用 monorepo 管理项目，希望这个项目在 typescript 全栈的路上能够帮助到你。
+使用 NestJs + Antd 等技术栈，并采用 monorepo 管理项目，希望这个项目在 Typescript 全栈的路上能够帮助到你。
 
 [在线预览](https://nna.hexuntao.com) 演示账号: admin/123456
 
@@ -30,8 +30,6 @@ pnpm run dev
 后端接口: http://localhost:6010
 
 后台页面: http://localhost:6020
-
-前端页面: http://localhost:6030
 
 
 **打包**
