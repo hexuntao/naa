@@ -2,11 +2,10 @@ import { Inject, Injectable, OnModuleInit } from '@nestjs/common';
 import * as chokidar from 'chokidar';
 import * as glob from 'fast-glob';
 import * as fse from 'fs-extra';
-import * as mybatisMapper from 'mybatis-mapper';
+import mybatisMapper from 'mybatis-mapper';
 
 import { MYBATIS_OPTIONS } from './mybatis.constants';
 import { MybatisOptions, MybatisParams, MybatisFormat } from './mybatis.interface';
-// import { MybatisMapper } from './mybatis.mapper';
 
 @Injectable()
 export class MybatisService implements OnModuleInit {
