@@ -1,0 +1,57 @@
+import { BaseBusinessEntity } from '@/modules/core'
+import { IsNotEmpty, IsOptional, MaxLength } from 'class-validator'
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm'
+
+/**
+ * {{tableComment}}
+ */
+@Entity({ name: '{{tableName}}' })
+export class {{classNamePascalCase}} extends BaseBusinessEntity {
+{{#each columns as | column |}}
+{{#if (notIn ../constants.BASE_ENTITY column.fieldName)}}
+  {{#if (isRequire column.isPk)}}
+  {{#if (isRequire column.isIncrement)}}
+  @PrimaryGeneratedColumn({
+  {{else}}
+  @PrimaryColumn({
+  {{/if}}
+  {{else}}
+  @Column({
+  {{/if}}
+    name: '{{column.columnName}}',
+    type: '{{column.columnType}}',
+    {{#if column.columnLength}}
+    length: {{column.columnLength}},
+    {{/if}}
+    {{#if column.columnPrecision}}
+    precision: {{column.columnPrecision}},
+    {{/if}}
+    {{#if column.columnScale}}
+    scale: {{column.columnScale}},
+    {{/if}}
+    {{#if (notRequire column.isPk)}}
+    {{#if (notRequire column.isRequired)}}
+    nullable: true,
+    {{/if}}
+    {{/if}}
+    comment: '{{column.columnComment}}',
+  })
+  {{#if column.columnLength}}
+  @MaxLength({{column.columnLength}})
+  {{/if}}
+  {{#if (isRequire column.isPk)}}
+  @IsNotEmpty()
+  {{/if}}
+  {{#if (isRequire column.isRequired)}}
+  @IsNotEmpty()
+  {{/if}}
+  {{#if (notRequire column.isPk)}}
+  {{#if (notRequire column.isRequired)}}
+  @IsOptional()
+  {{/if}}
+  {{/if}}
+  {{column.fieldName}}{{#if (notRequire column.isPk)}}{{#if (notRequire column.isRequired)}}?{{/if}}{{/if}}: {{column.tslangType}}
+
+{{/if}}
+{{/each}}
+}

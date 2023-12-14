@@ -11,7 +11,10 @@
     "experimentalDecorators": true,
     "target": "esnext",
     "lib": ["esnext", "DOM", "ScriptHost", "WebWorker"],
-    "module": "CommonJS"
+    "module": "CommonJS",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src"],
   "exclude": ["node_modules"]

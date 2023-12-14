@@ -35,6 +35,7 @@ module.exports = {
     '@typescript-eslint/no-unsafe-call': 0,
     '@typescript-eslint/no-unsafe-argument': 0,
     '@typescript-eslint/ban-ts-comment': 0,
+    '@typescript-eslint/no-shadow': 0,
     'no-redundant-type-constituents': 0,
   },
 };

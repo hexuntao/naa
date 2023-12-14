@@ -35,7 +35,9 @@ module.exports = {
     'no-plusplus': 0,
     'no-lonely-if': 0,
     'no-bitwise': ['error', { allow: ['~'] }],
-
+    'no-shadow': 0,
+    'no-param-reassign': 0,
+    'prefer-destructuring': 0,
     /* ********************************** Module Import ********************************** */
 
     'import/no-absolute-path': 0,
