@@ -15,7 +15,7 @@ datasource:
     host: localhost
     username: root
     password: root123456
-    database: vivy-nest-admin
+    database: naa
     synchronize: true
     autoLoadEntities: true
     bigNumberStrings: false

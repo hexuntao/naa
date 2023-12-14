@@ -1,17 +1,17 @@
 # App 配置
 app:
   port: 6010
-  name: naa
+  name: Naa
 
 # Swagger 配置
 swagger:
   enabled: true
-  title: vivy-nest-admin
-  description: Nest Admin / Nest Cloud
+  title: Naa Api
+  description: Naa Api Docs
   contact:
-    name: vivy-nest-admin
-    url: https://github.com/haiweilian/vivy-nest-admin
-    email: haiweilian@foxmail.com
+    name: hexuntao
+    url: https://github.com/hexuntao/naa
+    email: hexuntao@gmail.com
   license:
     name: MIT
-    url: https://github.com/haiweilian/vivy-nest-admin/blob/main/LICENSE
+    url: https://github.com/hexuntao/naa/blob/main/LICENSE

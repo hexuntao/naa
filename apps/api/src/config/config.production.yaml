@@ -14,9 +14,13 @@ datasource:
     port: 3306
     host: localhost
     username: root
-    password: Aa@123456
-    database: vivy-nest-admin
+    password: root123456
+    database: naa
     synchronize: false
     autoLoadEntities: true
     bigNumberStrings: false
     supportBigNumbers: true
+
+# Swagger 配置
+swagger:
+  enabled: false
