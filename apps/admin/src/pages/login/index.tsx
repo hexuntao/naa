@@ -44,7 +44,11 @@ const Login = () => {
   return (
     <div className="flex flex-col justify-center h-[100vh]">
       <div>
-        <LoginForm title="Vivy" subTitle="基于 Nest & React 权限管理系统" onFinish={handleLogin}>
+        <LoginForm
+          title="Naa"
+          subTitle="基于 NestJs + Antd 编写的一款前后端分离的权限管理系统"
+          onFinish={handleLogin}
+        >
           <ProFormText
             name="username"
             initialValue={'admin'}

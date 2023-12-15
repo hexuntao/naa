@@ -1,5 +1,5 @@
 import { useMap } from 'ahooks';
-import { isArray } from 'lodash-es';
+import { isArray } from 'lodash';
 import { useCallback } from 'react';
 import { optionDictData } from '@/apis/system/dict-data';
 import type { DictDataModel } from '@/apis/system/dict-data';

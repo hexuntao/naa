@@ -5,7 +5,7 @@ import { ProLayoutProps } from '@ant-design/pro-components';
  * @doc https://procomponents.ant.design/components/layout#api
  */
 const Setting: ProLayoutProps = {
-  title: 'Vivy',
+  title: 'Naa',
   logo: 'https://img.alicdn.com/tfs/TB1YHEpwUT1gK0jSZFhXXaAtVXa-28-27.svg',
   layout: 'mix',
   navTheme: 'light',

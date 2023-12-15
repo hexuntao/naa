@@ -5,7 +5,7 @@ import { useRequest, useModel, Access, useAccess } from '@umijs/max';
 import type { TreeProps, TreeDataNode } from 'antd';
 import { Tree, Button, Popconfirm } from 'antd';
 import { saveAs } from 'file-saver';
-import { isEmpty } from 'lodash-es';
+import { isEmpty } from 'lodash';
 import React, { useRef, useState } from 'react';
 import { optionDeptTree } from '@/apis/system/dept';
 import type { DeptTreeResult } from '@/apis/system/dept';

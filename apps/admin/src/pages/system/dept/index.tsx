@@ -3,7 +3,7 @@ import type { ActionType, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { useModel, Access, useAccess } from '@umijs/max';
 import { Button, Popconfirm } from 'antd';
-import { isEmpty } from 'lodash-es';
+import { isEmpty } from 'lodash';
 import React, { useRef, useState } from 'react';
 import { treeDept, deleteDept } from '@/apis/system/dept';
 import type { DeptTreeResult } from '@/apis/system/dept';

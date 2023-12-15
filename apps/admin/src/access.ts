@@ -1,4 +1,4 @@
-import { isArray, intersection } from 'lodash-es';
+import { isArray, intersection } from 'lodash';
 
 /**
  * 初始化状态

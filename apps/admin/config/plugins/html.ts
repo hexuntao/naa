@@ -16,7 +16,7 @@ export default (api: IApi) => {
   });
   api.addHTMLScripts(() => {
     return `
-      let value = localStorage.getItem('Vivy-Theme-Setting')
+      let value = localStorage.getItem('Naa-Theme-Setting')
       if (value) {
         try {
           value = JSON.parse(value)

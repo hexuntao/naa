@@ -1,7 +1,7 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import defaultSettings from '../../config/setting';
 
-const TokenKey = 'Vivy-Theme-Setting';
+const TokenKey = 'Naa-Theme-Setting';
 
 export function getThemeSetting(): Partial<LayoutSettings> {
   const value = localStorage.getItem(TokenKey);

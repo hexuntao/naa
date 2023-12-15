@@ -7,12 +7,12 @@ const Footer: React.FC = () => {
       style={{
         background: 'none',
       }}
-      copyright={`${new Date().getFullYear()} haiweilian`}
+      copyright={`${new Date().getFullYear()} hexuntao`}
       links={[
         {
-          key: 'Vivy React',
-          title: 'Vivy React',
-          href: 'https://github.com/haiweilian/vivy-nest-admin',
+          key: 'Naa',
+          title: 'Nest Antd Admin',
+          href: 'https://github.com/hexuntao/naa',
           blankTarget: true,
         },
       ]}

@@ -1,8 +1,8 @@
 import Cookies from 'js-cookie';
 
-const TokenKey = 'Vivy-Token';
+const TokenKey = 'Naa-Token';
 
-const ExpiresInKey = 'Vivy-Expires-In';
+const ExpiresInKey = 'Naa-Expires-In';
 
 export function getToken() {
   return Cookies.get(TokenKey);

@@ -38,6 +38,17 @@ module.exports = {
     'no-shadow': 0,
     'no-param-reassign': 0,
     'prefer-destructuring': 0,
+    'prettier/prettier': [
+      0,
+      {
+        singleQuote: true,
+        proseWrap: 'never',
+        endOfLine: 'auto',
+        printWidth: 100,
+        trailingComma: 'all',
+        semi: true,
+      },
+    ],
     /* ********************************** Module Import ********************************** */
 
     'import/no-absolute-path': 0,
