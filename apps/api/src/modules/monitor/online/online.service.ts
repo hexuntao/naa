@@ -8,7 +8,6 @@ import { OnlineInfoVo } from './vo/online.vo';
 
 /**
  * 在线用户
- * @author vivy
  */
 @Injectable()
 export class OnlineService {

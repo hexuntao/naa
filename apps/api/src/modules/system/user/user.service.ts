@@ -26,7 +26,6 @@ import { UserInfoVo } from './vo/user.vo';
 
 /**
  * 用户管理
- * @author vivy
  */
 @Injectable()
 export class UserService {

@@ -21,7 +21,6 @@ import { ImageCaptchaVo } from './vo/login.vo';
 
 /**
  * 登录管理
- * @author vivy
  */
 @Injectable()
 export class LoginService {

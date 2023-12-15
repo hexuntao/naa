@@ -9,7 +9,6 @@ import { SysDictData } from './entities/sys-dict-data.entity';
 
 /**
  * 字典数据管理
- * @author vivy
  */
 @Injectable()
 export class DictDataService {
@@ -20,7 +19,6 @@ export class DictDataService {
 
   /**
    * 查询字典数据列表
-   * @author vivy
    * @param dictData 字典数据信息
    * @returns 字典数据列表
    */

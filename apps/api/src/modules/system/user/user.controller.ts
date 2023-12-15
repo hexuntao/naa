@@ -24,7 +24,6 @@ import { UserService } from './user.service';
 
 /**
  * 用户管理
- * @author vivy
  */
 @ApiTags('用户管理')
 @ApiBearerAuth()

@@ -10,7 +10,6 @@ import { CreateDeptDto, UpdateDeptDto } from './dto/dept.dto';
 
 /**
  * 部门管理
- * @author vivy
  */
 @ApiTags('部门管理')
 @ApiBearerAuth()

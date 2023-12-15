@@ -10,7 +10,6 @@ import { OperLogService } from './oper-log.service';
 
 /**
  * 操作日志
- * @author vivy
  */
 @ApiTags('操作日志')
 @ApiBearerAuth()

@@ -20,7 +20,6 @@ import { ListDictTypeDto, CreateDictTypeDto, UpdateDictTypeDto } from './dto/dic
 
 /**
  * 字典类型管理
- * @author vivy
  */
 @ApiTags('字典类型管理')
 @ApiBearerAuth()

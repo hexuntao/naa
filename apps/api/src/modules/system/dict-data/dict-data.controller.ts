@@ -20,7 +20,6 @@ import { ListDictDataDto, CreateDictDataDto, UpdateDictDataDto } from './dto/dic
 
 /**
  * 字典数据管理
- * @author vivy
  */
 @ApiTags('字典数据管理')
 @ApiBearerAuth()
@@ -30,7 +29,6 @@ export class DictDataController {
 
   /**
    * 查询字典数据列表
-   * @author vivy
    * @param dictData 字典数据信息
    * @returns 字典数据列表
    */

@@ -11,7 +11,6 @@ import { LoginLogListVo } from './vo/login-log.vo';
 
 /**
  * 登录日志
- * @author vivy
  */
 @Injectable()
 export class LoginLogService {

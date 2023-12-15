@@ -11,7 +11,6 @@ import { LoginService } from './login.service';
 
 /**
  * 登录管理
- * @author vivy
  */
 @ApiTags('登录管理')
 @ApiBearerAuth()

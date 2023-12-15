@@ -12,7 +12,6 @@ import { DeptTreeVo } from './vo/dept.vo';
 
 /**
  * 部门管理
- * @author vivy
  */
 @Injectable()
 export class DeptService {

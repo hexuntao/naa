@@ -7,7 +7,6 @@ import { GenConstants } from './gen.constants';
 
 /**
  * 代码生成器工具类
- * @author vivy
  */
 export class GenUtils {
   /**

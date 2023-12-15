@@ -9,7 +9,7 @@ import { createNestWinstonLogger } from './winston.logger';
 import { WinstonTransportBuilder } from './winston.transport';
 
 const defaultOptions: LoggerOptions = {
-  appName: 'vivy',
+  appName: 'naa',
   logPath: path.resolve(process.cwd(), 'logs'),
 };
 

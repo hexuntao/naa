@@ -10,7 +10,6 @@ import { MenuService } from './menu.service';
 
 /**
  * 菜单管理
- * @author vivy
  */
 @ApiTags('菜单管理')
 @ApiBearerAuth()

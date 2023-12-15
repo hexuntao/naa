@@ -9,7 +9,6 @@ import { ProfileService } from './profile.service';
 
 /**
  * 个人信息
- * @author vivy
  */
 @ApiTags('个人信息')
 @ApiBearerAuth()

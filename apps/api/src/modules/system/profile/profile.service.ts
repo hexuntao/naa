@@ -11,7 +11,6 @@ import { ProfileInfoVo } from './vo/profile.vo';
 
 /**
  * 个人信息
- * @author vivy
  */
 @Injectable()
 export class ProfileService {

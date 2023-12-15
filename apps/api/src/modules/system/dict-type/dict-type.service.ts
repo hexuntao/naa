@@ -13,7 +13,6 @@ import { SysDictType } from './entities/sys-dict-type.entity';
 
 /**
  * 字典类型管理
- * @author vivy
  */
 @Injectable()
 export class DictTypeService {

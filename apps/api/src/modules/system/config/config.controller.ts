@@ -20,7 +20,6 @@ import { ListConfigDto, CreateConfigDto, UpdateConfigDto } from './dto/config.dt
 
 /**
  * 参数配置
- * @author vivy
  */
 @ApiTags('参数配置')
 @ApiBearerAuth()

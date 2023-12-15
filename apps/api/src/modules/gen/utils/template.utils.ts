@@ -62,7 +62,6 @@ interface CompileContext extends GenTable {
 
 /**
  * 模板工具类
- * @author vivy
  */
 export class TemplateUtils {
   /**

@@ -17,7 +17,6 @@ import { RoleInfoVo } from './vo/role.vo';
 
 /**
  * 角色管理
- * @author vivy
  */
 @Injectable()
 export class RoleService {

@@ -9,7 +9,6 @@ import { OnlineService } from './online.service';
 
 /**
  * 在线用户
- * @author vivy
  */
 @ApiTags('在线用户')
 @ApiBearerAuth()

@@ -20,7 +20,6 @@ import { PostService } from './post.service';
 
 /**
  * 岗位管理
- * @author vivy
  */
 @ApiTags('岗位管理')
 @ApiBearerAuth()

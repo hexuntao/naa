@@ -9,7 +9,6 @@ import { SysOperLog } from './entities/sys-oper-log.entity';
 
 /**
  * 操作日志
- * @author vivy
  */
 @Injectable()
 export class OperLogService {

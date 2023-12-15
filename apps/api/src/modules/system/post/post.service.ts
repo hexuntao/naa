@@ -13,7 +13,6 @@ import { SysPost } from './entities/sys-post.entity';
 
 /**
  * 岗位管理
- * @author vivy
  */
 @Injectable()
 export class PostService {

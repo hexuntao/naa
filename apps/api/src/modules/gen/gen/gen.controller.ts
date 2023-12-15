@@ -20,7 +20,6 @@ import { GenService } from './gen.service';
 
 /**
  * 代码生成
- * @author vivy
  */
 @ApiTags('代码生成')
 @ApiBearerAuth()

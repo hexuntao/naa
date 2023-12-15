@@ -22,7 +22,6 @@ import { GenPreviewVo } from './vo/gen.vo';
 
 /**
  * 代码生成
- * @author vivy
  */
 @Injectable()
 export class GenService {

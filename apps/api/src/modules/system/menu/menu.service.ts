@@ -12,7 +12,6 @@ import { MenuTreeVo, RouterTreeVo } from './vo/menu.vo';
 
 /**
  * 菜单管理
- * @author vivy
  */
 @Injectable()
 export class MenuService {

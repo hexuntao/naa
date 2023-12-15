@@ -20,7 +20,6 @@ import { RoleService } from './role.service';
 
 /**
  * 角色管理
- * @author vivy
  */
 @ApiTags('角色管理')
 @ApiBearerAuth()

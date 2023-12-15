@@ -12,7 +12,6 @@ import { SysConfig } from './entities/sys-config.entity';
 
 /**
  * 参数配置
- * @author vivy
  */
 @Injectable()
 export class ConfigService {

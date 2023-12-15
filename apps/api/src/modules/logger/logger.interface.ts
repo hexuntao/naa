@@ -3,7 +3,6 @@ import { FactoryProvider } from '@nestjs/common';
 export interface LoggerOptions {
   /**
    * 应用名称
-   * @default vivy
    */
   appName?: string;
   /**

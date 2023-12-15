@@ -10,7 +10,6 @@ import { LoginLogService } from './login-log.service';
 
 /**
  * 登录日志
- * @author vivy
  */
 @ApiTags('登录日志')
 @ApiBearerAuth()

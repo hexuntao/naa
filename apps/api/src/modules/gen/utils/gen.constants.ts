@@ -1,10 +1,9 @@
 /**
  * 代码生成通用常量
- * @author vivy
  */
 export class GenConstants {
   /** 所有者 */
-  static AUTHOR = 'vivy';
+  static AUTHOR = 'author';
 
   /** 模块名 */
   static MODULE = 'system';
