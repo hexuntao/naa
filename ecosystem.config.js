@@ -3,7 +3,7 @@ module.exports = {
     {
       name: 'nna-api',
       cwd: './apps/api/dist',
-      script: 'main.js -p 6010',
+      script: './main.js',
       autorestart: true,
       watch: true,
       ignore_watch: ['node_modules'],
