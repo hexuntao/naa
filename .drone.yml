@@ -10,7 +10,7 @@ steps:
       key:
         from_secret: ssh_key
       port: 22
-      command_timeout: 2m
+      command_timeout: 4m
       script:
         - cd /www/wwwroot
         - >
@@ -25,4 +25,5 @@ steps:
           fi
 
         - pnpm install || true
-        - (pnpm build & pm2 restart ecosystem.config.js) && wait && pm2 save
+        - pnpm build
+        - pm2 restart ecosystem.config.js && pm2 save
