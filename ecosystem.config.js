@@ -1,9 +1,10 @@
 module.exports = {
   apps: [
     {
-      name: 'nna-api',
+      name: 'naa-api',
       cwd: './apps/api/dist',
       script: './main.js',
+      args: ['-p', '6010'],
       autorestart: true,
       watch: true,
       ignore_watch: ['node_modules'],

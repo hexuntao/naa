@@ -10,13 +10,13 @@
 
 使用 NestJs + Antd 等技术栈，并采用 monorepo 管理项目，希望这个项目在 Typescript 全栈的路上能够帮助到你。
 
-[在线预览](https://nna.hexuntao.com) 演示账号: admin/123456
+[在线预览](https://naa.hexuntao.com) 演示账号: admin/123456
 
 安装
 
 ```bash
 git clone https://github.com/hexuntao/naa.git
-cd nna
+cd naa
 
 pnpm install
 ```
