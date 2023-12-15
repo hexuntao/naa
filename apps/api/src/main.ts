@@ -10,7 +10,9 @@ import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule, {
-    bufferLogs: true,
+    // bufferLogs: false,
+    cors: true,
+    logger: ['error', 'warn'],
   });
 
   app.useLogger(app.get(LoggerService));

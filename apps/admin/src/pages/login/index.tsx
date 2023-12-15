@@ -51,7 +51,6 @@ const Login = () => {
         >
           <ProFormText
             name="username"
-            initialValue={'admin'}
             fieldProps={{
               size: 'large',
               prefix: <UserOutlined className={'prefixIcon'} />,
@@ -66,7 +65,6 @@ const Login = () => {
           />
           <ProFormText.Password
             name="password"
-            initialValue={'Aa@123456'}
             fieldProps={{
               size: 'large',
               prefix: <LockOutlined className={'prefixIcon'} />,

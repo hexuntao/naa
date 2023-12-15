@@ -26,7 +26,7 @@ export const NestLogger = (options: LoggerOptions = defaultOptions) => {
 
   return createNestWinstonLogger({
     transports: [
-      TransportBuilder.buildConsoleTransportInstance(),
+      // TransportBuilder.buildConsoleTransportInstance(),
       TransportBuilder.buildDailyRotateFileTransportInstance({
         filename: path.resolve(options.logPath, `${options.appName}-%DATE%.log`),
       }),

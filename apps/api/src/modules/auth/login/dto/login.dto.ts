@@ -19,7 +19,7 @@ export class LoginDto {
    */
   @Allow()
   @ApiProperty({
-    default: 'admin',
+    default: 'username',
   })
   username: string;
 
@@ -28,7 +28,7 @@ export class LoginDto {
    */
   @Allow()
   @ApiProperty({
-    default: 'Aa@123456',
+    default: '123456',
   })
   password: string;
 }
