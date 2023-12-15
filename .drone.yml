@@ -13,8 +13,16 @@ steps:
       command_timeout: 2m
       script:
         - cd /www/wwwroot
-        - '[ -d ./naa ] && rm -rf ./naa'
-        # 这一行很重要，因为没有的话，第一次克隆就会失败
-        - GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" git clone -q git@github.com:hexuntao/naa.git ./naa
-        - cd naa
-        - 'pnpm i && pnpm build && pm2 restart ecosystem.config.js && pm2 save'
+        - >
+          if [ -d ./naa ] && [ -f ./naa/package.json ]; then
+            cd ./naa
+            GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" \
+              git pull origin main
+          else
+            GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" \
+              git clone -q git@github.com:hexuntao/naa.git ./naa
+            cd ./naa
+          fi
+
+        - pnpm install || true
+        - (pnpm build & pm2 restart ecosystem.config.js) && wait && pm2 save
