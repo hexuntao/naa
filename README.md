@@ -8,9 +8,9 @@
 
 ### 说明
 
-使用 NestJs + Antd 等技术栈，并采用 monorepo 管理项目，希望这个项目在 Typescript 全栈的路上能够帮助到你。
+使用 Nest + Antd 等技术栈，并采用 monorepo 管理项目，希望这个项目在 Typescript 全栈的路上能够帮助到你。
 
-[在线预览](https://naa.hexuntao.com) 演示账号: admin/123456
+[在线预览](https://naa.hexuntao.com) 演示账号: demo/123456
 
 安装
 

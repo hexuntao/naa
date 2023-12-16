@@ -1,12 +1,16 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 
-import { ConfigLoader } from './config.loader';
+import { CONFIG_OPTIONS } from './config.constants';
+import { ConfigOptions } from './config.interface';
 import { ConfigStore } from './config.store';
 
 @Injectable()
 export class ConfigService {
-  constructor(readonly store: ConfigStore, private readonly loader: ConfigLoader) {
-    this.store.data = this.loader.load();
+  constructor(
+    @Inject(CONFIG_OPTIONS) private readonly options: ConfigOptions,
+    readonly store: ConfigStore,
+  ) {
+    this.store.data = this.options.data;
   }
 
   /**

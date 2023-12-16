@@ -5,7 +5,6 @@ import { App, Space } from 'antd';
 import { flushSync } from 'react-dom';
 import { login, captchaImage } from '@/apis/auth/login';
 import type { LoginParams } from '@/apis/auth/login';
-import { PageEnum } from '@/enums/pageEnum';
 import { Footer } from '@/layouts/default';
 import { setToken } from '@/utils/auth';
 
@@ -35,7 +34,7 @@ const Login = () => {
       setToken(token.access_token);
       await fetchUserInfo();
       message.loading('登录中...');
-      window.location.href = PageEnum.BASE_HOME;
+      window.location.assign(`${window.location.origin}/`);
     } catch (error: any) {
       message.error(error.message || '登录失败，请重试！');
     }
@@ -46,7 +45,7 @@ const Login = () => {
       <div>
         <LoginForm
           title="Naa"
-          subTitle="基于 NestJs + Antd 编写的一款前后端分离的权限管理系统"
+          subTitle="基于 Nest + Antd 编写的一款前后端分离的权限管理系统"
           onFinish={handleLogin}
         >
           <ProFormText

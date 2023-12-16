@@ -4,6 +4,10 @@ export interface SwaggerOptions {
    */
   enabled?: boolean;
   /**
+   * 路径
+   */
+  path?: string;
+  /**
    * 标题
    */
   title?: string;

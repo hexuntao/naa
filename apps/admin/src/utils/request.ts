@@ -26,7 +26,7 @@ const debounceError = debounce((content: string, duration = 3) => {
  * @doc https://umijs.org/docs/max/request
  */
 const umiRequest: RequestConfig = {
-  // baseURL: BASEURL.API, // 请求前缀
+  baseURL: API_URL, // 请求前缀
   timeout: 60 * 1000, // 超时时间，默认 30 s
   // 请求拦截器
   requestInterceptors: [
@@ -40,7 +40,7 @@ const umiRequest: RequestConfig = {
           }
           config.headers.Authorization = 'Bearer ' + token;
         }
-        config.url = `${BASE_URL}${config.url}`;
+        config.url = `${config.url}`;
         Nprogress.start();
         return config;
       },

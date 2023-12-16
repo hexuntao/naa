@@ -20,17 +20,34 @@ import { SystemModule } from '@/modules/system/system.module';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 
+import * as configs from './config';
+
 @Module({
   imports: [
-    // plugin
     ConfigModule.forRoot({
       dir: path.join(__dirname, 'config'),
+      data: configs,
     }),
+
+    CoreModule.forRoot(),
 
     RedisModule.forRootAsync({
       useFactory(config: ConfigService) {
         return {
-          config: config.get<RedisModuleOptions['config']>('redis.defalut'),
+          config: config.get<RedisModuleOptions['config']>('redis'),
+        };
+      },
+      inject: [ConfigService],
+    }),
+
+    TypeOrmModule.forRootAsync({
+      useFactory(config: ConfigService) {
+        return {
+          ...config.get<TypeOrmModuleOptions>('database'),
+          logger: new TypeORMLogger({
+            appName: config.get('app.name'),
+            logPath: path.join(__dirname, '../logs'),
+          }),
         };
       },
       inject: [ConfigService],
@@ -39,19 +56,6 @@ import { AppService } from './app.service';
     MybatisModule.forRoot({
       dtsPath: path.join(__dirname, './types/mapper.d.ts'),
       patterns: path.join(__dirname, '**/*.mapper.xml'),
-    }),
-
-    TypeOrmModule.forRootAsync({
-      useFactory(config: ConfigService) {
-        return {
-          ...config.get<TypeOrmModuleOptions>('datasource.defalut'),
-          logger: new TypeORMLogger({
-            appName: config.get('app.name'),
-            logPath: path.join(__dirname, '../logs'),
-          }),
-        };
-      },
-      inject: [ConfigService],
     }),
 
     SecurityModule.forRootAsync({
@@ -71,9 +75,6 @@ import { AppService } from './app.service';
       },
       inject: [ConfigService],
     }),
-
-    // common
-    CoreModule.forRoot(),
 
     ExcelModule.forRoot(),
 

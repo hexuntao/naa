@@ -11,14 +11,14 @@ export class SwaggerService {
   }
 
   setup() {
-    const { enabled } = this.options;
+    const { enabled, path } = this.options;
     if (enabled === false) return undefined;
 
     this.builderBase();
     this.builderAuth();
 
     const document = SwaggerModule.createDocument(this.app, this.builder.build());
-    SwaggerModule.setup('swagger', this.app, document, {
+    SwaggerModule.setup(path, this.app, document, {
       // https://swagger.io/docs/open-source-tools/swagger-ui/usage/configuration/
       swaggerOptions: {
         persistAuthorization: true,
@@ -29,8 +29,7 @@ export class SwaggerService {
   }
 
   private builderBase() {
-    const { builder } = this;
-    const { options } = this;
+    const { options, builder } = this;
 
     if (options.title) {
       builder.setTitle(options.title);

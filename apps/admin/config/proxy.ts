@@ -1,10 +1,12 @@
+import { API_URL_PREFIX, PROXY_API_URL } from './constants';
+
 /**
- * @name 代理的配置
+ * 代理配置, 生产环境不生效
  * @doc https://umijs.org/docs/guides/proxy
  */
 export default {
-  '/api/': {
-    target: 'http://localhost:6010',
+  [API_URL_PREFIX]: {
+    target: PROXY_API_URL,
     changeOrigin: true,
     pathRewrite: { '^/api': '' },
   },

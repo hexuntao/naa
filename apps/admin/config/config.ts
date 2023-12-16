@@ -4,9 +4,22 @@ import icons from './icons';
 import proxy from './proxy';
 // import routes from './routes'
 import defaultSettings from './setting';
+import * as envs from './constants';
+
+console.info(`[${process.env.NODE_ENV}]`, { ...envs });
 
 export default defineConfig({
+  base: envs.ADMIN_BASE_PREFIX,
+  publicPath: envs.ADMIN_BASE_PREFIX,
   npmClient: 'pnpm',
+  /**
+   * @name 配置全局变量
+   * @description 设置代码中的可用变量。
+   * @doc https://umijs.org/docs/api/config#define
+   */
+  define: {
+    ...envs,
+  },
   /**
    * @name 开发插件
    * @doc https://umijs.org/docs/guides/plugins

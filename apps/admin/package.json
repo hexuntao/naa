@@ -3,15 +3,11 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "build": "cross-env REACT_APP_ENV=production max build",
-    "build:test": "cross-env REACT_APP_ENV=test max build",
-    "dev": "cross-env REACT_APP_ENV=dev max dev",
-    "dev:production": "cross-env REACT_APP_ENV=production max dev",
-    "dev:test": "cross-env REACT_APP_ENV=test max dev",
+    "build": "max build",
+    "dev": "cross-env PORT=6020 max dev",
     "format": "prettier --cache --write .",
     "postinstall": "max setup",
-    "setup": "max setup",
-    "start": "npm run dev"
+    "setup": "max setup"
   },
   "dependencies": {
     "@ant-design/charts": "^1.4.3",

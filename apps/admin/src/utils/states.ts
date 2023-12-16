@@ -5,6 +5,8 @@ import { PageEnum } from '@/enums/pageEnum';
 import { getToken, removeToken } from '@/utils/auth';
 import { getThemeSetting } from '@/utils/setting';
 
+const loginPath = `${ADMIN_BASE_PREFIX}${PageEnum.BASE_LOGIN.replace('/', '')}`;
+
 export interface InitialState {
   settings?: Partial<LayoutSettings & { token: ProLayoutProps['token'] }>;
   token?: string;
@@ -43,7 +45,8 @@ export async function getInitialState(): Promise<InitialState> {
       throw error;
     }
   };
-  if (token && location.pathname !== PageEnum.BASE_LOGIN) {
+
+  if (token && location.pathname !== loginPath) {
     const userInfo = await fetchUserInfo();
     return {
       fetchUserInfo,
@@ -51,7 +54,9 @@ export async function getInitialState(): Promise<InitialState> {
       settings: defaultSettings as Partial<LayoutSettings>,
     };
   } else {
-    if (location.pathname !== PageEnum.BASE_LOGIN) {
+    if (token && location.pathname === loginPath) {
+      history.push('/');
+    } else if (location.pathname !== loginPath) {
       removeToken();
       history.push(PageEnum.BASE_LOGIN);
     }

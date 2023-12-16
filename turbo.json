@@ -8,7 +8,7 @@
     "**/tsconfig.json",
     "**/tsconfig.build.json"
   ],
-  "globalEnv": ["NODE_ENV"],
+  "globalEnv": [".env", "NODE_ENV"],
   "pipeline": {
     "cli": {},
     "build": {

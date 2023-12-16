@@ -7,11 +7,20 @@ module.exports = {
       args: ['-p', '6010'],
       autorestart: true,
       watch: true,
-      ignore_watch: ['node_modules'],
+      ignore_watch: ['node_modules', 'public', 'logs'],
+      exec_mode: 'fork',
       env: {
         NODE_ENV: 'production',
       },
-      exec_mode: 'fork',
+      env_development: {
+        NODE_ENV: 'development',
+      },
+      env_production: {
+        NODE_ENV: 'production',
+      },
+      env_test: {
+        NODE_ENV: 'test',
+      },
     },
   ],
 };
