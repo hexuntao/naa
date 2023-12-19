@@ -12,7 +12,7 @@ import { RequestContext } from './request.context';
  *
  * 注意：必须提前设置请求头，否则这里无法获取。
  *  - 在 gateway(AuthFilter)中通过设置请求头的方法传入。
- *  - 在 common-security(AuthGuard)中通过设置请求头的方法传入。
+ *  - 在 security(AuthGuard)中通过设置请求头的方法传入。
  */
 @Injectable()
 export class SecurityContext {

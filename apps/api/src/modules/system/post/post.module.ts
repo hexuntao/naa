@@ -7,6 +7,10 @@ import { SysPost } from './entities/sys-post.entity';
 import { PostController } from './post.controller';
 import { PostService } from './post.service';
 
+/**
+ * 岗位模块
+ * @description 提供岗位相关功能
+ */
 @Module({
   imports: [TypeOrmModule.forFeature([SysPost, SysUserPost])],
   controllers: [PostController],

@@ -7,6 +7,10 @@ import { SysMenu } from './entities/sys-menu.entity';
 import { MenuController } from './menu.controller';
 import { MenuService } from './menu.service';
 
+/**
+ * 菜单模块
+ * @description 提供菜单相关功能
+ */
 @Module({
   imports: [TypeOrmModule.forFeature([SysMenu, SysRoleMenu])],
   controllers: [MenuController],

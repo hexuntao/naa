@@ -17,9 +17,6 @@ import { SecurityModule } from '@/modules/security';
 import { SharedModule } from '@/modules/shared/shared.module';
 import { SystemModule } from '@/modules/system/system.module';
 
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-
 import * as configs from './config';
 
 @Module({
@@ -28,9 +25,7 @@ import * as configs from './config';
       dir: path.join(__dirname, 'config'),
       data: configs,
     }),
-
     CoreModule.forRoot(),
-
     RedisModule.forRootAsync({
       useFactory(config: ConfigService) {
         return {
@@ -39,7 +34,6 @@ import * as configs from './config';
       },
       inject: [ConfigService],
     }),
-
     TypeOrmModule.forRootAsync({
       useFactory(config: ConfigService) {
         return {
@@ -52,12 +46,10 @@ import * as configs from './config';
       },
       inject: [ConfigService],
     }),
-
     MybatisModule.forRoot({
       dtsPath: path.join(__dirname, './types/mapper.d.ts'),
       patterns: path.join(__dirname, '**/*.mapper.xml'),
     }),
-
     SecurityModule.forRootAsync({
       useFactory() {
         return {
@@ -65,7 +57,6 @@ import * as configs from './config';
         };
       },
     }),
-
     LoggerModule.forRootAsync({
       useFactory(config: ConfigService) {
         return {
@@ -75,17 +66,14 @@ import * as configs from './config';
       },
       inject: [ConfigService],
     }),
-
     ExcelModule.forRoot(),
-
     SharedModule,
-
     AuthModule,
     SystemModule,
     MonitorModule,
     GenModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

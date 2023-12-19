@@ -11,6 +11,11 @@ import { SysUser } from './entities/sys-user.entity';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
+/**
+ * 用户模块
+ * @description 提供用户相关功能
+ * @description 用户模块依赖于菜单模块、角色模块、配置模块
+ */
 @Module({
   imports: [
     MenuModule,

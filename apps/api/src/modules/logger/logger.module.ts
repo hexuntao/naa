@@ -5,6 +5,10 @@ import { LoggerOptions, LoggerAsyncOptions } from './logger.interface';
 import { NestLogger, LoggerService } from './nest.logger';
 import { TypeORMLogger } from './typeorm.logger';
 
+/**
+ * 日志模块
+ * @description 提供日志记录功能
+ */
 @Global()
 @Module({})
 export class LoggerModule {

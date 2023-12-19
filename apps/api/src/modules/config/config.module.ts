@@ -7,7 +7,8 @@ import { ConfigService } from './config.service';
 import { ConfigStore } from './config.store';
 
 /**
- * Config 模块
+ * 配置模块
+ * @description 提供配置相关功能
  */
 @Global()
 @Module({})

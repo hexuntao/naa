@@ -7,6 +7,10 @@ import { UserModule } from '@/modules/system/user/user.module';
 import { ProfileController } from './profile.controller';
 import { ProfileService } from './profile.service';
 
+/**
+ * 个人信息模块
+ * @description 提供个人信息相关功能
+ */
 @Module({
   imports: [DeptModule, RoleModule, UserModule],
   controllers: [ProfileController],

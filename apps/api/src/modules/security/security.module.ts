@@ -10,6 +10,10 @@ import { SECURITY_OPTIONS } from './security.constants';
 import { AuthService } from './services/auth.service';
 import { TokenService } from './services/token.service';
 
+/**
+ * 权限鉴权模块
+ * @description 提供用户登录、鉴权、权限等功能
+ */
 @Global()
 @Module({})
 export class SecurityModule {

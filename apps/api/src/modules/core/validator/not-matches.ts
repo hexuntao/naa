@@ -4,8 +4,8 @@ import { matches, buildMessage, ValidateBy, isValidationOptions } from 'class-va
 export const NOT_MATCHES = 'notMatches';
 
 /**
- * Checks if string not matches the pattern. Either matches('foo', /<^&>/i).
- * If given value is not a string, then it returns false.
+ * 检查字符串是否不匹配模式。可以使用matches('foo', /<^&>/i)来判断。
+ * 如果给定的值不是字符串，则返回false。
  */
 export function notMatches(value: string, pattern: RegExp): value is string;
 export function notMatches(value: string, pattern: string, modifiers?: string): value is string;
@@ -18,8 +18,8 @@ export function notMatches(
 }
 
 /**
- * Checks if string not matches the pattern. Either matches('foo', /<^&>/i)
- * If given value is not a string, then it returns false.
+ * 检查字符串是否不匹配模式。可以使用matches('foo', /<^&>/i)来判断。
+ * 如果给定的值不是字符串，则返回false。
  */
 export function NotMatches(
   pattern: RegExp,

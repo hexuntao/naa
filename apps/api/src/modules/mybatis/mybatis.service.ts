@@ -7,6 +7,10 @@ import mybatisMapper from 'mybatis-mapper';
 import { MYBATIS_OPTIONS } from './mybatis.constants';
 import { MybatisOptions, MybatisParams, MybatisFormat } from './mybatis.interface';
 
+/**
+ * Mybatis 服务
+ * 加载和管理MyBatis Mapper文件，并提供获取 SQL 语句的方法
+ */
 @Injectable()
 export class MybatisService implements OnModuleInit {
   constructor(@Inject(MYBATIS_OPTIONS) private options: MybatisOptions) {}

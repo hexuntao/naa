@@ -9,6 +9,7 @@ import { ServiceException } from '../exceptions/service.exception';
 
 /**
  * 防止重复提交守卫
+ * @description 依赖 redis 作为缓存
  */
 @Injectable()
 export class RepeatSubmitGuard implements CanActivate {

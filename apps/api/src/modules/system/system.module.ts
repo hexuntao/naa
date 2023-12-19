@@ -12,6 +12,10 @@ import { ProfileModule } from './profile/profile.module';
 import { RoleModule } from './role/role.module';
 import { UserModule } from './user/user.module';
 
+/**
+ * 系统模块
+ * @description 提供系统管理功能
+ */
 @Module({
   imports: [
     UserModule,

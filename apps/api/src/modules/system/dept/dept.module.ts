@@ -7,6 +7,10 @@ import { DeptController } from './dept.controller';
 import { DeptService } from './dept.service';
 import { SysDept } from './entities/sys-dept.entity';
 
+/**
+ * 部门模块
+ * @description 提供部门相关功能
+ */
 @Module({
   imports: [TypeOrmModule.forFeature([SysDept, SysUser])],
   controllers: [DeptController],

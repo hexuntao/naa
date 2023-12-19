@@ -9,6 +9,10 @@ import { SysRole } from './entities/sys-role.entity';
 import { RoleController } from './role.controller';
 import { RoleService } from './role.service';
 
+/**
+ * 角色模块
+ * @description 提供角色相关功能
+ */
 @Module({
   imports: [TypeOrmModule.forFeature([SysRole, SysRoleDept, SysRoleMenu, SysUserRole])],
   controllers: [RoleController],
