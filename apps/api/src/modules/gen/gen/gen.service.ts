@@ -1,5 +1,5 @@
 import * as fs from 'fs/promises';
-import * as path from 'path';
+import { resolve } from 'path';
 
 import { Injectable, StreamableFile } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -192,7 +192,7 @@ export class GenService {
 
       // 渲染模板代码
       for (const file of template.files) {
-        const raw = await fs.readFile(path.join(__dirname, '../template', file), 'utf-8');
+        const raw = await fs.readFile(resolve(__dirname, '../template', file), 'utf-8');
         const name = TemplateUtils.getFileName(file, table);
         const code = TemplateUtils.compileTemplate(raw, table);
         item.files.push({ name, code });

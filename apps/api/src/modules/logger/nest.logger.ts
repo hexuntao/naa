@@ -1,4 +1,4 @@
-import * as path from 'path';
+import { resolve } from 'path';
 
 import { Injectable } from '@nestjs/common';
 import { assign } from 'lodash';
@@ -9,7 +9,7 @@ import { WinstonTransportBuilder } from './winston.transport';
 
 const defaultOptions: LoggerOptions = {
   appName: 'naa',
-  logPath: path.resolve(process.cwd(), 'logs'),
+  logPath: resolve(process.cwd(), 'logs'),
 };
 
 /**
@@ -28,7 +28,7 @@ export const NestLogger = (options: LoggerOptions = defaultOptions) => {
     transports: [
       // TransportBuilder.buildConsoleTransportInstance(),
       TransportBuilder.buildDailyRotateFileTransportInstance({
-        filename: path.resolve(options.logPath, `${options.appName}-%DATE%.log`),
+        filename: resolve(options.logPath, `${options.appName}-%DATE%.log`),
       }),
     ],
   });

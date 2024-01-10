@@ -1,5 +1,5 @@
 import * as fs from 'fs';
-import * as path from 'path';
+import { resolve } from 'path';
 
 import { Inject, Injectable } from '@nestjs/common';
 import { mergeWith, isArray } from 'lodash';
@@ -77,10 +77,10 @@ export class ConfigLoader {
     const dir = this.options.dir || process.cwd();
     const extension = this.options.extension || 'yaml';
 
-    filenames.push(path.join(dir, `config.${extension}`));
-    filenames.push(path.join(dir, `config.local.${extension}`));
-    filenames.push(path.join(dir, `config.${env}.${extension}`));
-    filenames.push(path.join(dir, `config.${env}.local.${extension}`));
+    filenames.push(resolve(dir, `config.${extension}`));
+    filenames.push(resolve(dir, `config.local.${extension}`));
+    filenames.push(resolve(dir, `config.${env}.${extension}`));
+    filenames.push(resolve(dir, `config.${env}.local.${extension}`));
 
     return filenames;
   }

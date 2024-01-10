@@ -3,7 +3,7 @@ import { randomUUID } from 'crypto';
 import { Injectable } from '@nestjs/common';
 import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
 
-import { isEmpty } from 'lodash';
+import { isEmpty } from 'class-validator';
 import * as svgCaptcha from 'svg-captcha';
 
 import {

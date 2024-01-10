@@ -1,4 +1,4 @@
-import * as path from 'path';
+import { resolve } from 'path';
 
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -22,7 +22,7 @@ import * as configs from './config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      dir: path.join(__dirname, 'config'),
+      dir: resolve(__dirname, 'config'),
       data: configs,
     }),
     CoreModule.forRoot(),
@@ -40,15 +40,16 @@ import * as configs from './config';
           ...config.get<TypeOrmModuleOptions>('database'),
           logger: new TypeORMLogger({
             appName: config.get('app.name'),
-            logPath: path.join(__dirname, '../logs'),
+            logPath: resolve(__dirname, '../logs'),
           }),
         };
       },
       inject: [ConfigService],
     }),
     MybatisModule.forRoot({
-      dtsPath: path.join(__dirname, './types/mapper.d.ts'),
-      patterns: path.join(__dirname, '**/*.mapper.xml'),
+      cwd: __dirname,
+      dts: resolve(__dirname, './types/mapper.d.ts'),
+      globs: ['**/*.mapper.xml'],
     }),
     SecurityModule.forRootAsync({
       useFactory() {
@@ -61,7 +62,7 @@ import * as configs from './config';
       useFactory(config: ConfigService) {
         return {
           appName: config.get('app.name'),
-          logPath: path.join(__dirname, '../logs'),
+          logPath: resolve(__dirname, '../logs'),
         };
       },
       inject: [ConfigService],

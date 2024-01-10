@@ -93,23 +93,33 @@ const umiRequest: RequestConfig = {
 
         return getResponse ? response : response.data;
       },
+      (error: any) => {
+        const skipErrorHandler = error.config.skipErrorHandler;
+        if (skipErrorHandler) {
+          return Promise.reject(error);
+        }
+
+        debounceError('系统未知错误，请反馈给管理员');
+        return Promise.reject(error);
+      },
     ],
   ],
   // 错误处理： umi@3 的错误处理方案。
-  errorConfig: {
-    // 错误接收及处理
-    errorHandler: (error: RequestError & any, opts: RequestOptions) => {
-      Nprogress.done();
-      const skipErrorHandler = error.config.skipErrorHandler;
+  // errorConfig: {
+  //   // 错误接收及处理
+  //   errorHandler: (error: RequestError & any, opts: RequestOptions) => {
+  //     Nprogress.done();
+  //     console.log(error.message);
+  //     const skipErrorHandler = error.config.skipErrorHandler;
 
-      if (skipErrorHandler) {
-        return Promise.reject(error);
-      }
+  //     if (skipErrorHandler) {
+  //       return Promise.reject(error);
+  //     }
 
-      debounceError('系统未知错误，请反馈给管理员');
-      return Promise.reject(error);
-    },
-  },
+  //     debounceError('系统未知错误，请反馈给管理员');
+  //     return Promise.reject(error);
+  //   },
+  // },
 };
 
 export default umiRequest;
