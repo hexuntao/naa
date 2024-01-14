@@ -1,5 +1,6 @@
 import { resolve } from 'path';
 
+import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 
@@ -57,6 +58,14 @@ import * as configs from './config';
           secret: TokenConstants.SECRET,
         };
       },
+    }),
+    BullModule.forRootAsync({
+      useFactory(config: ConfigService) {
+        return {
+          redis: config.get<RedisModuleOptions['config']>('redis'),
+        };
+      },
+      inject: [ConfigService],
     }),
     LoggerModule.forRootAsync({
       useFactory(config: ConfigService) {

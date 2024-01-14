@@ -20,6 +20,7 @@ module.exports = {
     'no-var-requires': 0,
     'no-restricted-syntax': 0,
     'no-continue': 0,
+    'no-empty': 0,
     'no-await-in-loop': 0,
     'no-return-await': 0,
     'no-unused-vars': 0,

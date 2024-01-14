@@ -7,4 +7,5 @@ declare type DictType =
   | 'sys_yes_no'
   | 'sys_normal_disable'
   | 'sys_success_failure'
-  | 'sys_oper_type';
+  | 'sys_oper_type'
+  | 'sys_job_group';
