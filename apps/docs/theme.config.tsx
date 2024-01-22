@@ -19,7 +19,7 @@ const config: DocsThemeConfig = {
     content: '',
   },
   editLink: {
-    text: () => '在 GitHub 上编辑本页 →',
+    text: '在 GitHub 上编辑本页 →',
   },
   footer: {
     text: '',
