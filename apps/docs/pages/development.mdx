@@ -1,0 +1,41 @@
+---
+title: 本地开发
+---
+
+## 下载项目
+
+克隆项目到本地
+
+```sh
+git clone https://github.com/hexuntao/naa.git
+```
+
+此项目使用 `pnpm` 的 `workspace` 管理项目，所以必须使用 `pnpm` 安装依赖。
+
+```sh
+pnpm install
+```
+
+## 环境准备
+
+- `Node`
+- `MySQL`
+- `Redis`
+
+## 运行项目
+
+启动
+
+```sh
+pnpm dev
+```
+
+分别访问
+
+后端服务： `http://127.0.0.1:6010/api`
+
+后端接口页面： `http://127.0.0.1:6010/api-docs`
+
+后台管理系统页面： `http://127.0.0.1:6020/admin`
+
+教程文档页面： `http://127.0.0.1:6030/docs`

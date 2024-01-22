@@ -1,0 +1,53 @@
+---
+title: 配置系统
+---
+
+用于获取本地配置和环境值。
+
+### 导入模块
+
+```ts
+// app.module.ts
+import * as path from 'path';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@/modules/config';
+
+import * as configs from './config'; // 项目应用配置
+
+@Module({
+  imports: [
+    ConfigModule.forRoot({
+      data: configs,
+    }),
+  ],
+})
+export class AppModule {}
+```
+
+### 配置文件
+
+以上配置将从 `src/config` 目录拿到应用配置。
+
+- 环境变量从 `process.env.NODE_ENV` 设置，没有设置默认为 `development` 。
+
+- `env` 方法获取当前环境的所有的配置。如：`env('API_PORT', 3000)`, 第一个参数为变量key, 第二个参数可为默认值
+
+## 使用
+
+### 注入实例
+
+```ts
+import { Injectable, OnModuleInit } from '@nestjs/common';
+import { ConfigService } from '@/modules/config';
+
+@Injectable()
+export class AppService implements OnModuleInit {
+  constructor(private readonly config: ConfigService) {}
+
+  onModuleInit() {
+    this.config.get();
+    this.config.get<number>('service.port');
+    this.config.get<number>('service.port', 3000);
+  }
+}
+```

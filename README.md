@@ -27,9 +27,13 @@ pnpm install
 pnpm run dev
 ```
 
-后端接口: http://localhost:6010
+后端接口: http://localhost:6010/api
 
-后台页面: http://localhost:6020
+接口文档: http://localhost:6010/api-docs
+
+后台页面: http://localhost:6020/admin
+
+教程文档: http://localhost:6030/docs
 
 
 **打包**
