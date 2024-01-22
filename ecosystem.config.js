@@ -24,9 +24,10 @@ module.exports = {
     },
     {
       name: 'naa-docs',
-      cwd: './apps/docs',
+      cwd: './apps/docs/node_modules/.bin/next',
       script: 'pnpm start',
-      args: ['-p', '6030'],
+      args: 'start',
+      max_memory_restart: '1G',
       autorestart: true,
       watch: true,
       ignore_watch: ['node_modules', 'public'],
