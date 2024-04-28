@@ -12,14 +12,14 @@ export const isSuccess = (code?: number): boolean => eq(code, REQUEST_CODE.SUCCE
  * @description: 格式化请求数据
  */
 export const formatResponse = <T extends any[]>(
-  response: Response<T> | Response<PageResponse<T[number]>>,
+  response: T | PageResponse<T[number]>,
 ): RequestData<T[number]> => {
   // 解构响应值
-  const { code, data } = response;
+  // const { code, data } = response;
   return {
-    data: (get(data, 'items') || get(response, 'data') || []) as T[],
+    data: (get(response, 'items') || get(response, 'data') || []) as T[],
     // success 请返回 true，不然 table 会停止解析数据，即使有数据
-    success: isSuccess(code),
-    total: get(data, 'meta.totalItems', 0) as number,
+    // success: isSuccess(code),
+    total: get(response, 'meta.totalItems', 0) as number,
   };
 };

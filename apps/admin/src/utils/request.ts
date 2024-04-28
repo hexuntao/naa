@@ -4,7 +4,14 @@
 
 import 'nprogress/nprogress.css';
 
-import { RequestConfig, RequestError, RequestOptions, history } from '@umijs/max';
+import {
+  RequestConfig,
+  RequestError,
+  AxiosRequestConfig,
+  request,
+  RequestOptions,
+  history,
+} from '@umijs/max';
 import { message, Modal } from 'antd';
 import { debounce } from 'lodash';
 import Nprogress from 'nprogress';
@@ -90,7 +97,6 @@ const umiRequest: RequestConfig = {
           debounceError(msg);
           return Promise.reject(new Error(msg));
         }
-
         return getResponse ? response : response.data;
       },
       (error: any) => {
@@ -120,6 +126,31 @@ const umiRequest: RequestConfig = {
   //     return Promise.reject(error);
   //   },
   // },
+};
+
+/**
+ * @description: 导出封装的请求方法
+ */
+export const httpRequest = {
+  get<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<T> {
+    return request(url, { method: 'GET', params: data, ...config });
+  },
+
+  post<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<Response<T>> {
+    return request(url, { method: 'POST', data, ...config });
+  },
+
+  put<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<Response<T>> {
+    return request(url, { method: 'PUT', data, ...config });
+  },
+
+  delete<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<Response<T>> {
+    return request(url, { method: 'DELETE', data, ...config });
+  },
+
+  patch<T = any>(url: string, data?: object, config?: AxiosRequestConfig): Promise<Response<T>> {
+    return request(url, { method: 'PATCH', data, ...config });
+  },
 };
 
 export default umiRequest;

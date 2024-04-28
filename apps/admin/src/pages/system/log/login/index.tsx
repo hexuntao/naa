@@ -1,111 +1,45 @@
-import { DeleteOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { ProTable } from '@ant-design/pro-components';
-import { useModel, Access, useAccess } from '@umijs/max';
+import { Access, useAccess } from '@umijs/max';
 import { Button, Popconfirm } from 'antd';
 import { useRef } from 'react';
-import { listLoginLog, clearLoginLog } from '@/apis/system/login-log';
-import type { LoginLogModel } from '@/apis/system/login-log';
-import { DictTag } from '@/components/Dict';
+import Crud, { CrudRef } from '@/components/Crud';
+import Columns from './Columns';
+import { clearLoginLog, getPageList } from './services';
+import { LoginLogModel, ListLoginLogParams } from './model';
 
 const LoginLog = () => {
   const { hasPermission } = useAccess();
-  const actionRef = useRef<ActionType>();
-
-  /**
-   * 注册字典数据
-   */
-  const { loadDict, toSelect } = useModel('dict');
-  const sysSuccessFailure = loadDict('sys_success_failure');
+  const crudRef = useRef<CrudRef>();
 
   /**
    * 清空登录日志
    */
   const handleClearLog = async () => {
     await clearLoginLog();
-    actionRef.current?.reload();
+    crudRef.current?.tableRef.current?.reload();
   };
 
-  /**
-   * 表格列配置
-   */
-  const columns: ProColumns<LoginLogModel>[] = [
-    {
-      title: '日志编号',
-      dataIndex: 'loginId',
-      search: false,
-    },
-    {
-      title: '用户名称',
-      dataIndex: 'loginName',
-    },
-    {
-      title: '登录地址',
-      dataIndex: 'loginIp',
-      search: false,
-    },
-    {
-      title: '登录地点',
-      dataIndex: 'loginLocation',
-      search: false,
-    },
-    {
-      title: '浏览器',
-      dataIndex: 'browser',
-      search: false,
-    },
-    {
-      title: '操作系统',
-      dataIndex: 'os',
-      search: false,
-    },
-    {
-      title: '登录状态',
-      dataIndex: 'loginStatus',
-      valueType: 'select',
-      fieldProps: { options: toSelect(sysSuccessFailure) },
-      render: (_, record) => {
-        return <DictTag options={sysSuccessFailure} value={record.loginStatus} />;
-      },
-    },
-    {
-      title: '登录日期',
-      dataIndex: 'createTime',
-      valueType: 'dateTimeRange',
-      render: (_, record) => {
-        return record.createTime;
-      },
-    },
-  ];
-
   return (
-    <ProTable
+    <Crud<LoginLogModel, ListLoginLogParams>
+      ref={crudRef}
       rowKey="loginId"
-      headerTitle="登录日志"
-      bordered
-      columns={columns}
-      actionRef={actionRef}
-      request={async (params) => {
-        const { items, meta } = await listLoginLog({
-          ...params,
-          page: params.current,
-          limit: params.pageSize,
-        });
-        return {
-          data: items,
-          total: meta.totalItems,
-        };
+      isShowOperationColumn={false}
+      useRowSelection={false}
+      columns={Columns}
+      list={{
+        api: getPageList,
       }}
-      toolbar={{
-        actions: [
-          <Access key="clean" accessible={hasPermission('system:loginlog:delete')}>
-            <Popconfirm title="是否确认清空？" onConfirm={handleClearLog}>
-              <Button icon={<DeleteOutlined />} type="primary" danger>
-                清空
-              </Button>
-            </Popconfirm>
-          </Access>,
-        ],
+      tableProps={{
+        toolbar: {
+          actions: [
+            <Access key="clean" accessible={hasPermission('system:loginlog:delete')}>
+              <Popconfirm title="是否确认清空？" onConfirm={handleClearLog}>
+                <Button type="primary" danger>
+                  清空
+                </Button>
+              </Popconfirm>
+            </Access>,
+          ],
+        },
       }}
     />
   );

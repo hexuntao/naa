@@ -1,10 +1,12 @@
 import {
+  ActionType,
   DrawerFormProps,
   LightFilterProps,
   ModalFormProps,
   ParamsType,
   ProColumns,
   ProFormColumnsType,
+  ProFormInstance,
   ProFormProps,
   ProTableProps,
   QueryFilterProps,
@@ -14,6 +16,13 @@ import {
 
 export type ColumnsType<T, V = 'text'> = ProColumns<T, V> & ProFormColumnsType<T>;
 
+export interface ObjectLiteral {
+  [s: string]: any;
+}
+
+/**
+ * Crud Props
+ */
 export type CrudProps<
   DataType = Record<string, any>,
   Params extends ParamsType = ParamsType,
@@ -40,9 +49,14 @@ export type CrudProps<
   isShowOperationColumn?: boolean;
 
   /**
-   * 编辑表单时候填充到表单的字段，可用作替换原字段数据
+   * 启用表格选择操作
    */
-  fieldsRecord?: (e: DataType) => void;
+  useRowSelection?: boolean;
+
+  /**
+   * 表格选择api
+   */
+  rowSelection?: ProTableProps<DataType, Params, ValueType>['rowSelection'];
 
   /**
    * 表格跟弹窗表单的columns
@@ -50,23 +64,104 @@ export type CrudProps<
   columns: ColumnsType<DataType, ValueType>[];
 
   /**
-   * 接口api
+   * 列表props
    */
-  api?: {
-    /** 列表接口 */
-    list?: (params?: Params) => Promise<Response<DataType[]> | Response<PageResponse<DataType>>>;
-    /** 新增接口 */
-    create?: (params?: any) => Promise<Response<any>>;
-    /** 编辑接口 */
-    update?: (params?: any) => Promise<Response<any>>;
-    /** 删除接口 */
-    delete?: (params?: any) => Promise<Response<any>>;
+  list?: {
+    show?: boolean;
+    api?: (params?: Params) => Promise<DataType[] | PageResponse<DataType>>;
+    /**
+     * 将返回数据进行处理
+     *
+     * -- 操作栏固定参数设定：
+     *
+     * @description 数据添加 __noShowEdit 为 true 则不显示编辑按钮
+     * @description 数据添加 __noShowDel 为 true 则不显示删除按钮
+     */
+    postData?: (data: DataType[]) => DataType[];
+  };
+
+  /**
+   * 新增props
+   */
+  add?: {
+    /** 是否显示 */
+    show?: boolean;
+    text?: string;
+    api?: (params?: any) => Promise<any>;
+    /**
+     * 打开弹窗时操作
+     * @description 返回false可进行拦截
+     * @description 可填充或修改 表单字段数据
+     */
+    onOpen?: () => Promise<boolean>;
+    /**
+     * 新增前操作
+     * @description 可填充或修改 提交的表单数据格式
+     */
+    onBefore?: (values: DataType & ObjectLiteral) => DataType & ObjectLiteral;
+    /** 自定义操作，不自动打开表单窗口 */
+    customAction?: () => any;
+  };
+
+  /**
+   * 更新props
+   */
+  update?: {
+    /** 是否显示 */
+    show?: boolean;
+    text?: string;
+    api?: (params?: any) => Promise<any>;
+    /**
+     * 打开弹窗时操作
+     * @description 返回false可进行拦截
+     * @description 可填充或修改 表单字段数据
+     */
+    onOpen?: (record: DataType) => Promise<DataType | boolean>;
+    /**
+     * 更新前操作
+     * @description 可填充或修改 提交的表单数据格式
+     */
+    onBefore?: (values: DataType & ObjectLiteral) => DataType & ObjectLiteral;
+    /** 自定义操作，不自动打开表单窗口 */
+    customAction?: (record: DataType) => any;
+  };
+
+  /**
+   * 删除props
+   */
+  deletes?: {
+    /** 是否显示 */
+    show?: boolean;
+    text?: string;
+    api?: (params?: any) => Promise<any>;
+    /** 删除前操作 */
+    onBefore?: (ids: React.Key) => Promise<boolean>;
+    /** 自定义操作，不自动打开表单窗口 */
+    customAction?: (ids: React.Key) => any;
   };
 };
 
 export type CrudColumnsType<T> = ProColumns<T> & ProFormColumnsType<T>;
 
-export type CrudRef = object;
+export type CrudRef<DataType = Record<string, any>, ValueType = 'text'> = {
+  /**
+   * 表格实例
+   */
+  tableRef: React.MutableRefObject<ActionType | undefined>;
+  /**
+   * 弹窗表单实例
+   */
+  formRef: React.MutableRefObject<ProFormInstance<DataType> | undefined>;
+  /**
+   * 当前选中记录
+   */
+  currentRecord: DataType | null | undefined;
+  /**
+   * 表格选择项
+   */
+  selectedRowKeys: React.Key[];
+  setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[]>>;
+};
 
 export type ProFormPropsType<T, ValueType = 'text'> =
   | ((
@@ -111,6 +206,7 @@ export type SearchTimes = {
  * @description: Response 返回体
  */
 export type Response<T = any> = {
+  [s: string]: any;
   code?: number;
   data: T;
   message?: string;
@@ -120,7 +216,9 @@ export type Response<T = any> = {
  * @description: 分页查询
  */
 export type PageResponse<T> = {
+  [s: string]: any;
   meta: {
+    [s: string]: any;
     /**
      * 当前页项目数量
      */
@@ -132,7 +230,7 @@ export type PageResponse<T> = {
     /**
      * 每页显示数量
      */
-    perPage: number;
+    itemsPerPage: number;
     /**
      * 总页数
      */
@@ -149,6 +247,7 @@ export type PageResponse<T> = {
  * @description: 默认分页查询参数
  */
 export type PaginationParams = {
+  [s: string]: any;
   page?: number; // 当前页码
   limit?: number; // 每页条数
 };

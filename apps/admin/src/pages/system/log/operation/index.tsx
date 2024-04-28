@@ -1,16 +1,17 @@
-import { DeleteOutlined } from '@ant-design/icons';
-import type { ActionType, ProColumns } from '@ant-design/pro-components';
-import { ProTable } from '@ant-design/pro-components';
-import { useModel, Access, useAccess } from '@umijs/max';
+import { Access, useAccess } from '@umijs/max';
 import { Button, Popconfirm, Drawer, Descriptions } from 'antd';
 import { useRef, useState } from 'react';
-import { listOperLog, clearOperLog } from '@/apis/system/oper-log';
-import type { OperLogModel } from '@/apis/system/oper-log';
-import { DictTag, DictText } from '@/components/Dict';
+import { DictText } from '@/components/Dict';
+import Crud, { CrudRef } from '@/components/Crud';
+import Columns from './Columns';
+import { OperLogModel, ListOperLogParams } from './model';
+import { getPageList, clearOperLog } from './services';
+import { useModel } from '@umijs/max';
 
 const OperationLog = () => {
   const { hasPermission } = useAccess();
-  const actionRef = useRef<ActionType>();
+  const crudRef = useRef<CrudRef>();
+
   const [record, setRecord] = useState<OperLogModel>();
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -26,110 +27,58 @@ const OperationLog = () => {
    */
   const handleClearLog = async () => {
     await clearOperLog();
-    actionRef.current?.reload();
+    crudRef.current?.tableRef.current?.reload();
   };
 
-  /**
-   * 表格列配置
-   */
-  const columns: ProColumns<OperLogModel>[] = [
-    {
-      title: '日志编号',
-      dataIndex: 'operId',
-      search: false,
-    },
-    {
-      title: '系统模块',
-      dataIndex: 'title',
-    },
-    {
-      title: '操作类型',
-      dataIndex: 'operType',
-      valueType: 'select',
-      fieldProps: { options: toSelect(sysOperType) },
-      render: (_, record) => {
-        return <DictTag options={sysOperType} value={record.operType} />;
-      },
-    },
-    {
-      title: '操作人员',
-      dataIndex: 'operName',
-    },
-    {
-      title: '请求方式',
-      dataIndex: 'requestMethod',
-      search: false,
-    },
-    {
-      title: '请求地址',
-      dataIndex: 'requestUrl',
-      hideInTable: true,
-    },
-    {
-      title: '操作状态',
-      dataIndex: 'operStatus',
-      valueType: 'select',
-      fieldProps: { options: toSelect(sysSuccessFailure) },
-      render: (_, record) => {
-        return <DictTag options={sysSuccessFailure} value={record.operStatus} />;
-      },
-    },
-    {
-      title: '操作日期',
-      dataIndex: 'createTime',
-      valueType: 'dateTimeRange',
-      render: (_, record) => {
-        return record.createTime;
-      },
-    },
+  const columns: typeof Columns = [
+    ...Columns,
     {
       title: '操作',
       valueType: 'option',
       key: 'option',
-      render: (_, record) => [
-        <Button
-          key="detail"
-          type="link"
-          onClick={() => {
-            setRecord(record);
-            setOpenDrawer(true);
-          }}
-        >
-          详情
-        </Button>,
-      ],
+      align: 'right',
+      fixed: 'right',
+      width: 100,
+      render: (_, record) => {
+        return (
+          <Button
+            key="detail"
+            type="link"
+            onClick={() => {
+              setRecord(record);
+              setOpenDrawer(true);
+            }}
+          >
+            详情
+          </Button>
+        );
+      },
     },
   ];
 
   return (
     <>
-      <ProTable
+      <Crud<OperLogModel, ListOperLogParams>
+        ref={crudRef}
         rowKey="operId"
-        headerTitle="操作日志"
-        bordered
         columns={columns}
-        actionRef={actionRef}
-        request={async (params) => {
-          const { items, meta } = await listOperLog({
-            ...params,
-            page: params.current,
-            limit: params.pageSize,
-          });
-          return {
-            data: items,
-            total: meta.totalItems,
-          };
+        isShowOperationColumn={false}
+        useRowSelection={false}
+        list={{
+          api: getPageList,
         }}
-        toolbar={{
-          actions: [
-            <Access key="clean" accessible={hasPermission('system:loginlog:delete')}>
-              <Popconfirm title="是否确认清空？" onConfirm={handleClearLog}>
-                <Button icon={<DeleteOutlined />} type="primary" danger>
-                  清空
-                </Button>
-              </Popconfirm>
-            </Access>,
-          ],
+        tableProps={{
+          toolbar: {
+            actions: [
+              <Access key="clean" accessible={hasPermission('system:loginlog:delete')}>
+                <Popconfirm title="是否确认清空？" onConfirm={handleClearLog}>
+                  <Button type="primary" danger>
+                    清空
+                  </Button>
+                </Popconfirm>
+              </Access>,
+            ],
+          },
         }}
       />
       <Drawer

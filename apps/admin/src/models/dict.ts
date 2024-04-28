@@ -11,7 +11,9 @@ export type DictData = DictDataModel & {
   value: string;
 };
 
-const cache = new Set<DictType>();
+export const cache = new Set<DictType>();
+
+export const dictMap = {} as any;
 
 export const convertKeys = (keys?: DictKeys) => {
   if (isNullOrUndef(keys)) return [];
@@ -22,6 +24,7 @@ export const convertKeys = (keys?: DictKeys) => {
   }
 };
 
+/** 获取数据字典数据 */
 export const getDictData = async (type: DictType) => {
   return optionDictData(type).then((data) => {
     return (data as DictData[]).map((item) => {
@@ -46,6 +49,7 @@ export default () => {
         .then((data) => {
           cache.add(type);
           actions.set(type, data);
+          dictMap[type] = data;
         })
         .catch(() => {
           cache.delete(type);
