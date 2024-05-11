@@ -78,7 +78,7 @@ export const sortColumn: ProColumns & ProFormColumnsType = {
   initialValue: 1,
   // tooltip: '排序越大，位置越靠前',
   fieldProps: {
-    min: 1,
+    min: 0,
     max: 9999,
     step: 1,
     style: {

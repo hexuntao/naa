@@ -1,3 +1,5 @@
+import { isEmpty } from 'lodash';
+
 interface TreeConfig {
   id: string;
   pid: string;
@@ -64,11 +66,18 @@ export function treeToList<T = any>(tree: any[], config: Partial<TreeConfig> = {
  * @param callBack 回调
  * @param parentNode 父节点
  */
-export function eachTree<T = any>(tree: any[], callBack: (item: T, parent?: T) => any, parent?: T) {
+export function eachTree<T = any>(
+  tree: any[],
+  callBack?: (item: T, parent?: T) => any,
+  parent?: T,
+) {
   tree.forEach((item) => {
-    const newNode = callBack(item, parent) || item;
+    const newNode = callBack?.(item, parent) || item;
     if (item.children) {
       eachTree(item.children, callBack, newNode);
+      if (isEmpty(item.children)) {
+        item.children = undefined;
+      }
     }
   });
 }

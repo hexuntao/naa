@@ -10,8 +10,15 @@ import { httpRequest } from '@/utils/request';
 /**
  * 查询列表
  */
-export function getList() {
+export function getListTree() {
   return httpRequest.get<MenuTreeResult[]>('/menu/tree');
+}
+
+/**
+ * 查询树
+ */
+export function getOptionTree() {
+  return httpRequest.get<MenuTreeResult[]>('/menu/option/tree');
 }
 
 /**
@@ -40,13 +47,6 @@ export function update(params: UpdateMenuParams) {
  */
 export function deletes(menuId: React.Key) {
   return httpRequest.delete(`/menu/delete/${menuId}`);
-}
-
-/**
- * 查询树
- */
-export function getOptionTree() {
-  return httpRequest.get<MenuTreeResult[]>('/menu/option/tree');
 }
 
 /**

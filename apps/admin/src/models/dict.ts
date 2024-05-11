@@ -1,8 +1,8 @@
 import { useMap } from 'ahooks';
 import { isArray } from 'lodash';
 import { useCallback } from 'react';
-import { optionDictData } from '@/apis/system/dict-data';
-import type { DictDataModel } from '@/apis/system/dict-data';
+import { optionDictData } from '@/pages/system/dict/$type/services';
+import type { DictDataModel } from '@/pages/system/dict/$type/model';
 import { isNullOrUndef } from '@/utils/is';
 
 export type DictKeys = number | number[] | string | string[];

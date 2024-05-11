@@ -78,6 +78,11 @@ export type CrudProps<
      * @description 数据添加 __noShowDel 为 true 则不显示删除按钮
      */
     postData?: (data: DataType[]) => DataType[];
+    /**
+     * 请求前操作
+     * @description 可填充或修改列表请求参数
+     */
+    onBefore?: (values: Params & ObjectLiteral) => Params & ObjectLiteral;
   };
 
   /**

@@ -299,7 +299,8 @@ const Crud = <
 
   /** 获取表格数据 */
   const { runAsync: request } = useRequest(
-    async (params = {}) => {
+    async (_params = {}) => {
+      let params = { ..._params };
       if (!list || !isFunction(list.api)) {
         return {};
       }
@@ -310,6 +311,10 @@ const Crud = <
       if (params.pageSize) {
         params.limit = params.pageSize;
         params.pageSize = undefined;
+      }
+      /** 请求前操作 */
+      if (isFunction(list?.onBefore)) {
+        params = list?.onBefore(params);
       }
       const result = await list.api(params);
       return formatResponse<DataType[]>(result);

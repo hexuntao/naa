@@ -17,7 +17,7 @@ export const formatResponse = <T extends any[]>(
   // 解构响应值
   // const { code, data } = response;
   return {
-    data: (get(response, 'items') || get(response, 'data') || []) as T[],
+    data: (get(response, 'items') || get(response, 'data') || response || []) as T[],
     // success 请返回 true，不然 table 会停止解析数据，即使有数据
     // success: isSuccess(code),
     total: get(response, 'meta.totalItems', 0) as number,
