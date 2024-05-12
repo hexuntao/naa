@@ -13,7 +13,7 @@ const UserInfo: React.FC<{ profile: ProfileInfoResult }> = ({ profile }) => {
       </List.Item>
       <List.Item>
         <span>手机号码</span>
-        <span>{profile.phonenumber}</span>
+        <span>{profile.phone}</span>
       </List.Item>
       <List.Item>
         <span>用户邮箱</span>

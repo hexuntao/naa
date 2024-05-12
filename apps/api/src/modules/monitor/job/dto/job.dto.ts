@@ -22,7 +22,7 @@ export class ListJobDto extends PaginateDto {
   @Allow()
   invokeTarget?: string;
 
-  /** 状态（0正常 1停用） */
+  /** 状态（1正常 0停用） */
   @Allow()
   status?: string;
 }

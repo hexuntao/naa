@@ -208,7 +208,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
       <ProFormRadio.Group
         name="status"
         label="状态"
-        initialValue={'0'}
+        initialValue={'1'}
         fieldProps={{ options: toSelect(sysNormalDisable) }}
       />
     </DrawerForm>

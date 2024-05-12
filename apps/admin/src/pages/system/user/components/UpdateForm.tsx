@@ -106,7 +106,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
           fieldNames: { label: 'deptName', value: 'deptId' },
         }}
       />
-      <ProFormText name="phonenumber" label="手机号码" rules={[{ max: 11 }]} />
+      <ProFormText name="phone" label="手机号码" rules={[{ max: 11 }]} />
       <ProFormText name="email" label="邮箱" rules={[{ max: 50 }]} />
       <ProFormSelect name="sex" label="用户性别" fieldProps={{ options: toSelect(sysUserSex) }} />
       <ProFormRadio.Group

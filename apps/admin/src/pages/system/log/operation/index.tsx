@@ -55,6 +55,7 @@ const OperationLog = () => {
       },
     },
   ];
+  console.log(sysSuccessFailure);
 
   return (
     <>

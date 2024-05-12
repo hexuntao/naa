@@ -93,8 +93,8 @@ export class JobLog extends BaseTimeEntity {
     name: 'status',
     type: 'char',
     length: 1,
-    default: '0',
-    comment: '状态（0成功 1失败）',
+    default: '1',
+    comment: '状态（1成功 0失败）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()

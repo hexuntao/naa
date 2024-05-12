@@ -17,7 +17,7 @@ export interface MenuModel {
   /** 显示顺序 */
   menuSort: number;
 
-  /** 菜单状态（0正常 1停用） */
+  /** 菜单状态（1正常 0停用） */
   status: string;
 
   /** 路由地址 */
@@ -35,16 +35,16 @@ export interface MenuModel {
   /** 菜单图标 */
   icon?: string;
 
-  /** 是否显示（0是 1否） */
+  /** 是否显示（1是 0否） */
   isVisible: string;
 
-  /** 是否为外链（0是 1否） */
+  /** 是否为外链（1是 0否） */
   isLink: string;
 
-  /** 是否为内嵌（0是 1否） */
+  /** 是否为内嵌（1是 0否） */
   isFrame: string;
 
-  /** 是否缓存（0是 1否） */
+  /** 是否缓存（1是 0否） */
   isCache: string;
 }
 

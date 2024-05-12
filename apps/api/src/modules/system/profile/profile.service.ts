@@ -42,7 +42,7 @@ export class ProfileService {
     const loginUser = await this.tokenService.getLoginUser(token);
     const user = loginUser.sysUser;
     user.email = profile.email;
-    user.phonenumber = profile.phonenumber;
+    user.phone = profile.phone;
 
     if (!(await this.userService.checkUserEmailUnique(user))) {
       throw new ServiceException(`修改用户${user.userName}失败，邮箱账号已存在`);

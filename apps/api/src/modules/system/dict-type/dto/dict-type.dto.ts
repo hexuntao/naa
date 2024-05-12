@@ -18,7 +18,7 @@ export class ListDictTypeDto extends PaginateDto {
   @Allow()
   dictType?: string;
 
-  /** 字典状态（0正常 1停用） */
+  /** 字典状态（1正常 0停用） */
   @Allow()
   status?: string;
 }

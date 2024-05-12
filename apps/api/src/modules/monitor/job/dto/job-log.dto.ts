@@ -26,7 +26,7 @@ export class ListJobLogDto extends PaginateDto {
   @Allow()
   invokeTarget?: string;
 
-  /** 状态（0成功 1失败） */
+  /** 状态（1成功 0失败） */
   @Allow()
   status?: string;
 }

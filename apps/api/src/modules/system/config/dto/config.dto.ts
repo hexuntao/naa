@@ -18,7 +18,7 @@ export class ListConfigDto extends PaginateDto {
   @Allow()
   configKey?: string;
 
-  /** 状态（0正常 1停用） */
+  /** 状态（1正常 0停用） */
   @Allow()
   status?: string;
 }

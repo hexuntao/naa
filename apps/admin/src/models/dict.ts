@@ -73,7 +73,7 @@ export default () => {
    * 转化为下拉选项
    */
   const toSelect = (data: DictData[]) => {
-    return data.filter((i) => i.status === '0');
+    return data.filter((i) => i.status === '1');
   };
 
   /**

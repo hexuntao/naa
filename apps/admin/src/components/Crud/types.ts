@@ -166,6 +166,10 @@ export type CrudRef<DataType = Record<string, any>, ValueType = 'text'> = {
    */
   selectedRowKeys: React.Key[];
   setSelectedRowKeys: React.Dispatch<React.SetStateAction<React.Key[]>>;
+  /**
+   * 工具栏新增/删除 按钮组
+   */
+  ToolBarActions: () => JSX.Element[];
 };
 
 export type ProFormPropsType<T, ValueType = 'text'> =

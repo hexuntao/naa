@@ -1,7 +1,7 @@
 /**
  * 用户信息
  */
-export interface UserModel {
+export interface UserModel extends ObjectLiteral {
   /** 用户ID */
   userId: number;
 

@@ -61,6 +61,7 @@ export class LogInterceptor implements NestInterceptor {
     operLog.operIp = IpUtils.requestIp(request);
     operLog.operLocation = `${region.country} ${region.province} ${region.city}`;
     operLog.operName = request[SecurityConstants.USER_NAME];
+    operLog.operNameId = request[SecurityConstants.USER_ID];
 
     operLog.requestUrl = request.url;
     operLog.requestMethod = request.method;

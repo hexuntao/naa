@@ -103,7 +103,7 @@ export class SysUser extends BaseBusinessEntity {
   email?: string;
 
   @Column({
-    name: 'phonenumber',
+    name: 'phone',
     type: 'varchar',
     length: 11,
     nullable: true,
@@ -121,7 +121,7 @@ export class SysUser extends BaseBusinessEntity {
   @IsMobilePhone('zh-CN')
   @MaxLength(11)
   @IsOptional()
-  phonenumber?: string;
+  phone?: string;
 
   @Column({
     name: 'sex',
@@ -178,8 +178,8 @@ export class SysUser extends BaseBusinessEntity {
     name: 'status',
     type: 'char',
     length: 1,
-    default: '0',
-    comment: '用户状态（0正常 1停用）',
+    default: '1',
+    comment: '用户状态（1正常 0停用）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()

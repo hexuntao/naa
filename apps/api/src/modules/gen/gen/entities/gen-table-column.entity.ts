@@ -73,7 +73,7 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否主键（0是 1否）',
+    comment: '是否主键（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -84,7 +84,7 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否自增（0是 1否）',
+    comment: '是否自增（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -95,7 +95,7 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否必填（0是 1否）',
+    comment: '是否必填（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -106,7 +106,7 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否为插入字段（0是 1否）',
+    comment: '是否为插入字段（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -117,7 +117,7 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否编辑字段（0是 1否）',
+    comment: '是否编辑字段（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -128,7 +128,7 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否列表字段（0是 1否）',
+    comment: '是否列表字段（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -139,7 +139,7 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否查询字段（0是 1否）',
+    comment: '是否查询字段（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()

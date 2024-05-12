@@ -19,7 +19,7 @@ export class UpdateProfileDto {
   @IsMobilePhone('zh-CN')
   @MaxLength(11)
   @IsNotEmpty()
-  phonenumber: string;
+  phone: string;
 
   /** 用户性别 */
   @IsIn(['0', '1', '2'])

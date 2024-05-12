@@ -14,7 +14,7 @@ export interface ConfigModel {
   /** 参数键值 */
   configValue: string;
 
-  /** 状态（0正常 1停用） */
+  /** 状态（1正常 0停用） */
   status: string;
 
   /** 备注 */
@@ -31,7 +31,7 @@ export interface ListConfigParams extends PaginateParams {
   /** 参数键名 */
   configKey?: string;
 
-  /** 状态（0正常 1停用） */
+  /** 状态（1正常 0停用） */
   status?: string;
 }
 

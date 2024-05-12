@@ -14,7 +14,7 @@ export interface DeptModel {
   /** 显示顺序 */
   deptSort: number;
 
-  /** 部门状态（0正常 1停用） */
+  /** 部门状态（1正常 0停用） */
   status: string;
 }
 
@@ -33,7 +33,7 @@ export interface ListDeptParams {
   /** 部门名称 */
   deptName?: string;
 
-  /** 字典状态（0正常 1停用） */
+  /** 字典状态（1正常 0停用） */
   status?: string;
 }
 

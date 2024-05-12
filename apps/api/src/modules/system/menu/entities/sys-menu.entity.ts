@@ -61,8 +61,8 @@ export class SysMenu extends BaseBusinessEntity {
     name: 'status',
     type: 'char',
     length: 1,
-    default: '0',
-    comment: '菜单状态（0正常 1停用）',
+    default: '1',
+    comment: '菜单状态（1正常 0停用）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -128,7 +128,7 @@ export class SysMenu extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     default: '0',
-    comment: '是否显示（0是 1否）',
+    comment: '是否显示（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -139,7 +139,7 @@ export class SysMenu extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     default: '1',
-    comment: '是否为外链（0是 1否）',
+    comment: '是否为外链（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -150,7 +150,7 @@ export class SysMenu extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     default: '1',
-    comment: '是否为内嵌（0是 1否）',
+    comment: '是否为内嵌（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -161,7 +161,7 @@ export class SysMenu extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     default: '1',
-    comment: '是否缓存（0是 1否）',
+    comment: '是否缓存（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()

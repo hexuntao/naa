@@ -19,6 +19,11 @@ export class OperLogDto extends BaseTimeEntity {
   operName: string;
 
   /**
+   * 操作人员id
+   */
+  operNameId: number;
+
+  /**
    * 方法名称
    */
   operMethod: string;

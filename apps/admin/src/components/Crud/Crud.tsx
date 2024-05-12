@@ -80,7 +80,7 @@ const Crud = <
   };
 
   /** 新增 */
-  const onCreate = async () => {
+  const onAdd = async () => {
     /** 自定义操作 */
     if (isFunction(add?.customAction)) {
       add?.customAction();
@@ -200,7 +200,7 @@ const Crud = <
             </Access>
             <Access key="delete" accessible={deletes?.show && !record.__noShowDel}>
               <Popconfirm
-                title="是否确定删除？"
+                title={`是否确定${deleteText}？`}
                 placement="topLeft"
                 onConfirm={() => onDels(record[rowKeyName])}
               >
@@ -215,6 +215,39 @@ const Crud = <
 
   const formColumns = cloneDeep(columns);
 
+  /**
+   * 工具栏新增/删除按钮组
+   */
+  const ToolBarActions = () => {
+    const toolBarArr = [
+      <Access key="create" accessible={add?.show}>
+        <Button type="primary" onClick={onAdd}>
+          {addText}
+        </Button>
+      </Access>,
+    ];
+    // 启用row单多选
+    if (useRowSelection) {
+      toolBarArr.push(
+        <Access key="delete" accessible={deletes?.show}>
+          <Popconfirm
+            title={`是否确定${deleteText}？`}
+            disabled={!selectedRowKeys}
+            onConfirm={() => {
+              const ids = selectedRowKeys?.join(',');
+              ids && onDels(ids);
+            }}
+          >
+            <Button type="primary" danger disabled={!selectedRowKeys?.length}>
+              {deleteText}
+            </Button>
+          </Popconfirm>
+        </Access>,
+      );
+    }
+    return toolBarArr;
+  };
+
   // 初始化 tableProps
   const initTableProps: any = {
     rowKey: rowKey,
@@ -223,34 +256,8 @@ const Crud = <
       defaultCollapsed: false,
     },
     pagination: { pageSize: 10 },
-    toolBarRender: () => {
-      const toolBarArr = [
-        <Access key="create" accessible={add?.show}>
-          <Button type="primary" onClick={onCreate}>
-            {addText}
-          </Button>
-        </Access>,
-      ];
-      // 启用row单多选
-      if (useRowSelection) {
-        toolBarArr.push(
-          <Access key="delete" accessible={deletes?.show}>
-            <Popconfirm
-              title="是否确定删除？"
-              disabled={!selectedRowKeys}
-              onConfirm={() => {
-                const ids = selectedRowKeys?.join(',');
-                ids && onDels(ids);
-              }}
-            >
-              <Button type="primary" danger disabled={!selectedRowKeys?.length}>
-                {deleteText}
-              </Button>
-            </Popconfirm>
-          </Access>,
-        );
-      }
-      return toolBarArr;
+    toolbar: {
+      actions: ToolBarActions,
     },
     columns: tableColumns,
   };
@@ -328,6 +335,7 @@ const Crud = <
     currentRecord,
     selectedRowKeys,
     setSelectedRowKeys,
+    ToolBarActions,
   }));
 
   return (

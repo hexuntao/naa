@@ -34,7 +34,7 @@ const UpdateInfo: React.FC<{ profile: ProfileInfoResult }> = ({ profile }) => {
       />
       <ProFormText
         label="手机号码"
-        name="phonenumber"
+        name="phone"
         placeholder="请输入手机号码"
         rules={[{ required: true, max: 11 }]}
       />

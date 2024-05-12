@@ -17,7 +17,7 @@ export interface DictDataModel {
   /** 显示顺序 */
   dictSort: number;
 
-  /** 字典状态（0正常 1停用） */
+  /** 字典状态（1正常 0停用） */
   status: string;
 
   /** 样式属性（其他样式扩展） */
@@ -37,7 +37,7 @@ export interface ListDictDataParams extends PaginateParams {
   /** 字典标签 */
   dictLabel?: string;
 
-  /** 字典状态（0正常 1停用） */
+  /** 字典状态（1正常 0停用） */
   status?: string;
 }
 

@@ -18,7 +18,7 @@ export class ListPostDto extends PaginateDto {
   @Allow()
   postCode?: string;
 
-  /** 岗位状态（0正常 1停用） */
+  /** 岗位状态（1正常 0停用） */
   @Allow()
   status?: string;
 }

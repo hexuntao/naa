@@ -20,7 +20,7 @@ export interface JobModel {
   /** Cron表达式 */
   cronExpression: string;
 
-  /** 状态（0正常 1停用） */
+  /** 状态（1正常 0停用） */
   status: string;
 
   /** 备注 */
@@ -40,7 +40,7 @@ export interface ListJobParams extends PaginateParams {
   /** 调用目标 */
   invokeTarget?: string;
 
-  /** 状态（0正常 1停用） */
+  /** 状态（1正常 0停用） */
   status?: string;
 }
 

@@ -32,7 +32,7 @@ export function getDetail(menuId: React.Key) {
  * 添加
  */
 export function add(params: CreateMenuParams) {
-  return httpRequest.get('/menu/add', params);
+  return httpRequest.post('/menu/add', params);
 }
 
 /**

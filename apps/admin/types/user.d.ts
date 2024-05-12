@@ -35,7 +35,7 @@ declare interface UserInfo {
   /**
    * 手机号码
    */
-  phonenumber: string;
+  phone: string;
 
   /**
    * 用户性别（0男 1女 2未知）
@@ -53,7 +53,7 @@ declare interface UserInfo {
   password: string;
 
   /**
-   * 用户状态（0正常 1停用）
+   * 用户状态（1正常 0停用）
    */
   status: string;
 }

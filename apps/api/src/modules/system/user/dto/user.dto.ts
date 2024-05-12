@@ -22,7 +22,7 @@ export class ListUserDto extends PaginateDto {
   @Allow()
   nickName?: string;
 
-  /** 用户状态（0正常 1停用） */
+  /** 用户状态（1正常 0停用） */
   @Allow()
   status?: string;
 }

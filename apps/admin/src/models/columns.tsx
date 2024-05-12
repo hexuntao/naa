@@ -51,7 +51,7 @@ export const statusInForm: ProColumns & ProFormColumnsType = {
   hideInSearch: true,
   hideInForm: false,
   fieldProps: {},
-  initialValue: '0',
+  initialValue: '1',
   formItemProps: {
     rules: [{ required: true }],
   },
@@ -81,6 +81,7 @@ export const sortColumn: ProColumns & ProFormColumnsType = {
     min: 0,
     max: 9999,
     step: 1,
+    precision: 0,
     style: {
       width: '100%',
     },

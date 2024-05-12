@@ -14,7 +14,7 @@ export interface DeptModel {
   /** 显示顺序 */
   deptSort: number;
 
-  /** 部门状态（0正常 1停用） */
+  /** 部门状态（1正常 0停用） */
   status: string;
 }
 

@@ -14,7 +14,7 @@ export interface PostModel {
   /** 显示顺序 */
   postSort: number;
 
-  /** 岗位状态（0正常 1停用） */
+  /** 岗位状态（1正常 0停用） */
   status: string;
 }
 
@@ -28,7 +28,7 @@ export interface ListPostParams extends PaginateParams {
   /** 岗位编码 */
   postCode?: string;
 
-  /** 岗位状态（0正常 1停用） */
+  /** 岗位状态（1正常 0停用） */
   status?: string;
 }
 

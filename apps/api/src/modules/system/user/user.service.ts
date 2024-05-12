@@ -232,10 +232,10 @@ export class UserService {
    * @returns true 唯一 / false 不唯一
    */
   async checkUserPhoneUnique(user: Partial<SysUser>): Promise<boolean> {
-    const { userId, phonenumber } = user;
-    if (!phonenumber) return true;
+    const { userId, phone } = user;
+    if (!phone) return true;
 
-    const info = await this.userRepository.findOneBy({ phonenumber });
+    const info = await this.userRepository.findOneBy({ phone });
     if (info && info.userId !== userId) {
       return false;
     }

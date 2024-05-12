@@ -51,8 +51,8 @@ export class SysConfig extends BaseBusinessEntity {
     name: 'status',
     type: 'char',
     length: 1,
-    default: '0',
-    comment: '状态（0正常 1停用）',
+    default: '1',
+    comment: '状态（1正常 0停用）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()

@@ -24,10 +24,16 @@ const DictData = () => {
       add={{
         show: hasPermission('system:dict:add'),
         api: add,
+        onBefore(values) {
+          return { ...values, dictType: dictType || '' };
+        },
       }}
       update={{
         show: hasPermission('system:dict:update'),
         api: update,
+        onBefore(values) {
+          return { ...values, dictType: dictType || '' };
+        },
       }}
       deletes={{
         show: hasPermission('system:dict:delete'),

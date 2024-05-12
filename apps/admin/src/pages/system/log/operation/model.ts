@@ -14,6 +14,9 @@ export interface OperLogModel extends BaseTimeEntity {
   /** 操作人员 */
   operName: string;
 
+  /** 操作人员id */
+  operNameId: string;
+
   /** 方法名称 */
   operMethod: string;
 

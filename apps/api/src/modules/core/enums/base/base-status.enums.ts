@@ -5,10 +5,10 @@ export enum BaseStatusEnums {
   /**
    * 正常/成功/是
    */
-  NORMAL = '0',
+  NORMAL = '1',
 
   /**
    * 停用/失败/否
    */
-  ABNORMAL = '1',
+  ABNORMAL = '0',
 }
