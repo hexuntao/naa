@@ -1,7 +1,7 @@
 /**
  * 菜单
  */
-export interface MenuModel {
+export interface MenuModel extends ObjectLiteral {
   /** 菜单ID */
   menuId: number;
 

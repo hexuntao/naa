@@ -14,4 +14,6 @@ export enum DictTypeEnum {
   SYS_OPER_TYPE = 'sys_oper_type',
   /** 定时类型 */
   SYS_JOB_GROUP = 'sys_job_group',
+  /** 公告类型 */
+  SYS_NOTICE_TYPE = 'sys_notice_type',
 }

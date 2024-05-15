@@ -89,7 +89,7 @@ const baseYesNoColumn: CrudColumnsType<MenuModel> = {
   },
   render: (_, record, index, action, schema) => {
     const key = `${schema.dataIndex || 'status'}`;
-    return dictMap[yesNoType] && <DictTag options={dictMap[yesNoType]} value={key} />;
+    return dictMap[yesNoType] && <DictTag options={dictMap[yesNoType]} value={record[key]} />;
   },
   request: async () => {
     if (!cache.has(yesNoType)) {
