@@ -3,13 +3,11 @@ import { resolve } from 'path';
 
 import { Injectable, StreamableFile } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
+import { ServiceException, SecurityContext } from '@/modules/core';
 import archiver from 'archiver';
 import { isEmpty, isNotEmpty } from 'class-validator';
 import { Pagination, paginate } from 'nestjs-typeorm-paginate';
 import { Like, Repository } from 'typeorm';
-
-import { ServiceException } from '@/modules/core';
 
 import { GenUtils } from '../utils/gen.utils';
 import { TemplateUtils } from '../utils/template.utils';
@@ -33,6 +31,7 @@ export class GenService {
     private tableColumnRepository: Repository<GenTableColumn>,
 
     private genMapper: GenMapper,
+    private securityContext: SecurityContext,
   ) {}
 
   /**
@@ -61,6 +60,7 @@ export class GenService {
    * @param gen 更新信息
    */
   async update(gen: UpdateGenDto): Promise<void> {
+    gen.updateBy = this.securityContext.getUserName();
     await this.tableRepository.save(gen);
   }
 
@@ -104,6 +104,7 @@ export class GenService {
   async import(tableNames: string[]): Promise<void> {
     const tables = await this.genMapper.selectDbTableListByNames(tableNames);
     for (const table of tables) {
+      table.createBy = this.securityContext.getUserName();
       GenUtils.initTable(table);
       const columns = await this.genMapper.selectDbTableColumnsByName(table.tableName);
       for (const column of columns) {

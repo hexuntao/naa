@@ -138,7 +138,7 @@ export class SysMenu extends BaseBusinessEntity {
     name: 'is_link',
     type: 'char',
     length: 1,
-    default: '1',
+    default: '0',
     comment: '是否为外链（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
@@ -149,7 +149,7 @@ export class SysMenu extends BaseBusinessEntity {
     name: 'is_frame',
     type: 'char',
     length: 1,
-    default: '1',
+    default: '0',
     comment: '是否为内嵌（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)
@@ -160,7 +160,7 @@ export class SysMenu extends BaseBusinessEntity {
     name: 'is_cache',
     type: 'char',
     length: 1,
-    default: '1',
+    default: '0',
     comment: '是否缓存（1是 0否）',
   })
   @IsEnum(BaseStatusEnums)

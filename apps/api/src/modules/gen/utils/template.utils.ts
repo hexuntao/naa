@@ -1,13 +1,9 @@
 import camelcase from 'camelcase';
 import decamelize from 'decamelize';
 import handlebars from 'handlebars';
-
-// eslint-disable-next-line import/order
 import './handlebars.helpers';
-
 import { GenTableColumn } from '../gen/entities/gen-table-column.entity';
 import { GenTable } from '../gen/entities/gen-table.entity';
-
 import { GenConstants } from './gen.constants';
 import { GenUtils } from './gen.utils';
 
@@ -58,6 +54,11 @@ interface CompileContext extends GenTable {
    * 字典列
    */
   dictColumn: ColumnContext[];
+
+  /**
+   * 标签类型
+   */
+  htmlTypeList: string[];
 }
 
 /**
@@ -78,6 +79,8 @@ export class TemplateUtils {
           'nest/[name].service.hbs',
           'nest/dto/[name].dto.hbs',
           'nest/entities/[name].entity.hbs',
+          'nest/[name].mapper.hbs',
+          'nest/[name].mapper.xml.hbs',
         ],
       },
       {
@@ -106,6 +109,8 @@ export class TemplateUtils {
     if (template.startsWith('nest')) {
       if (template.startsWith('nest/entities')) {
         name = template.replace('.hbs', '.ts').replace('[name]', context.classNameKebabCase);
+      } else if (template.endsWith('mapper.xml.hbs')) {
+        name = template.replace('.hbs', '').replace('[name]', context.businessNameKebabCase);
       } else {
         name = template.replace('.hbs', '.ts').replace('[name]', context.businessNameKebabCase);
       }
@@ -165,18 +170,22 @@ export class TemplateUtils {
      * 列处理
      */
     table.columns.forEach((column: ColumnContext) => {
+      // 根据列备注提取标签名
       if (column.columnComment) {
         column.fieldLabel = column.columnComment.replace(/\(.+\)/, '').replace(/（.+）/, '');
       }
+
+      // 根据字典类型获取变量名
       if (column.dictType) {
         column.dictTypeCamelcase = camelcase(column.dictType);
       }
+
+      // 根据列字段类型获取字段长度
       if (column.columnType) {
         const dataType = GenUtils.getColumnType(column.columnType);
         if (GenConstants.COLUMNTYPE_NUMBER.includes(dataType)) {
           const match = GenUtils.getColumnMatchLength(column.columnType)?.split(',');
           if (match && match.length === 2) {
-            // eslint-disable-next-line prefer-destructuring
             column.columnPrecision = match[0];
             column.columnScale = match[1];
           }
@@ -205,6 +214,16 @@ export class TemplateUtils {
     table.columns.forEach((column: ColumnContext) => {
       if (column.dictType) {
         context.dictColumn.push(column);
+      }
+    });
+
+    /**
+     * 标签类型
+     */
+    context.htmlTypeList = [];
+    table.columns.forEach((column: ColumnContext) => {
+      if (column.htmlType) {
+        context.htmlTypeList.push(column.htmlType);
       }
     });
 

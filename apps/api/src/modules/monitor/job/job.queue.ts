@@ -12,7 +12,6 @@ import { Job } from './entities/job.entity';
 
 /**
  * 定时任务队列
- * @author vivy
  */
 @Injectable()
 export class JobQueue implements OnModuleInit {

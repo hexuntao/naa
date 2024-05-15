@@ -1,18 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
-
 import { SysLoginUser } from '../class/sys-login-user';
 import { SecurityConstants } from '../constants/security.constants';
 import { TokenConstants } from '../constants/token.constants';
-
 import { RequestContext } from './request.context';
 
 /**
  * 安全上下文
  *
- * 注意：必须提前设置请求头，否则这里无法获取。
+ * 注意：必须提前添加到请求对象中，否则这里无法获取。
  *  - 在 gateway(AuthFilter)中通过设置请求头的方法传入。
- *  - 在 security(AuthGuard)中通过设置请求头的方法传入。
+ *  - 在 security(AuthGuard)中通过添加到请求对象中的方法传入。
  */
 @Injectable()
 export class SecurityContext {
@@ -67,7 +65,8 @@ export class SecurityContext {
   private replaceTokenPrefix(token: string): string {
     if (token && token.startsWith(TokenConstants.PREFIX)) {
       return token.replace(TokenConstants.PREFIX, '');
+    } else {
+      return token;
     }
-    return token;
   }
 }

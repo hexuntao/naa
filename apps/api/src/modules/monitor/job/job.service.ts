@@ -17,7 +17,6 @@ import { TASKABLE_METADATA } from './utils/job.constants';
 
 /**
  * 定时任务
- * @author vivy
  */
 @Injectable()
 export class JobService {

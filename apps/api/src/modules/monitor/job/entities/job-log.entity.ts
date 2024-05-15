@@ -1,13 +1,13 @@
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-import { BaseTimeEntity, BaseStatusEnums } from '@/modules/core';
+import { BaseBusinessEntity, BaseStatusEnums } from '@/modules/core';
 
 /**
  * 定时任务日志表
  */
 @Entity({ name: 'job_log' })
-export class JobLog extends BaseTimeEntity {
+export class JobLog extends BaseBusinessEntity {
   @PrimaryGeneratedColumn({
     name: 'job_log_id',
     type: 'bigint',
