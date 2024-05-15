@@ -79,6 +79,10 @@ export type CrudProps<
      */
     postData?: (data: DataType[]) => DataType[];
     /**
+     * 请求参数
+     */
+    params?: Partial<Params> & ObjectLiteral;
+    /**
      * 请求前操作
      * @description 可填充或修改列表请求参数
      */
@@ -157,6 +161,8 @@ export type CrudRef<DataType = Record<string, any>, ValueType = 'text'> = {
    * 弹窗表单实例
    */
   formRef: React.MutableRefObject<ProFormInstance<DataType> | undefined>;
+  /** 表单模式 */
+  formMode: 'add' | 'update' | string;
   /**
    * 当前选中记录
    */

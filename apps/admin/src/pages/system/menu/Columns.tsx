@@ -14,6 +14,7 @@ import { DictTag } from '@/components/Dict';
 import { DictTypeEnum } from '@/enums/dictEnum';
 import { IconPicker } from '@/components/Icon';
 import { AppstoreOutlined } from '@ant-design/icons';
+import { ProFormInstance } from '@ant-design/pro-components';
 
 export type MenuType = { label: string; value: 'M' | 'C' | 'F' };
 export const menuTypeOptions: MenuType[] = [
@@ -27,17 +28,19 @@ const yesNoType = DictTypeEnum.SYS_YES_NO;
 const iconColumn: CrudColumnsType<MenuModel> = {
   title: '菜单图标',
   dataIndex: 'icon',
-  fieldProps: {
-    addonBefore: (
-      <IconPicker
-        onChange={(value) => {
-          console.log(value);
-          // formRef.current?.setFieldValue('icon', value);
-        }}
-      >
-        <AppstoreOutlined />
-      </IconPicker>
-    ),
+  fieldProps: (formRef: ProFormInstance<MenuModel>) => {
+    return {
+      addonBefore: (
+        <IconPicker
+          onChange={(value) => {
+            console.log(value, formRef);
+            formRef.setFieldValue('icon', value);
+          }}
+        >
+          <AppstoreOutlined />
+        </IconPicker>
+      ),
+    };
   },
 };
 
@@ -200,7 +203,8 @@ const Columns: CrudColumnsType<MenuModel>[] = [
     search: false,
     hideInSearch: true,
     hideInTable: true,
-    columns: ({ menuType }) => {
+    columns: (values) => {
+      const { menuType } = values;
       if (menuType === 'M') {
         return [{ ...iconColumn }, { ...pathColumn }, { ...isVisibleColumn }];
       }

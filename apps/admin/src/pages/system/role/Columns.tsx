@@ -57,6 +57,15 @@ const Columns: CrudColumnsType<RoleModel>[] = [
       showCheckedStrategy: TreeSelect.SHOW_ALL,
     },
     request: getOptionTree,
+    // convertValue: (values) => {
+    //   return values;
+    // },
+    transform: (arr, namePath) => {
+      const value = arr?.map((e: any) => e.value) || [];
+      return {
+        [namePath]: value,
+      };
+    },
   },
 ];
 

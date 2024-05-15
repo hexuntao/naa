@@ -30,16 +30,16 @@ const Role = () => {
       add={{
         show: hasPermission('system:role:add'),
         api: add,
-        onBefore: onFormBefore,
+        // onBefore: onFormBefore,
       }}
       update={{
         show: hasPermission('system:role:update'),
         api: update,
         onOpen: async (record) => {
           const data = await getDetail(record.roleId);
-          return { ...record, menuIds: data.menuIds.map((value) => ({ value })) };
+          return { ...record, menuIds: data.menuIds };
         },
-        onBefore: onFormBefore,
+        // onBefore: onFormBefore,
       }}
       deletes={{
         show: hasPermission('system:role:delete'),

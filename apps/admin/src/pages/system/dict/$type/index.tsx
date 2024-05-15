@@ -14,11 +14,8 @@ const DictData = () => {
       columns={Columns}
       list={{
         api: getPageList,
-        onBefore(values) {
-          return {
-            ...values,
-            dictType: dictType,
-          };
+        params: {
+          dictType,
         },
       }}
       add={{

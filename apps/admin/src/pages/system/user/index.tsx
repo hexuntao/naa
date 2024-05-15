@@ -38,8 +38,8 @@ const User = () => {
           },
         }}
         tableProps={{
-          toolbar: {
-            actions: [
+          toolBarRender: () => {
+            return [
               ...(crudRef.current?.ToolBarActions() || []),
               <Access key="import" accessible={hasPermission('system:user:import')}>
                 <Button
@@ -62,7 +62,7 @@ const User = () => {
                   导出
                 </Button>
               </Access>,
-            ],
+            ];
           },
         }}
         list={{

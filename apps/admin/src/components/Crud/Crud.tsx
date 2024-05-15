@@ -71,6 +71,9 @@ const Crud = <
   /** 弹窗表单标题 */
   const formTitle = currentRecord ? updateText : addText;
 
+  /** 弹窗表单模式 */
+  const formMode = currentRecord ? 'update' : 'add';
+
   /** 弹窗开关闭change */
   const onOpenChange = (e: boolean) => {
     setOpenModal(e);
@@ -213,8 +216,6 @@ const Crud = <
     });
   }
 
-  const formColumns = cloneDeep(columns);
-
   /**
    * 工具栏新增/删除按钮组
    */
@@ -256,9 +257,7 @@ const Crud = <
       defaultCollapsed: false,
     },
     pagination: { pageSize: 10 },
-    toolbar: {
-      actions: ToolBarActions,
-    },
+    toolBarRender: ToolBarActions,
     columns: tableColumns,
   };
 
@@ -274,6 +273,8 @@ const Crud = <
   if (isFunction(list?.postData)) {
     initTableProps.postData = list?.postData;
   }
+
+  const formColumns = [...cloneDeep(columns)];
 
   // 初始 FormProps
   const initFormProps: any = {
@@ -307,7 +308,7 @@ const Crud = <
   /** 获取表格数据 */
   const { runAsync: request } = useRequest(
     async (_params = {}) => {
-      let params = { ..._params };
+      let params = { ...list?.params, ..._params };
       if (!list || !isFunction(list.api)) {
         return {};
       }
@@ -332,6 +333,7 @@ const Crud = <
   useImperativeHandle(ref, () => ({
     tableRef,
     formRef,
+    formMode,
     currentRecord,
     selectedRowKeys,
     setSelectedRowKeys,
