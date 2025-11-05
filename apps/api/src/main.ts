@@ -9,7 +9,7 @@ import { NestLogger } from '@/modules/logger';
 import { SwaggerOptions, SwaggerService } from '@/modules/swagger';
 
 import { AppModule } from './app.module';
-import { AppConfig } from './config';
+import { AppConfig, UploadConfig } from './config';
 
 dotenv.config();
 
@@ -27,6 +27,10 @@ async function bootstrap() {
   const appConfig = configService.get<AppConfig>('app');
 
   app.setGlobalPrefix(appConfig.prefix);
+
+  const uploadConfig = configService.get<UploadConfig>('upload');
+
+  app.useStaticAssets(uploadConfig.file.path, { prefix: uploadConfig.file.prefix });
 
   const swaggerConfig = configService.get<SwaggerOptions>('swagger');
   const swagger = new SwaggerService(app, swaggerConfig);

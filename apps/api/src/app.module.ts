@@ -23,7 +23,7 @@ import * as configs from './config';
 @Module({
   imports: [
     ConfigModule.forRoot({
-      dir: resolve(__dirname, 'config'),
+      cwd: resolve(__dirname, 'config'),
       data: configs,
     }),
     CoreModule.forRoot(),
@@ -53,7 +53,7 @@ import * as configs from './config';
     }),
     MybatisModule.forRoot({
       cwd: __dirname,
-      dts: resolve(__dirname, './types/mapper.d.ts'),
+      // dts: resolve(__dirname, './types/mapper.d.ts'),
       globs: ['**/*.mapper.xml'],
     }),
     SecurityModule.forRootAsync({
@@ -62,6 +62,10 @@ import * as configs from './config';
           secret: TokenConstants.SECRET,
         };
       },
+      // useFactory(config: ConfigService) {
+      //   return config.get<SecurityOptions>('security')
+      // },
+      // inject: [ConfigService],
     }),
     BullModule.forRootAsync({
       useFactory(config: ConfigService) {

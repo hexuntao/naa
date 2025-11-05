@@ -1,7 +1,6 @@
 import { DynamicModule, Global, Module, Provider } from '@nestjs/common';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
-
 import { AuthGuard } from './guards/auth.guard';
 import { InnerAuthGuard } from './guards/inner-auth.guard';
 import { RequireAuthGuard } from './guards/require-auth.guard';
@@ -42,7 +41,7 @@ export class SecurityModule {
             const options: SecurityOptions = await OptionsProvider.useFactory(...args);
             return {
               global: true,
-              secret: options.secret,
+              ...options.jwt,
             };
           },
           inject: OptionsProvider.inject,
