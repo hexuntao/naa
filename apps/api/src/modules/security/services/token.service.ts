@@ -1,11 +1,9 @@
 import { randomUUID } from 'crypto';
-
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Redis, InjectRedis } from '@nestjs-modules/ioredis';
-
+import { InjectRedis } from '@nestjs-modules/ioredis';
+import Redis from 'ioredis';
 import { Request } from 'express';
-
 import {
   IpUtils,
   CacheConstants,

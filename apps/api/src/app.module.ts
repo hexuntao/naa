@@ -32,6 +32,10 @@ import * as configs from './config';
         return {
           config: config.get<RedisModuleOptions['config']>('redis'),
         };
+        // return {
+        //   type: 'single',
+        //   options: config.get<RedisModuleOptions['config']>('redis.defalut'),
+        // }
       },
       inject: [ConfigService],
     }),

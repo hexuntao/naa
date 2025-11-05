@@ -1,9 +1,10 @@
 import { resolve } from 'path';
 import { Injectable, LoggerService } from '@nestjs/common';
 import { assign } from 'lodash';
+import { WinstonLogger } from 'nest-winston';
 import { Logger } from 'typeorm';
+import { createLogger } from 'winston';
 import { LoggerOptions } from './logger.interface';
-import { createNestWinstonLogger } from './winston.logger';
 import { WinstonTransportBuilder } from './winston.transport';
 
 const defaultOptions: LoggerOptions = {
@@ -18,18 +19,19 @@ const defaultOptions: LoggerOptions = {
 export class TypeORMLogger implements Logger {
   private logger: LoggerService;
 
-  constructor(private options: LoggerOptions) {
-    const TransportBuilder = new WinstonTransportBuilder(assign(defaultOptions, this.options));
-
-    this.logger = createNestWinstonLogger({
-      transports: [
-        // TransportBuilder.buildConsoleTransportInstance(),
-        TransportBuilder.buildDailyRotateFileTransportInstance({
-          level: 'warn',
-          filename: resolve(options.logPath, `${options.appName}-sql-%DATE%.log`),
-        }),
-      ],
-    });
+  constructor(options: LoggerOptions) {
+    const TransportBuilder = new WinstonTransportBuilder(assign(defaultOptions, options));
+    this.logger = new WinstonLogger(
+      createLogger({
+        transports: [
+          TransportBuilder.buildConsoleTransportInstance(),
+          TransportBuilder.buildDailyRotateFileTransportInstance({
+            level: 'warn',
+            filename: resolve(options.logPath, `${options.appName}-sql-%DATE%.log`),
+          }),
+        ],
+      }),
+    );
   }
 
   /**
@@ -39,9 +41,9 @@ export class TypeORMLogger implements Logger {
     const sql =
       query +
       (parameters && parameters.length
-        ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
+        ? ' -- PARAMETERS: ' + this.stringifyParams(parameters)
         : '');
-    this.logger.verbose(`[QUERY]: ${sql}`);
+    this.logger.verbose('[QUERY]: ' + sql);
   }
 
   /**
@@ -51,7 +53,7 @@ export class TypeORMLogger implements Logger {
     const sql =
       query +
       (parameters && parameters.length
-        ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
+        ? ' -- PARAMETERS: ' + this.stringifyParams(parameters)
         : '');
     this.logger.error(`${`[FAILED QUERY]: ${sql}`} ${`[QUERY ERROR]: ${error}`}`);
   }
@@ -63,9 +65,9 @@ export class TypeORMLogger implements Logger {
     const sql =
       query +
       (parameters && parameters.length
-        ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
+        ? ' -- PARAMETERS: ' + this.stringifyParams(parameters)
         : '');
-    this.logger.warn(`[SLOW QUERY: ${time} ms]: ${sql}`);
+    this.logger.warn(`[SLOW QUERY: ${time} ms]: ` + sql);
   }
 
   /**

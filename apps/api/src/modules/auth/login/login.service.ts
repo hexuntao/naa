@@ -1,11 +1,9 @@
 import { randomUUID } from 'crypto';
-
 import { Injectable } from '@nestjs/common';
-import { InjectRedis, Redis } from '@nestjs-modules/ioredis';
-
+import { InjectRedis } from '@nestjs-modules/ioredis';
+import Redis from 'ioredis';
 import { isEmpty } from 'class-validator';
 import * as svgCaptcha from 'svg-captcha';
-
 import {
   SysLoginUser,
   ServiceException,

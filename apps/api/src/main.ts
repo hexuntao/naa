@@ -5,7 +5,7 @@ import chalk from 'chalk';
 import dotenv from 'dotenv';
 
 import { ConfigService } from '@/modules/config';
-import { LoggerService } from '@/modules/logger';
+import { NestLogger } from '@/modules/logger';
 import { SwaggerOptions, SwaggerService } from '@/modules/swagger';
 
 import { AppModule } from './app.module';
@@ -20,7 +20,7 @@ async function bootstrap() {
     logger: ['error', 'warn'],
   });
 
-  app.useLogger(app.get(LoggerService));
+  app.useLogger(app.get(NestLogger));
 
   const configService = app.get(ConfigService);
 
