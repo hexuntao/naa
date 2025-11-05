@@ -24,7 +24,7 @@ export class TypeORMLogger implements Logger {
     this.logger = new WinstonLogger(
       createLogger({
         transports: [
-          TransportBuilder.buildConsoleTransportInstance(),
+          // TransportBuilder.buildConsoleTransportInstance(),
           TransportBuilder.buildDailyRotateFileTransportInstance({
             level: 'warn',
             filename: resolve(options.logPath, `${options.appName}-sql-%DATE%.log`),
