@@ -14,7 +14,7 @@ export function getPageList(params?: ListPostParams) {
  * 查询列表
  */
 export async function getList() {
-  return httpRequest.get<PostModel[]>('/post/option/list');
+  return httpRequest.get<PostModel[]>('/post/options');
 }
 
 /**

@@ -19,7 +19,7 @@ export function getPageList(params?: ListRoleParams) {
  * 查询列表
  */
 export function getList() {
-  return httpRequest.get<RoleModel[]>('/role/option/list');
+  return httpRequest.get<RoleModel[]>('/role/options');
 }
 
 /**

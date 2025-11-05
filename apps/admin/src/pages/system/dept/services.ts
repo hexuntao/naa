@@ -18,7 +18,7 @@ export function getTreeList(params?: ListDeptParams) {
  * 查询树选项
  */
 export function getOptionTree() {
-  return httpRequest.get<DeptTreeResult[]>('/dept/option/tree');
+  return httpRequest.get<DeptTreeResult[]>('/dept/tree/options');
 }
 
 /**

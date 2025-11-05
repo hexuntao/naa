@@ -18,7 +18,7 @@ export function getListTree() {
  * 查询树
  */
 export function getOptionTree() {
-  return httpRequest.get<MenuTreeResult[]>('/menu/option/tree');
+  return httpRequest.get<MenuTreeResult[]>('/menu/tree/options');
 }
 
 /**

@@ -59,8 +59,8 @@ export function infoDictData(postId: React.Key) {
 /**
  * 根据字典类型查询字典数据列表
  */
-export function optionDictData(type: string) {
-  return request<DictDataModel[]>(`/dict/data/option/${type}`, {
+export function dictDataOptions(type: string) {
+  return request<DictDataModel[]>(`/dict/data/options/${type}`, {
     method: RequestEnum.GET,
   });
 }

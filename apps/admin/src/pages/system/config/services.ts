@@ -40,6 +40,6 @@ export function deletes(configIds: React.Key) {
 /**
  * 查询键值
  */
-export function getConfigValueByKey(configKey: React.Key) {
+export function configValue(configKey: React.Key) {
   return httpRequest.get<string>(`/config/value/${configKey}`);
 }

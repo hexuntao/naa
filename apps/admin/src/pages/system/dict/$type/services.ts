@@ -45,6 +45,6 @@ export function deletes(postIds: React.Key) {
 /**
  * 根据字典类型查询字典数据列表
  */
-export function optionDictData(type: string) {
-  return httpRequest.get<DictDataModel[]>(`/dict/data/option/${type}`);
+export function dictDataOptions(type: string) {
+  return httpRequest.get<DictDataModel[]>(`/dict/data/options/${type}`);
 }
