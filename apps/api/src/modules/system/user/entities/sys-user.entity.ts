@@ -1,3 +1,5 @@
+import { BaseBusinessEntity, BaseStatusEnums } from '@/modules/core';
+import { ExcelSheet, ExcelColumn } from '@/modules/excel';
 import {
   IsEmail,
   IsEnum,
@@ -8,11 +10,7 @@ import {
   IsOptional,
   MaxLength,
 } from 'class-validator';
-
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
-import { BaseBusinessEntity, BaseStatusEnums } from '@/modules/core';
-import { ExcelColumn, ExcelSheet } from '@/modules/excel';
 
 /**
  * 用户信息表
@@ -103,7 +101,7 @@ export class SysUser extends BaseBusinessEntity {
   email?: string;
 
   @Column({
-    name: 'phone',
+    name: 'phonenumber',
     type: 'varchar',
     length: 11,
     nullable: true,
@@ -121,7 +119,7 @@ export class SysUser extends BaseBusinessEntity {
   @IsMobilePhone('zh-CN')
   @MaxLength(11)
   @IsOptional()
-  phone?: string;
+  phonenumber?: string;
 
   @Column({
     name: 'sex',
@@ -178,8 +176,8 @@ export class SysUser extends BaseBusinessEntity {
     name: 'status',
     type: 'char',
     length: 1,
-    default: '1',
-    comment: '用户状态（1正常 0停用）',
+    default: '0',
+    comment: '用户状态（0正常 1停用）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()

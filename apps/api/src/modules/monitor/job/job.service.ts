@@ -1,13 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ModuleRef, Reflector } from '@nestjs/core';
-import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
-
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+import { BaseStatusEnums, ServiceException } from '@/modules/core';
 import { isNotEmpty } from 'class-validator';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { EntityManager, In, Like, Repository } from 'typeorm';
-
-import { BaseStatusEnums, ServiceException } from '@/modules/core';
-
+import { DataSource, In, Like, Repository } from 'typeorm';
 import { ListJobLogDto, CreateJobLogDto } from './dto/job-log.dto';
 import { ListJobDto, CreateJobDto, UpdateJobDto } from './dto/job.dto';
 import { JobLog } from './entities/job-log.entity';
@@ -25,8 +22,8 @@ export class JobService {
     private reflector: Reflector,
     private jobQueue: JobQueue,
 
-    @InjectEntityManager()
-    private entityManager: EntityManager,
+    @InjectDataSource()
+    private dataSource: DataSource,
 
     @InjectRepository(Job)
     private jobRepository: Repository<Job>,
@@ -89,7 +86,7 @@ export class JobService {
    */
   async delete(jobIds: number[]): Promise<void> {
     const jobs = await this.jobRepository.findBy({ jobId: In(jobIds) });
-    await this.entityManager.transaction(async (manager) => {
+    await this.dataSource.transaction(async (manager) => {
       await manager.delete(Job, jobIds);
       await Promise.all(jobs.map((job) => this.jobQueue.stop(job)));
     });

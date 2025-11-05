@@ -1,10 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { InjectEntityManager, InjectRepository } from '@nestjs/typeorm';
-
-import { isNotEmpty, isEmpty, isArray, isObject } from 'class-validator';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { EntityManager, In, Like, Repository } from 'typeorm';
-
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
 import {
   ServiceException,
   PasswordUtils,
@@ -13,10 +8,12 @@ import {
   UserConstants,
 } from '@/modules/core';
 import { ExcelService } from '@/modules/excel';
+import { isNotEmpty, isEmpty, isArray, isObject } from 'class-validator';
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { DataSource, In, Like, Repository } from 'typeorm';
 import { ConfigService } from '@/modules/system/config/config.service';
 import { MenuService } from '@/modules/system/menu/menu.service';
 import { RoleService } from '@/modules/system/role/role.service';
-
 import { ListUserDto, CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { SysUserPost } from './entities/sys-user-post.entity';
 import { SysUserRole } from './entities/sys-user-role.entity';
@@ -29,8 +26,8 @@ import { UserInfoVo } from './vo/user.vo';
 @Injectable()
 export class UserService {
   constructor(
-    @InjectEntityManager()
-    private entityManager: EntityManager,
+    @InjectDataSource()
+    private dataSource: DataSource,
 
     @InjectRepository(SysUser)
     private userRepository: Repository<SysUser>,
@@ -77,11 +74,11 @@ export class UserService {
   async add(user: CreateUserDto): Promise<void> {
     const { roleIds, postIds, ...userInfo } = user;
 
-    await this.entityManager.transaction(async (manager) => {
+    await this.dataSource.transaction(async (manager) => {
       // 新增用户信息
       userInfo.password = await PasswordUtils.create(user.password);
       const result = await manager.insert(SysUser, userInfo);
-      const { userId } = result.identifiers[0];
+      const userId = result.identifiers[0].userId;
 
       // 新增用户与角色关联
       if (!isEmpty(roleIds)) {
@@ -108,7 +105,7 @@ export class UserService {
   async update(user: UpdateUserDto): Promise<void> {
     const { roleIds, postIds, userId, ...userInfo } = user;
 
-    await this.entityManager.transaction(async (manager) => {
+    await this.dataSource.transaction(async (manager) => {
       // 修改用户信息
       await manager.update(SysUser, userId, userInfo);
 
@@ -137,7 +134,7 @@ export class UserService {
    * @param userIds 用户ID
    */
   async delete(userIds: number[]): Promise<void> {
-    await this.entityManager.transaction(async (manager) => {
+    await this.dataSource.transaction(async (manager) => {
       await manager.delete(SysUser, userIds);
       await manager.delete(SysUserRole, { userId: In(userIds) });
       await manager.delete(SysUserPost, { userId: In(userIds) });
@@ -232,10 +229,10 @@ export class UserService {
    * @returns true 唯一 / false 不唯一
    */
   async checkUserPhoneUnique(user: Partial<SysUser>): Promise<boolean> {
-    const { userId, phone } = user;
-    if (!phone) return true;
+    const { userId, phonenumber } = user;
+    if (!phonenumber) return true;
 
-    const info = await this.userRepository.findOneBy({ phone });
+    const info = await this.userRepository.findOneBy({ phonenumber });
     if (info && info.userId !== userId) {
       return false;
     }
@@ -285,9 +282,10 @@ export class UserService {
   async getRolePermission(userId: number): Promise<string[]> {
     if (IdentityUtils.isAdminUser(userId)) {
       return [UserConstants.SUPER_ROLE_CODE];
+    } else {
+      const roles = await this.roleService.selectRoleByUserId(userId);
+      return roles.map((role) => role.roleCode).filter(Boolean);
     }
-    const roles = await this.roleService.selectRoleByUserId(userId);
-    return roles.map((role) => role.roleCode).filter(Boolean);
   }
 
   /**
@@ -298,9 +296,10 @@ export class UserService {
   async getMenuPermission(userId: number): Promise<string[]> {
     if (IdentityUtils.isAdminUser(userId)) {
       return [UserConstants.SUPER_ROLE_PERMISSION];
+    } else {
+      const menus = await this.menuService.selectMenuByUserId(userId);
+      return menus.map((menu) => menu.permission).filter(Boolean);
     }
-    const menus = await this.menuService.selectMenuByUserId(userId);
-    return menus.map((menu) => menu.permission).filter(Boolean);
   }
 
   /**
