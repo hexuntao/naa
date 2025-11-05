@@ -325,7 +325,7 @@ export class UserService {
    * 导入用户
    * @param buffer 导入文件
    */
-  async import(buffer: Buffer) {
+  async import(buffer: Buffer | any) {
     const data = await this.excelService.import(SysUser, buffer);
     const password = await this.configService.value('sys.user.initPassword');
 

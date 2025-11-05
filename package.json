@@ -1,7 +1,7 @@
 {
   "name": "naa",
   "private": true,
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "基于 Nest + Antd 编写的一款前后端分离的权限管理系统",
   "author": {
     "name": "hexuntao",
@@ -36,9 +36,9 @@
     "@naa/eslint-config": "workspace:*",
     "@naa/ts-config": "workspace:*",
     "dotenv-cli": "latest",
-    "eslint": "^8.57.0",
-    "prettier": "^3.2.5",
-    "turbo": "^1.13.3",
-    "typescript": "^5.4.5"
+    "eslint": "^8.57.1",
+    "prettier": "^3.6.2",
+    "turbo": "^1.13.4",
+    "typescript": "^5.9.3"
   }
 }

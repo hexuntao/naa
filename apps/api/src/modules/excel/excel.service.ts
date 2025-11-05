@@ -98,7 +98,7 @@ export class ExcelService {
     );
     sheetImages.forEach((image, index) => {
       const id = workbook.addImage({
-        buffer: buffers[index],
+        buffer: buffers[index] as any,
         extension: 'png',
       });
       worksheet.addImage(id, image);

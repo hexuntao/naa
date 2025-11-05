@@ -4,6 +4,7 @@
     "baseUrl": ".",
     "outDir": "./dist",
     "module": "commonjs",
+    "skipLibCheck": true,
     "paths": {
       "@/*": ["src/*"]
     }
