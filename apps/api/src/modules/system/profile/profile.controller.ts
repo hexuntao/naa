@@ -1,9 +1,7 @@
-import { Body, Controller, Get, Put, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { FileInterceptor } from '@nestjs/platform-express';
+import { Body, Controller, Get, Put, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AjaxResult } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
-import { FileService } from '@/modules/file/file/file.service';
 import { UpdatePasswordDto, UpdateProfileDto } from './dto/profile.dto';
 import { ProfileService } from './profile.service';
 
@@ -14,7 +12,7 @@ import { ProfileService } from './profile.service';
 @ApiBearerAuth()
 @Controller('profile')
 export class ProfileController {
-  constructor(private profileService: ProfileService, private fileService: FileService) {}
+  constructor(private profileService: ProfileService) {}
 
   /**
    * 查询个人信息
@@ -47,10 +45,7 @@ export class ProfileController {
    */
   @Post('avatar')
   @Log({ title: '个人信息', operType: OperType.UPDATE })
-  @UseInterceptors(FileInterceptor('file'))
-  async avatar(@UploadedFile() file: Express.Multer.File): Promise<AjaxResult> {
-    const { fileUrl } = await this.fileService.upload(file, { path: 'avatar' });
-    await this.profileService.avatar(fileUrl);
-    return AjaxResult.success(fileUrl);
+  async avatar(@Body() avatar: string): Promise<AjaxResult> {
+    return AjaxResult.success(await this.profileService.avatar(avatar));
   }
 }
