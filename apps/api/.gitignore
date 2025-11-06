@@ -411,3 +411,8 @@ yarn-error.log*
 
 # mapper.d.ts
 # *.mapper.xml
+
+# uploads
+uploads/*
+!uploads/avatar/test.png
+!uploads/avatar/admin.png

@@ -1,11 +1,9 @@
 import { Injectable } from '@nestjs/common';
-
 import { PasswordUtils, ServiceException } from '@/modules/core';
 import { TokenService } from '@/modules/security';
 import { DeptService } from '@/modules/system/dept/dept.service';
 import { RoleService } from '@/modules/system/role/role.service';
 import { UserService } from '@/modules/system/user/user.service';
-
 import { UpdatePasswordDto, UpdateProfileDto } from './dto/profile.dto';
 import { ProfileInfoVo } from './vo/profile.vo';
 
@@ -41,8 +39,6 @@ export class ProfileService {
     const token = this.tokenService.getToken();
     const loginUser = await this.tokenService.getLoginUser(token);
     const user = loginUser.sysUser;
-    user.email = profile.email;
-    user.phone = profile.phone;
 
     if (!(await this.userService.checkUserEmailUnique(user))) {
       throw new ServiceException(`修改用户${user.userName}失败，邮箱账号已存在`);
@@ -87,6 +83,24 @@ export class ProfileService {
 
     // 更新缓存用户信息
     Object.assign(loginUser.sysUser, { password: newPassword });
+    await this.tokenService.setLoginUser(loginUser);
+  }
+
+  /**
+   * 修改个人头像
+   * @param avatar 头像地址
+   */
+  async updateAvatar(avatar: string): Promise<void> {
+    const token = this.tokenService.getToken();
+    const loginUser = await this.tokenService.getLoginUser(token);
+
+    await this.userService.updateBasicInfo({
+      avatar,
+      userId: loginUser.userId,
+    });
+
+    // 更新缓存用户信息
+    Object.assign(loginUser.sysUser, { avatar });
     await this.tokenService.setLoginUser(loginUser);
   }
 }

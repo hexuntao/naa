@@ -1,8 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
+  ParseArrayPipe,
   Post,
+  Put,
   Query,
   UploadedFile,
   UploadedFiles,
@@ -12,16 +16,21 @@ import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AjaxResult } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
-import { UploadFileUrl, UploadFileUrls } from '../upload/upload.decorator';
-import { CreateFileDto, ListFileDto } from './dto/file.dto';
+import {
+  ListFileDto,
+  CreateFileDto,
+  UpdateFileDto,
+  UploadConfigDto,
+  UploadsConfigDto,
+} from './dto/file.dto';
 import { FileService } from './file.service';
 
 /**
- * 文件管理
+ * 文件
  */
-@ApiTags('文件管理')
+@ApiTags('文件')
 @ApiBearerAuth()
-@Controller('files')
+@Controller('file')
 export class FileController {
   constructor(private fileService: FileService) {}
 
@@ -30,7 +39,7 @@ export class FileController {
    * @param file 文件信息
    * @returns 文件列表
    */
-  @Get()
+  @Get('list')
   async list(@Query() file: ListFileDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.fileService.list(file));
   }
@@ -39,17 +48,47 @@ export class FileController {
    * 添加文件
    * @param file 文件信息
    */
-  @Post()
-  @Log({ title: '文件管理', operType: OperType.INSERT })
-  async add(@Body() file: CreateFileDto | CreateFileDto[]): Promise<AjaxResult> {
+  @Post('add')
+  @Log({ title: '文件', operType: OperType.INSERT })
+  async add(@Body() file: CreateFileDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.fileService.add(file));
+  }
+
+  /**
+   * 更新文件
+   * @param file 文件信息
+   */
+  @Put('update')
+  @Log({ title: '文件', operType: OperType.UPDATE })
+  async update(@Body() file: UpdateFileDto): Promise<AjaxResult> {
+    return AjaxResult.success(await this.fileService.update(file));
+  }
+
+  /**
+   * 删除文件
+   * @param fileIds 文件ID
+   */
+  @Delete('delete/:fileIds')
+  @Log({ title: '文件', operType: OperType.DELETE })
+  async delete(@Param('fileIds', ParseArrayPipe) fileIds: number[]): Promise<AjaxResult> {
+    return AjaxResult.success(await this.fileService.delete(fileIds));
+  }
+
+  /**
+   * 文件详情
+   * @param fileId 文件ID
+   * @returns 文件详情
+   */
+  @Get('info/:fileId')
+  async info(@Param('fileId') fileId: number): Promise<AjaxResult> {
+    return AjaxResult.success(await this.fileService.info(fileId));
   }
 
   /**
    * 文件用途选项
    * @returns 文件用途选项列表
    */
-  @Get('use-options')
+  @Get('use/options')
   async useOptions(): Promise<AjaxResult> {
     return AjaxResult.success(await this.fileService.useOptions());
   }
@@ -61,10 +100,10 @@ export class FileController {
   @UseInterceptors(FileInterceptor('file'))
   async upload(
     @UploadedFile() file: Express.Multer.File,
-    @UploadFileUrl() url: string,
+    @Body() config: UploadConfigDto,
   ): Promise<AjaxResult> {
-    console.log(url, file);
-    return AjaxResult.success(url);
+    const result = await this.fileService.upload(file, config);
+    return AjaxResult.success(result);
   }
 
   /**
@@ -74,9 +113,17 @@ export class FileController {
   @UseInterceptors(FilesInterceptor('files'))
   async uploads(
     @UploadedFiles() files: Express.Multer.File[],
-    @UploadFileUrls() urls: string[],
+    @Body() config: UploadsConfigDto,
   ): Promise<AjaxResult> {
-    console.log(urls, files);
-    return AjaxResult.success(urls);
+    const result = [];
+    for (const [i, file] of files.entries()) {
+      result.push(
+        await this.fileService.upload(file, {
+          path: config.path?.[i],
+          name: config.name?.[i],
+        }),
+      );
+    }
+    return AjaxResult.success(result);
   }
 }

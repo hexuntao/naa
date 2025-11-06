@@ -160,7 +160,7 @@ export type CrudRef<DataType = Record<string, any>, ValueType = 'text'> = {
   /**
    * 弹窗表单实例
    */
-  formRef: React.MutableRefObject<ProFormInstance<DataType> | undefined>;
+  formRef: React.MutableRefObject<ProFormInstance<DataType | any> | undefined>;
   /** 表单模式 */
   formMode: 'add' | 'update' | string;
   /**
