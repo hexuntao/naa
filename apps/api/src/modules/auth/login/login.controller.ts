@@ -1,10 +1,8 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-
 import { AjaxResult, UserId } from '@/modules/core';
-import { LoginType } from '@/modules/logger';
 import { Public, TokenService } from '@/modules/security';
-
+import { LoginType } from '@/modules/logger';
 import { LoginDto } from './dto/login.dto';
 import { LogService } from './log.service';
 import { LoginService } from './login.service';
@@ -30,8 +28,8 @@ export class LoginController {
   @Public()
   async login(@Body() form: LoginDto): Promise<AjaxResult> {
     try {
-      const isEnableCaptcha = await this.loginService.isEnableImageCaptcha();
-      isEnableCaptcha && (await this.loginService.verifyImageCaptcha(form));
+      const isEnableCaptcha = await this.loginService.isEnableCaptcha();
+      isEnableCaptcha && (await this.loginService.verifyCaptcha(form));
 
       const user = await this.loginService.login(form);
       const token = await this.tokenService.createToken(user);
@@ -72,14 +70,14 @@ export class LoginController {
   }
 
   /**
-   * 获取图片验证码
+   * 获取验证码
    */
-  @Get('captchaImage')
+  @Get('captcha')
   @Public()
-  async captchaImage(): Promise<AjaxResult> {
-    const isEnableCaptcha = await this.loginService.isEnableImageCaptcha();
+  async captcha(): Promise<AjaxResult> {
+    const isEnableCaptcha = await this.loginService.isEnableCaptcha();
     if (isEnableCaptcha) {
-      return AjaxResult.success(await this.loginService.createImageCaptcha());
+      return AjaxResult.success(await this.loginService.createCaptcha());
     }
     return AjaxResult.success();
   }
@@ -87,7 +85,7 @@ export class LoginController {
   /**
    * 查询用户缓存信息
    */
-  @Get('userInfo')
+  @Get('user/info')
   async getUserInfo(): Promise<AjaxResult> {
     const token = this.tokenService.getToken();
     const loginUser = await this.tokenService.getLoginUser(token);
@@ -98,7 +96,7 @@ export class LoginController {
    * 查询用户路由信息
    * @returns 用户路由信息
    */
-  @Get('userRouters')
+  @Get('user/routers')
   async getUserRouters(@UserId() userId: number): Promise<AjaxResult> {
     const routers = await this.loginService.getUserRouters(userId);
     return AjaxResult.success(routers);

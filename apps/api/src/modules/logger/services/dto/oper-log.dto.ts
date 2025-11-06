@@ -1,4 +1,4 @@
-import { BaseStatusEnums, BaseTimeEntity } from '@/modules/core';
+import { BaseStatusEnum, BaseTimeEntity } from '@/modules/core';
 
 import { OperType } from '../../enums/oper-type.enum';
 
@@ -41,7 +41,7 @@ export class OperLogDto extends BaseTimeEntity {
   /**
    * 操作状态
    */
-  operStatus: BaseStatusEnums;
+  operStatus: BaseStatusEnum;
 
   /**
    * 请求URL

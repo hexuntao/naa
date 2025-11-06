@@ -1,4 +1,4 @@
-import { BaseStatusEnums, BaseBusinessEntity } from '@/modules/core';
+import { BaseStatusEnum, BaseBusinessEntity } from '@/modules/core';
 import { IsEnum, IsIn, IsInt, IsNotEmpty, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -58,7 +58,7 @@ export class SysNotice extends BaseBusinessEntity {
     length: 1,
     comment: '公告状态（1正常 0关闭）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseStatusEnum)
   @IsNotEmpty()
   status: string;
 }

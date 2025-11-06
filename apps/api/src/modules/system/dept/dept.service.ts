@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TreeUtils, BaseStatusEnums } from '@/modules/core';
+import { TreeUtils, BaseStatusEnum } from '@/modules/core';
 import { Repository } from 'typeorm';
 import { SysUser } from '@/modules/system/user/entities/sys-user.entity';
 import { CreateDeptDto, UpdateDeptDto } from './dto/dept.dto';
@@ -112,7 +112,7 @@ export class DeptService {
         deptSort: 'ASC',
       },
       where: {
-        status: BaseStatusEnums.NORMAL,
+        status: BaseStatusEnum.NORMAL,
       },
     });
     return TreeUtils.listToTree<DeptTreeVo>(list, {

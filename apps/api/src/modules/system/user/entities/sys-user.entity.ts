@@ -1,4 +1,4 @@
-import { BaseBusinessEntity, BaseStatusEnums } from '@/modules/core';
+import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
 import { ExcelSheet, ExcelColumn } from '@/modules/excel';
 import {
   IsEmail,
@@ -179,7 +179,7 @@ export class SysUser extends BaseBusinessEntity {
     default: '0',
     comment: '用户状态（0正常 1停用 2删除）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseStatusEnum)
   @IsOptional()
   status: string;
 }

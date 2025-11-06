@@ -1,7 +1,7 @@
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
-import { BaseBusinessEntity, BaseStatusEnums } from '@/modules/core';
+import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
 
 /**
  * 角色信息表
@@ -54,7 +54,7 @@ export class SysRole extends BaseBusinessEntity {
     default: '1',
     comment: '角色状态（1正常 0停用）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseStatusEnum)
   @IsOptional()
   status: string;
 }

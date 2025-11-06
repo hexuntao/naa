@@ -1,10 +1,8 @@
 import * as fs from 'fs';
-import { resolve } from 'path';
-
+import * as path from 'path';
 import { Inject, Injectable } from '@nestjs/common';
 import { mergeWith, isArray } from 'lodash';
 import * as YAML from 'yaml';
-
 import { CONFIG_OPTIONS } from './config.constants';
 import { ConfigOptions } from './config.interface';
 
@@ -13,9 +11,9 @@ import { ConfigOptions } from './config.interface';
  */
 @Injectable()
 export class ConfigLoader {
-  private readonly files: string[];
+  private files: string[];
 
-  constructor(@Inject(CONFIG_OPTIONS) private readonly options: ConfigOptions) {
+  constructor(@Inject(CONFIG_OPTIONS) private options: ConfigOptions) {
     this.files = this.getFilesPath();
   }
 
@@ -31,7 +29,6 @@ export class ConfigLoader {
       if (isArray(objValue)) {
         return srcValue;
       }
-      return objValue;
     });
   }
 
@@ -49,7 +46,7 @@ export class ConfigLoader {
     }
     if (existFiles === 0) {
       console.log('相关配置文件未找到');
-      // throw new Error(`file path was not found`);
+      throw new Error(`file path was not found`);
     }
   }
 
@@ -77,10 +74,10 @@ export class ConfigLoader {
     const dir = this.options.cwd || process.cwd();
     const extension = this.options.extension || 'yaml';
 
-    filenames.push(resolve(dir, `config.${extension}`));
-    filenames.push(resolve(dir, `config.local.${extension}`));
-    filenames.push(resolve(dir, `config.${env}.${extension}`));
-    filenames.push(resolve(dir, `config.${env}.local.${extension}`));
+    filenames.push(path.join(dir, `config.${extension}`));
+    filenames.push(path.join(dir, `config.local.${extension}`));
+    filenames.push(path.join(dir, `config.${env}.${extension}`));
+    filenames.push(path.join(dir, `config.${env}.local.${extension}`));
 
     return filenames;
   }

@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import { Repository } from 'typeorm';
 
-import { BaseStatusEnums } from '@/modules/core';
+import { BaseStatusEnum } from '@/modules/core';
 
 import { JOB_BULL_NAME } from './constants/bull.constants';
 import { SysJob } from './entities/sys-job.entity';
@@ -36,7 +36,7 @@ export class JobQueue implements OnModuleInit {
     await Promise.all(oldJobs.map((job) => this.queue.removeRepeatableByKey(job.key)));
 
     // 需要执行的任务
-    const newJobs = await this.jobRepository.findBy({ status: BaseStatusEnums.NORMAL });
+    const newJobs = await this.jobRepository.findBy({ status: BaseStatusEnum.NORMAL });
     await Promise.all(newJobs.map((job) => this.start(job)));
   }
 

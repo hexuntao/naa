@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TreeUtils, BaseStatusEnums, MenuConstants, IdentityUtils } from '@/modules/core';
+import { TreeUtils, BaseStatusEnum, MenuConstants, IdentityUtils } from '@/modules/core';
 import { Repository } from 'typeorm';
 import { SysRoleMenu } from '@/modules/system/role/entities/sys-role-menu.entity';
 import { CreateMenuDto, UpdateMenuDto } from './dto/menu.dto';
@@ -100,7 +100,7 @@ export class MenuService {
         menuSort: 'ASC',
       },
       where: {
-        status: BaseStatusEnums.NORMAL,
+        status: BaseStatusEnum.NORMAL,
       },
     });
     return TreeUtils.listToTree<MenuTreeVo>(list, {
@@ -121,8 +121,8 @@ export class MenuService {
       .leftJoin('sys_user_role', 'ur', 'rm.role_id = ur.role_id')
       .leftJoin('sys_role', 'r', 'ur.role_id = r.role_id')
       .where('ur.user_id = :userId', { userId })
-      .andWhere('m.status = :status', { status: BaseStatusEnums.NORMAL })
-      .andWhere('r.status = :status', { status: BaseStatusEnums.NORMAL })
+      .andWhere('m.status = :status', { status: BaseStatusEnum.NORMAL })
+      .andWhere('r.status = :status', { status: BaseStatusEnum.NORMAL })
       .distinct()
       .getMany();
   }
@@ -138,7 +138,7 @@ export class MenuService {
     if (IdentityUtils.isAdmin(userId)) {
       menus = await this.menuRepository
         .createQueryBuilder('m')
-        .where('m.status = :status', { status: BaseStatusEnums.NORMAL })
+        .where('m.status = :status', { status: BaseStatusEnum.NORMAL })
         .andWhere('m.menu_type IN (:...menuType)', {
           menuType: [MenuConstants.TYPE_DIR, MenuConstants.TYPE_MENU],
         })
@@ -151,8 +151,8 @@ export class MenuService {
         .leftJoin('sys_user_role', 'ur', 'rm.role_id = ur.role_id')
         .leftJoin('sys_role', 'r', 'ur.role_id = r.role_id')
         .where('ur.user_id = :userId', { userId })
-        .andWhere('m.status = :status', { status: BaseStatusEnums.NORMAL })
-        .andWhere('r.status = :status', { status: BaseStatusEnums.NORMAL })
+        .andWhere('m.status = :status', { status: BaseStatusEnum.NORMAL })
+        .andWhere('r.status = :status', { status: BaseStatusEnum.NORMAL })
         .andWhere('m.menu_type IN (:...menuType)', {
           menuType: [MenuConstants.TYPE_DIR, MenuConstants.TYPE_MENU],
         })

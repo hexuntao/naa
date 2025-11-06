@@ -7,12 +7,9 @@ import {
   StreamableFile,
 } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
-
+import { SecurityConstants, AjaxResult, IpUtils, BaseStatusEnum } from '@/modules/core';
 import { Request } from 'express';
 import { Observable, tap, catchError, throwError } from 'rxjs';
-
-import { SecurityConstants, AjaxResult, IpUtils, BaseStatusEnums } from '@/modules/core';
-
 import { LogOptions } from '../decorators/log.decorator';
 import { LOGGER_LOG_METADATA } from '../logger.constants';
 import { OperLogDto } from '../services/dto/oper-log.dto';
@@ -61,7 +58,6 @@ export class LogInterceptor implements NestInterceptor {
     operLog.operIp = IpUtils.requestIp(request);
     operLog.operLocation = `${region.country} ${region.province} ${region.city}`;
     operLog.operName = request[SecurityConstants.USER_NAME];
-    operLog.operNameId = request[SecurityConstants.USER_ID];
 
     operLog.requestUrl = request.url;
     operLog.requestMethod = request.method;
@@ -73,10 +69,10 @@ export class LogInterceptor implements NestInterceptor {
     }
 
     if (isStreamableFile || result.code === HttpStatus.OK) {
-      operLog.operStatus = BaseStatusEnums.NORMAL;
+      operLog.operStatus = BaseStatusEnum.NORMAL;
       operLog.requestErrmsg = undefined;
     } else {
-      operLog.operStatus = BaseStatusEnums.DISABLE;
+      operLog.operStatus = BaseStatusEnum.DISABLE;
       operLog.requestErrmsg = result.message;
     }
 

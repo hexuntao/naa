@@ -1,4 +1,4 @@
-import { BaseStatusEnums, BaseTimeEntity } from '@/modules/core';
+import { BaseStatusEnum, BaseTimeEntity } from '@/modules/core';
 import { OperType } from '@/modules/logger';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
@@ -85,7 +85,7 @@ export class SysOperLog extends BaseTimeEntity {
     length: 1,
     comment: '操作状态',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseStatusEnum)
   @IsNotEmpty()
   operStatus: string;
 
