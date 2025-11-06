@@ -1,13 +1,10 @@
 import { Module } from '@nestjs/common';
-
 import { JobModule } from './job/job.module';
-import { OnlineModule } from './online/online.module';
+import { LoginLogModule } from './login-log/login-log.module';
+import { OnlineUserModule } from './online-user/online-user.module';
+import { OperLogModule } from './oper-log/oper-log.module';
 
-/**
- * 监控模块
- * @description 提供监控功能
- */
 @Module({
-  imports: [JobModule, OnlineModule],
+  imports: [JobModule, OnlineUserModule, OperLogModule, LoginLogModule],
 })
 export class MonitorModule {}

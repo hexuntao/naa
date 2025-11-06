@@ -2,8 +2,6 @@ import { randomUUID } from 'crypto';
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRedis } from '@nestjs-modules/ioredis';
-import Redis from 'ioredis';
-import { Request } from 'express';
 import {
   IpUtils,
   CacheConstants,
@@ -11,7 +9,8 @@ import {
   SecurityContext,
   type SysLoginUser,
 } from '@/modules/core';
-
+import { Request } from 'express';
+import Redis from 'ioredis';
 import { JwtToken } from '../interfaces/jwt-token.interface';
 
 /**
@@ -21,7 +20,7 @@ import { JwtToken } from '../interfaces/jwt-token.interface';
 export class TokenService {
   constructor(
     @InjectRedis()
-    public redis: Redis,
+    private redis: Redis,
     private jwtService: JwtService,
     private securityContext: SecurityContext,
   ) {}
@@ -31,6 +30,13 @@ export class TokenService {
   private MILLIS_MINUTE = 60 * this.MILLIS_SECOND;
 
   private MILLIS_MINUTE_REFRESH = CacheConstants.REFRESH_TIME * this.MILLIS_MINUTE;
+
+  /**
+   * 获取存储 Token 使用的 Redis
+   */
+  getRedis(): Redis {
+    return this.redis;
+  }
 
   /**
    * 获取令牌
@@ -56,8 +62,8 @@ export class TokenService {
    */
   async createToken(loginUser: SysLoginUser) {
     const userSk = randomUUID();
-    const { userId } = loginUser.sysUser;
-    const { userName } = loginUser.sysUser;
+    const userId = loginUser.sysUser.userId;
+    const userName = loginUser.sysUser.userName;
     loginUser.userSk = userSk;
     loginUser.userId = userId;
     loginUser.userName = userName;
@@ -131,7 +137,7 @@ export class TokenService {
    * 验证令牌有效期，相差不足120分钟，自动刷新缓存
    */
   async verifyTokenExpire(loginUser: SysLoginUser) {
-    const { expireTime } = loginUser;
+    const expireTime = loginUser.expireTime;
     const currentTime = Date.now();
     if (expireTime - currentTime <= this.MILLIS_MINUTE_REFRESH) {
       await this.refreshToken(loginUser);

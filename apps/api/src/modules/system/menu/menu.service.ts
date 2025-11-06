@@ -184,7 +184,7 @@ export class MenuService {
       router.icon = menu.icon;
       router.component = menu.component;
       router.locale = false;
-      router.hideInMenu = menu.isVisible === BaseStatusEnums.ABNORMAL;
+      router.hideInMenu = menu.isVisible === BaseStatusEnums.DISABLE;
       router.children = menu.children && this.buildUmiMaxRouters(menu.children);
       routers.push(router);
     }

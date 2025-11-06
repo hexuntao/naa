@@ -26,7 +26,7 @@ export class LogService {
    * @param message 登录消息
    */
   fail(type: LoginType, name: string, message: string) {
-    this.saveLoginLog(type, name, BaseStatusEnums.ABNORMAL, message);
+    this.saveLoginLog(type, name, BaseStatusEnums.DISABLE, message);
   }
 
   /**

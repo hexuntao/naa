@@ -1,9 +1,6 @@
 import { OmitType } from '@nestjs/mapped-types';
-
-import { Allow } from 'class-validator';
-
 import { PaginateDto } from '@/modules/core';
-
+import { Allow } from 'class-validator';
 import { JobLog } from '../entities/job-log.entity';
 
 /**
@@ -26,7 +23,7 @@ export class ListJobLogDto extends PaginateDto {
   @Allow()
   invokeTarget?: string;
 
-  /** 状态（1成功 0失败） */
+  /** 状态（0成功 1失败） */
   @Allow()
   status?: string;
 }
@@ -39,4 +36,4 @@ export class CreateJobLogDto extends OmitType(JobLog, ['jobLogId'] as const) {}
 /**
  * 更新任务日志
  */
-export class UpdateJobLogDto extends OmitType(JobLog, [] as const) {}
+export class UpdateJobLogDto extends OmitType(JobLog, ['jobLogId'] as const) {}

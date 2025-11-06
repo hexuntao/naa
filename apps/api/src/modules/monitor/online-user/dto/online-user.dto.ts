@@ -3,7 +3,7 @@ import { Allow } from 'class-validator';
 /**
  * 查询在线用户
  */
-export class ListOnlineDto {
+export class ListOnlineUserDto {
   /** IP地址 */
   @Allow()
   loginIp?: string;

@@ -16,5 +16,5 @@ import { OmitType } from '@nestjs/mapped-types' import { PaginateDto } from '@/m
 } /** * 添加{{functionName}}
 */ export class Create{{businessNamePascalCase}}Dto extends OmitType({{classNamePascalCase}}, ['{{pkColumn.fieldName}}']
 as const) {} /** * 更新{{functionName}}
-*/ export class Update{{businessNamePascalCase}}Dto extends OmitType({{classNamePascalCase}}, [] as
-const) {}
+*/ export class Update{{businessNamePascalCase}}Dto extends OmitType({{classNamePascalCase}}, ['{{pkColumn.fieldName}}']
+as const) {}

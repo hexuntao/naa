@@ -2,15 +2,19 @@ import { OnQueueCompleted, OnQueueFailed, Process, Processor } from '@nestjs/bul
 import { HttpException } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { Job as BullJob } from 'bull';
-
 import { JOB_BULL_NAME } from './constants/bull.constants';
 import { JobLog } from './entities/job-log.entity';
 import { Job } from './entities/job.entity';
+import { JobLogService } from './job-log.service';
 import { JobService } from './job.service';
 
 @Processor(JOB_BULL_NAME)
 export class JobProcessor {
-  constructor(private moduleRef: ModuleRef, private jobService: JobService) {}
+  constructor(
+    private moduleRef: ModuleRef,
+    private jobService: JobService,
+    private jobLogService: JobLogService,
+  ) {}
 
   @Process()
   async handle(job: BullJob<Job>) {
@@ -35,7 +39,7 @@ export class JobProcessor {
     jobLog.invokeParams = data.invokeParams;
     jobLog.invokeMessage = '执行成功';
     jobLog.status = '0';
-    await this.jobService.addJobLog(jobLog);
+    await this.jobLogService.add(jobLog);
   }
 
   @OnQueueFailed()
@@ -51,7 +55,7 @@ export class JobProcessor {
     jobLog.exceptionMessage =
       err instanceof HttpException ? JSON.stringify(err.getResponse()) : err.message;
     jobLog.status = '1';
-    await this.jobService.addJobLog(jobLog);
+    await this.jobLogService.add(jobLog);
   }
 
   private safeParse(params: string): unknown | string {

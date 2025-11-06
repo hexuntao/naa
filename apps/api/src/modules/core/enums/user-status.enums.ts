@@ -10,10 +10,10 @@ export enum UserStatusEnums {
   /**
    * 停用
    */
-  DISABLE = '0',
+  DISABLE = '1',
 
   /**
    * 删除
    */
-  DELETED = '1',
+  DELETED = '2',
 }

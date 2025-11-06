@@ -1,9 +1,6 @@
 import { OmitType } from '@nestjs/mapped-types';
-
-import { Allow } from 'class-validator';
-
 import { PaginateDto } from '@/modules/core';
-
+import { Allow } from 'class-validator';
 import { Job } from '../entities/job.entity';
 
 /**
@@ -22,7 +19,7 @@ export class ListJobDto extends PaginateDto {
   @Allow()
   invokeTarget?: string;
 
-  /** 状态（1正常 0停用） */
+  /** 状态（0正常 1停用） */
   @Allow()
   status?: string;
 }
@@ -35,4 +32,4 @@ export class CreateJobDto extends OmitType(Job, ['jobId'] as const) {}
 /**
  * 更新定时任务
  */
-export class UpdateJobDto extends OmitType(Job, [] as const) {}
+export class UpdateJobDto extends OmitType(Job, ['jobId'] as const) {}

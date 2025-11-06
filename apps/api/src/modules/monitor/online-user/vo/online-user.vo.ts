@@ -1,7 +1,7 @@
 /**
  * 在线用户信息
  */
-export class OnlineInfoVo {
+export class OnlineUserVo {
   /** 会话Key */
   userSk: string;
 

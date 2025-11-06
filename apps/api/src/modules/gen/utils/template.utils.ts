@@ -1,6 +1,7 @@
 import camelcase from 'camelcase';
 import decamelize from 'decamelize';
 import handlebars from 'handlebars';
+import pluralize from 'pluralize';
 import './handlebars.helpers';
 import { GenTableColumn } from '../gen/entities/gen-table-column.entity';
 import { GenTable } from '../gen/entities/gen-table.entity';
@@ -30,6 +31,11 @@ interface CompileContext extends GenTable {
    * 常量值
    */
   constants: GenConstants;
+
+  /**
+   * 接口命名
+   */
+  controllerName: string;
 
   /**
    * 实体类命名格式
@@ -63,6 +69,7 @@ interface CompileContext extends GenTable {
 
 /**
  * 模板工具类
+ * @author vivy
  */
 export class TemplateUtils {
   /**
@@ -151,6 +158,11 @@ export class TemplateUtils {
      * 常量值
      */
     context.constants = GenConstants;
+
+    /**
+     * 接口命名
+     */
+    context.controllerName = pluralize(decamelize(table.businessName, { separator: '-' }));
 
     /**
      * 实体类命名格式

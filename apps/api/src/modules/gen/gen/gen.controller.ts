@@ -11,10 +11,8 @@ import {
   StreamableFile,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-
 import { AjaxResult } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
-
 import { ListGenDto, UpdateGenDto } from './dto/gen.dto';
 import { GenService } from './gen.service';
 
@@ -51,7 +49,7 @@ export class GenController {
    * 删除代码生成
    * @param tableIds 代码生成ID
    */
-  @Delete('delete/:tableIds')
+  @Delete(':tableIds')
   @Log({ title: '代码生成', operType: OperType.DELETE })
   async delete(
     @Param('tableIds', new ParseArrayPipe({ items: Number })) tableIds: number[],
@@ -64,7 +62,7 @@ export class GenController {
    * @param tableId 代码生成ID
    * @returns 代码生成详情
    */
-  @Get('info/:tableId')
+  @Get(':tableId')
   async info(@Param('tableId') tableId: number): Promise<AjaxResult> {
     return AjaxResult.success(await this.genService.info(tableId));
   }
@@ -74,7 +72,7 @@ export class GenController {
    * @param tableId 代码生成ID
    * @returns 数据库表列表
    */
-  @Get('dblist')
+  @Get('db/list')
   async dblist(@Query() gen: ListGenDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.genService.dblist(gen));
   }

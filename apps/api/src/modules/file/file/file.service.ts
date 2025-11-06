@@ -15,7 +15,6 @@ import { UploadFileVo } from './vo/file.vo';
 
 /**
  * 文件
- * @author vivy
  */
 @Injectable()
 export class FileService {
@@ -59,10 +58,11 @@ export class FileService {
 
   /**
    * 更新文件
+   * @param fileId 文件ID
    * @param file 文件信息
    */
-  async update(file: UpdateFileDto): Promise<void> {
-    await this.fileRepository.update(file.fileId, file);
+  async update(fileId: number, file: UpdateFileDto): Promise<void> {
+    await this.fileRepository.update(fileId, file);
   }
 
   /**

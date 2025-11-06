@@ -1,8 +1,6 @@
+import { BaseBusinessEntity, BaseIsEnums } from '@/modules/core';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
-
-import { BaseBusinessEntity, BaseStatusEnums } from '@/modules/core';
-
 import { GenTable } from './gen-table.entity';
 
 /**
@@ -73,9 +71,9 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否主键（1是 0否）',
+    comment: '是否主键（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isPk?: string;
 
@@ -84,9 +82,9 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否自增（1是 0否）',
+    comment: '是否自增（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isIncrement?: string;
 
@@ -95,9 +93,9 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否必填（1是 0否）',
+    comment: '是否必填（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isRequired?: string;
 
@@ -106,9 +104,9 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否为插入字段（1是 0否）',
+    comment: '是否为插入字段（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isInsert?: string;
 
@@ -117,9 +115,9 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否编辑字段（1是 0否）',
+    comment: '是否编辑字段（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isEdit?: string;
 
@@ -128,9 +126,9 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否列表字段（1是 0否）',
+    comment: '是否列表字段（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isList?: string;
 
@@ -139,9 +137,9 @@ export class GenTableColumn extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     nullable: true,
-    comment: '是否查询字段（1是 0否）',
+    comment: '是否查询字段（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isQuery?: string;
 

@@ -1,16 +1,14 @@
 import { Injectable } from '@nestjs/common';
-
 import { CacheConstants, DateUtils, SysLoginUser } from '@/modules/core';
 import { TokenService } from '@/modules/security';
-
-import { ListOnlineDto } from './dto/online.dto';
-import { OnlineInfoVo } from './vo/online.vo';
+import { ListOnlineUserDto } from './dto/online-user.dto';
+import { OnlineUserVo } from './vo/online-user.vo';
 
 /**
  * 在线用户
  */
 @Injectable()
-export class OnlineService {
+export class OnlineUserService {
   constructor(private tokenService: TokenService) {}
 
   /**
@@ -18,12 +16,13 @@ export class OnlineService {
    * @param dto 查询信息
    * @returns 在线用户列表
    */
-  async list(dto: ListOnlineDto): Promise<OnlineInfoVo[]> {
+  async list(dto: ListOnlineUserDto): Promise<OnlineUserVo[]> {
+    const redis = this.tokenService.getRedis();
     const { loginIp = '', userName = '' } = dto;
-    const keys = await this.tokenService.redis.keys(`${CacheConstants.LOGIN_TOKEN_KEY}*`);
-    const promises = keys.map(async (key) => JSON.parse(await this.tokenService.redis.get(key)));
+    const keys = await redis.keys(`${CacheConstants.LOGIN_TOKEN_KEY}*`);
+    const promises = keys.map(async (key) => JSON.parse(await redis.get(key)));
     const loginUserList: SysLoginUser[] = await Promise.all(promises);
-    const onlineUserList: OnlineInfoVo[] = loginUserList
+    const onlineUserList: OnlineUserVo[] = loginUserList
       .filter((user) => {
         return user.loginIp.includes(loginIp) && user.userName.includes(userName);
       })
@@ -45,6 +44,7 @@ export class OnlineService {
    * @param userSk 用户会话编号
    */
   async logout(userSk: string): Promise<void> {
-    await this.tokenService.redis.del(`${CacheConstants.LOGIN_TOKEN_KEY}${userSk}`);
+    const redis = this.tokenService.getRedis();
+    await redis.del(`${CacheConstants.LOGIN_TOKEN_KEY}${userSk}`);
   }
 }

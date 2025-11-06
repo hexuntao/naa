@@ -37,7 +37,7 @@ export class SysUser extends BaseBusinessEntity {
   /**
    * 手机号码
    */
-  phone?: string;
+  phonenumber?: string;
 
   /**
    * 用户性别（0男 1女 2未知）
@@ -55,12 +55,7 @@ export class SysUser extends BaseBusinessEntity {
   password: string;
 
   /**
-   * 用户状态（1正常 0停用）
+   * 用户状态（0正常 1停用 2删除）
    */
   status: string;
-
-  /**
-   * 删除标志（0存在 1删除）
-   */
-  delFlag: string;
 }
