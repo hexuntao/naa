@@ -1,7 +1,6 @@
+import { BaseBusinessEntity, BaseStatusEnums } from '@/modules/core';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
-import { BaseBusinessEntity, BaseStatusEnums } from '@/modules/core';
 
 /**
  * 部门表
@@ -20,12 +19,23 @@ export class SysDept extends BaseBusinessEntity {
   @Column({
     name: 'parent_id',
     type: 'bigint',
-    nullable: true,
+    default: 0,
     comment: '父部门ID',
   })
   @IsInt()
   @IsOptional()
-  parentId?: number;
+  parentId: number;
+
+  @Column({
+    name: 'ancestors',
+    type: 'varchar',
+    length: 200,
+    default: '0',
+    comment: '祖级列表',
+  })
+  @MaxLength(200)
+  @IsOptional()
+  ancestors: string;
 
   @Column({
     name: 'dept_name',
@@ -51,8 +61,8 @@ export class SysDept extends BaseBusinessEntity {
     name: 'status',
     type: 'char',
     length: 1,
-    default: '1',
-    comment: '部门状态（1正常 0停用）',
+    default: '0',
+    comment: '部门状态（0正常 1停用）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()

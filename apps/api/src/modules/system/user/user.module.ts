@@ -2,9 +2,9 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ConfigModule } from '@/modules/system/config/config.module';
+import { DeptModule } from '@/modules/system/dept/dept.module';
 import { MenuModule } from '@/modules/system/menu/menu.module';
 import { RoleModule } from '@/modules/system/role/role.module';
-
 import { SysUserPost } from './entities/sys-user-post.entity';
 import { SysUserRole } from './entities/sys-user-role.entity';
 import { SysUser } from './entities/sys-user.entity';
@@ -19,6 +19,7 @@ import { UserService } from './user.service';
 @Module({
   imports: [
     MenuModule,
+    DeptModule,
     RoleModule,
     ConfigModule,
     TypeOrmModule.forFeature([SysUser, SysUserRole, SysUserPost]),

@@ -1,6 +1,5 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpStatus, Logger } from '@nestjs/common';
 import { Request, Response } from 'express';
-
 import { AjaxResult } from '../class/ajax-result';
 import { NotPermissionException } from '../exceptions/auth/not-permission.exception';
 import { NotRoleException } from '../exceptions/auth/not-role.exception';
@@ -38,7 +37,7 @@ export class ServiceExceptionFilter implements ExceptionFilter {
   /**
    * 默认异常
    */
-  private DefaultException(exception: NotRoleException, request: Request): AjaxResult {
+  private DefaultException(exception: ServiceException, request: Request): AjaxResult {
     this.logger.error({ url: request.url, message: exception.getMessage() });
     return AjaxResult.error(exception.getMessage(), exception.getCode());
   }
@@ -62,7 +61,7 @@ export class ServiceExceptionFilter implements ExceptionFilter {
   /**
    * 未能通过的验证异常
    */
-  private ValidatorException(exception: NotPermissionException, request: Request): AjaxResult {
+  private ValidatorException(exception: ValidatorException, request: Request): AjaxResult {
     this.logger.error({
       url: request.url,
       body: request.body,
