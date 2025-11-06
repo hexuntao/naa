@@ -3,8 +3,8 @@ import { HttpException } from '@nestjs/common';
 import { ModuleRef } from '@nestjs/core';
 import { Job as BullJob } from 'bull';
 import { JOB_BULL_NAME } from './constants/bull.constants';
-import { JobLog } from './entities/job-log.entity';
-import { Job } from './entities/job.entity';
+import { SysJobLog } from './entities/sys-job-log.entity';
+import { SysJob } from './entities/sys-job.entity';
 import { JobLogService } from './job-log.service';
 import { JobService } from './job.service';
 
@@ -17,7 +17,7 @@ export class JobProcessor {
   ) {}
 
   @Process()
-  async handle(job: BullJob<Job>) {
+  async handle(job: BullJob<SysJob>) {
     const { data } = job;
     await this.jobService.checkInvokeTargetAllowed(data.invokeTarget);
 
@@ -29,9 +29,9 @@ export class JobProcessor {
   }
 
   @OnQueueCompleted()
-  async onCompleted(job: BullJob<Job>) {
+  async onCompleted(job: BullJob<SysJob>) {
     const { data } = job;
-    const jobLog = new JobLog();
+    const jobLog = new SysJobLog();
     jobLog.jobId = data.jobId;
     jobLog.jobName = data.jobName;
     jobLog.jobGroup = data.jobGroup;
@@ -43,9 +43,9 @@ export class JobProcessor {
   }
 
   @OnQueueFailed()
-  async onFailed(job: BullJob<Job>, err: Error | HttpException) {
+  async onFailed(job: BullJob<SysJob>, err: Error | HttpException) {
     const { data } = job;
-    const jobLog = new JobLog();
+    const jobLog = new SysJobLog();
     jobLog.jobId = data.jobId;
     jobLog.jobName = data.jobName;
     jobLog.jobGroup = data.jobGroup;

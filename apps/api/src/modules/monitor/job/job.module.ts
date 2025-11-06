@@ -1,8 +1,8 @@
 import { BullModule } from '@nestjs/bull';
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { JobLog } from './entities/job-log.entity';
-import { Job } from './entities/job.entity';
+import { SysJobLog } from './entities/sys-job-log.entity';
+import { SysJob } from './entities/sys-job.entity';
 import { JobLogController } from './job-log.controller';
 import { JobLogService } from './job-log.service';
 import { JobController } from './job.controller';
@@ -28,7 +28,7 @@ const taskAliasProviders = taskProviders.map<Provider>((task) => {
     BullModule.registerQueue({
       name: JOB_BULL_NAME,
     }),
-    TypeOrmModule.forFeature([Job, JobLog]),
+    TypeOrmModule.forFeature([SysJob, SysJobLog]),
   ],
   controllers: [JobController, JobLogController],
   providers: [

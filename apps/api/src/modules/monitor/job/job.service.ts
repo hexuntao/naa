@@ -6,7 +6,7 @@ import { isNotEmpty } from 'class-validator';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { DataSource, In, Like, Repository } from 'typeorm';
 import { ListJobDto, CreateJobDto, UpdateJobDto } from './dto/job.dto';
-import { Job } from './entities/job.entity';
+import { SysJob } from './entities/sys-job.entity';
 import { JobQueue } from './job.queue';
 import { TASKABLE_METADATA } from './utils/job.constants';
 
@@ -23,8 +23,8 @@ export class JobService {
     @InjectDataSource()
     private dataSource: DataSource,
 
-    @InjectRepository(Job)
-    private jobRepository: Repository<Job>,
+    @InjectRepository(SysJob)
+    private jobRepository: Repository<SysJob>,
   ) {}
 
   /**
@@ -32,8 +32,8 @@ export class JobService {
    * @param job 定时任务信息
    * @returns 定时任务列表
    */
-  async list(job: ListJobDto): Promise<Pagination<Job>> {
-    return paginate<Job>(
+  async list(job: ListJobDto): Promise<Pagination<SysJob>> {
+    return paginate<SysJob>(
       this.jobRepository,
       {
         page: job.page,
@@ -84,7 +84,7 @@ export class JobService {
   async delete(jobIds: number[]): Promise<void> {
     const jobs = await this.jobRepository.findBy({ jobId: In(jobIds) });
     await this.dataSource.transaction(async (manager) => {
-      await manager.delete(Job, jobIds);
+      await manager.delete(SysJob, jobIds);
       await Promise.all(jobs.map((job) => this.jobQueue.stop(job)));
     });
   }
@@ -94,7 +94,7 @@ export class JobService {
    * @param jobId 定时任务ID
    * @returns 定时任务详情
    */
-  async info(jobId: number): Promise<Job> {
+  async info(jobId: number): Promise<SysJob> {
     return this.jobRepository.findOneBy({ jobId });
   }
 
