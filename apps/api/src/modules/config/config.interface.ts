@@ -1,3 +1,5 @@
+import { FactoryProvider } from '@nestjs/common';
+
 export interface ConfigOptions<T = any> {
   /**
    * 配置文件环境
@@ -18,4 +20,10 @@ export interface ConfigOptions<T = any> {
    * 配置数据
    */
   data?: T;
+}
+
+export interface ConfigAsyncOptions {
+  name?: string;
+  useFactory: (...args: any[]) => Promise<ConfigOptions> | ConfigOptions;
+  inject?: FactoryProvider['inject'];
 }
