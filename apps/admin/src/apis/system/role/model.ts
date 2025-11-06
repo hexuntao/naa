@@ -14,7 +14,7 @@ export interface RoleModel {
   /** 显示顺序 */
   roleSort: number;
 
-  /** 角色状态（1正常 0停用） */
+  /** 角色状态（0正常 1停用） */
   status: string;
 }
 
@@ -39,7 +39,7 @@ export interface ListRoleParams extends PaginateParams {
   /** 角色编码 */
   roleCode?: string;
 
-  /** 角色状态（1正常 0停用） */
+  /** 角色状态（0正常 1停用） */
   status?: string;
 }
 
@@ -57,7 +57,7 @@ export interface CreateRoleParams extends Omit<RoleModel, 'roleId'> {
 /**
  * 更新角色
  */
-export interface UpdateRoleParams extends RoleModel {
+export interface UpdateRoleParams extends Omit<RoleModel, 'roleId'> {
   /** 菜单权限 */
   menuIds: number[];
 

@@ -2,8 +2,8 @@ import { Injectable } from '@nestjs/common';
 
 import { BaseStatusEnums, IpUtils, RequestContext } from '@/modules/core';
 import { LoginType } from '@/modules/logger';
-import { CreateLoginLogDto } from '@/modules/system/login-log/dto/login-log.dto';
-import { LoginLogService } from '@/modules/system/login-log/login-log.service';
+import { LoginLogService } from '@/modules/monitor/login-log/login-log.service';
+import { CreateLoginLogDto } from '@/modules/monitor/login-log/dto/login-log.dto';
 
 @Injectable()
 export class LogService {

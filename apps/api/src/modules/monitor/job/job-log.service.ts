@@ -8,7 +8,6 @@ import { JobLog } from './entities/job-log.entity';
 
 /**
  * 定时任务日志
- * @author vivy
  */
 @Injectable()
 export class JobLogService {

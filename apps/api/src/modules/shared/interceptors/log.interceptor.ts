@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 
 import { LogInterceptor } from '@/modules/logger';
-import { OperLogService } from '@/modules/system/oper-log/oper-log.service';
+import { OperLogService } from '@/modules/monitor/oper-log/oper-log.service';
 
 /**
  * 操作日志记录拦截器

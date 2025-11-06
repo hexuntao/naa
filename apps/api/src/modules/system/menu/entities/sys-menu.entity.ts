@@ -1,7 +1,6 @@
+import { BaseBusinessEntity, BaseIsEnums, BaseStatusEnums } from '@/modules/core';
 import { IsEnum, IsIn, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
-import { BaseBusinessEntity, BaseStatusEnums } from '@/modules/core';
 
 /**
  * 菜单权限表
@@ -61,8 +60,8 @@ export class SysMenu extends BaseBusinessEntity {
     name: 'status',
     type: 'char',
     length: 1,
-    default: '1',
-    comment: '菜单状态（1正常 0停用）',
+    default: '0',
+    comment: '菜单状态（0正常 1停用）',
   })
   @IsEnum(BaseStatusEnums)
   @IsOptional()
@@ -127,10 +126,10 @@ export class SysMenu extends BaseBusinessEntity {
     name: 'is_visible',
     type: 'char',
     length: 1,
-    default: '0',
-    comment: '是否显示（1是 0否）',
+    default: '1',
+    comment: '是否显示（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isVisible: string;
 
@@ -139,9 +138,9 @@ export class SysMenu extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     default: '0',
-    comment: '是否为外链（1是 0否）',
+    comment: '是否为外链（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isLink: string;
 
@@ -150,9 +149,9 @@ export class SysMenu extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     default: '0',
-    comment: '是否为内嵌（1是 0否）',
+    comment: '是否为内嵌（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isFrame: string;
 
@@ -161,9 +160,9 @@ export class SysMenu extends BaseBusinessEntity {
     type: 'char',
     length: 1,
     default: '0',
-    comment: '是否缓存（1是 0否）',
+    comment: '是否缓存（0否 1是）',
   })
-  @IsEnum(BaseStatusEnums)
+  @IsEnum(BaseIsEnums)
   @IsOptional()
   isCache: string;
 }

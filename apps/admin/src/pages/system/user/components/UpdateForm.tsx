@@ -60,11 +60,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
    */
   const handleSubmit = async (values: CreateUserParams) => {
     if (record) {
-      await updateUser({
-        ...values,
-        userId: record.userId,
-        userName: record.userName,
-      });
+      await updateUser(record.userId, values);
     } else {
       await addUser(values);
     }
@@ -88,15 +84,13 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
       }}
     >
       <ProFormText name="nickName" label="用户昵称" rules={[{ required: true, max: 50 }]} />
+      <ProFormText name="userName" label="用户名称" rules={[{ required: true, max: 50 }]} />
       {record ? null : (
-        <>
-          <ProFormText name="userName" label="用户名称" rules={[{ required: true, max: 50 }]} />
-          <ProFormText.Password
-            name="password"
-            label="用户密码"
-            rules={[{ required: true, max: 36 }]}
-          />
-        </>
+        <ProFormText.Password
+          name="password"
+          label="用户密码"
+          rules={[{ required: true, max: 36 }]}
+        />
       )}
       <ProFormTreeSelect
         name="deptId"
@@ -106,7 +100,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
           fieldNames: { label: 'deptName', value: 'deptId' },
         }}
       />
-      <ProFormText name="phone" label="手机号码" rules={[{ max: 11 }]} />
+      <ProFormText name="phonenumber" label="手机号码" rules={[{ max: 11 }]} />
       <ProFormText name="email" label="邮箱" rules={[{ max: 50 }]} />
       <ProFormSelect name="sex" label="用户性别" fieldProps={{ options: toSelect(sysUserSex) }} />
       <ProFormRadio.Group

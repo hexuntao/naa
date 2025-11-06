@@ -1,6 +1,6 @@
 import type { Settings as LayoutSettings, ProLayoutProps } from '@ant-design/pro-components';
 import { history } from '@umijs/max';
-import { getLoginUserInfo } from '@/apis/auth/login';
+import { getUserInfo } from '@/apis/auth/login';
 import { PageEnum } from '@/enums/pageEnum';
 import { getToken, removeToken } from '@/utils/auth';
 import { getThemeSetting } from '@/utils/setting';
@@ -33,7 +33,7 @@ export async function getInitialState(): Promise<InitialState> {
   const defaultSettings = getThemeSetting();
   const fetchUserInfo = async () => {
     try {
-      const { roles, permissions, sysUser } = await getLoginUserInfo();
+      const { roles, permissions, sysUser } = await getUserInfo();
       return {
         roles,
         permissions,

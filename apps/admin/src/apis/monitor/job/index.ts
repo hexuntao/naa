@@ -14,7 +14,7 @@ export * from './model';
  * 查询定时任务列表
  */
 export function listJob(params: ListJobParams) {
-  return request<Pagination<JobModel>>('/job/list', {
+  return request<Pagination<JobModel>>(`/jobs`, {
     method: RequestEnum.GET,
     params,
   });
@@ -24,7 +24,7 @@ export function listJob(params: ListJobParams) {
  * 添加定时任务
  */
 export function addJob(params: CreateJobParams) {
-  return request('/job/add', {
+  return request(`/jobs`, {
     method: RequestEnum.POST,
     data: params,
   });
@@ -33,8 +33,8 @@ export function addJob(params: CreateJobParams) {
 /**
  * 更新定时任务
  */
-export function updateJob(params: UpdateJobParams) {
-  return request('/job/update', {
+export function updateJob(jobId: number, params: UpdateJobParams) {
+  return request(`/jobs/${jobId}`, {
     method: RequestEnum.PUT,
     data: params,
   });
@@ -43,8 +43,8 @@ export function updateJob(params: UpdateJobParams) {
 /**
  * 删除定时任务
  */
-export function deleteJob(jobIds: React.Key) {
-  return request(`/job/delete/${jobIds}`, {
+export function deleteJob(jobIds: number | string) {
+  return request(`/jobs/${jobIds}`, {
     method: RequestEnum.DELETE,
   });
 }
@@ -52,8 +52,8 @@ export function deleteJob(jobIds: React.Key) {
 /**
  * 查询定时任务详情
  */
-export function infoJob(jobId: React.Key) {
-  return request<JobModel>(`/job/info/${jobId}`, {
+export function infoJob(jobId: number) {
+  return request<JobModel>(`/jobs/${jobId}`, {
     method: RequestEnum.GET,
   });
 }
@@ -61,8 +61,8 @@ export function infoJob(jobId: React.Key) {
 /**
  * 执行一次定时任务
  */
-export function onceJob(jobId: React.Key) {
-  return request<JobModel>(`/job/once/${jobId}`, {
+export function onceJob(jobId: number) {
+  return request<JobModel>(`/jobs/${jobId}/once`, {
     method: RequestEnum.POST,
   });
 }
@@ -71,7 +71,7 @@ export function onceJob(jobId: React.Key) {
  * 查询任务日志列表
  */
 export function listJobLog(params: ListJobLogParams) {
-  return request<Pagination<JobLogModel>>('/job/log/list', {
+  return request<Pagination<JobLogModel>>(`/job/logs`, {
     method: RequestEnum.GET,
     params,
   });
@@ -81,7 +81,7 @@ export function listJobLog(params: ListJobLogParams) {
  * 清空任务日志列表
  */
 export function clearJobLog() {
-  return request('/job/log/clear', {
+  return request(`/job/logs/clear`, {
     method: RequestEnum.DELETE,
   });
 }

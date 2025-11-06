@@ -1,9 +1,6 @@
 import { OmitType } from '@nestjs/mapped-types';
-
-import { Allow } from 'class-validator';
-
 import { PaginateDto } from '@/modules/core';
-
+import { Allow } from 'class-validator';
 import { SysConfig } from '../entities/sys-config.entity';
 
 /**
@@ -18,7 +15,7 @@ export class ListConfigDto extends PaginateDto {
   @Allow()
   configKey?: string;
 
-  /** 状态（1正常 0停用） */
+  /** 状态（0正常 1停用） */
   @Allow()
   status?: string;
 }
@@ -31,4 +28,4 @@ export class CreateConfigDto extends OmitType(SysConfig, ['configId'] as const) 
 /**
  * 更新参数配置
  */
-export class UpdateConfigDto extends OmitType(SysConfig, [] as const) {}
+export class UpdateConfigDto extends OmitType(SysConfig, ['configId'] as const) {}

@@ -3,7 +3,6 @@ import { extname } from 'path';
 
 /**
  * 文件工具类
- * @author vivy
  */
 export class FileUtils {
   /**

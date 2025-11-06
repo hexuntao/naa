@@ -1,9 +1,6 @@
 import { OmitType } from '@nestjs/mapped-types';
-
-import { Allow, IsArray, IsOptional } from 'class-validator';
-
 import { PaginateDto } from '@/modules/core';
-
+import { Allow, IsArray, IsOptional } from 'class-validator';
 import { SysRole } from '../entities/sys-role.entity';
 
 /**
@@ -18,7 +15,7 @@ export class ListRoleDto extends PaginateDto {
   @Allow()
   roleCode?: string;
 
-  /** 角色状态（1正常 0停用） */
+  /** 角色状态（0正常 1停用） */
   @Allow()
   status?: string;
 }
@@ -41,7 +38,7 @@ export class CreateRoleDto extends OmitType(SysRole, ['roleId'] as const) {
 /**
  * 更新角色
  */
-export class UpdateRoleDto extends OmitType(SysRole, [] as const) {
+export class UpdateRoleDto extends OmitType(SysRole, ['roleId'] as const) {
   /** 菜单权限 */
   @IsArray()
   @IsOptional()

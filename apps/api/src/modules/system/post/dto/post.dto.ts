@@ -1,9 +1,6 @@
 import { OmitType } from '@nestjs/mapped-types';
-
-import { Allow } from 'class-validator';
-
 import { PaginateDto } from '@/modules/core';
-
+import { Allow } from 'class-validator';
 import { SysPost } from '../entities/sys-post.entity';
 
 /**
@@ -18,7 +15,7 @@ export class ListPostDto extends PaginateDto {
   @Allow()
   postCode?: string;
 
-  /** 岗位状态（1正常 0停用） */
+  /** 岗位状态（0正常 1停用） */
   @Allow()
   status?: string;
 }
@@ -31,4 +28,4 @@ export class CreatePostDto extends OmitType(SysPost, ['postId'] as const) {}
 /**
  * 更新岗位
  */
-export class UpdatePostDto extends OmitType(SysPost, [] as const) {}
+export class UpdatePostDto extends OmitType(SysPost, ['postId'] as const) {}

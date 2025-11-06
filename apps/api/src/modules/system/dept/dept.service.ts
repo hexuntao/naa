@@ -1,11 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
-import { Repository } from 'typeorm';
-
 import { TreeUtils, BaseStatusEnums } from '@/modules/core';
+import { Repository } from 'typeorm';
 import { SysUser } from '@/modules/system/user/entities/sys-user.entity';
-
 import { CreateDeptDto, UpdateDeptDto } from './dto/dept.dto';
 import { SysDept } from './entities/sys-dept.entity';
 import { DeptTreeVo } from './vo/dept.vo';
@@ -49,9 +46,10 @@ export class DeptService {
   /**
    * 更新部门
    * @param dept 部门信息
+   * @param deptId 部门ID
    */
-  async update(dept: UpdateDeptDto): Promise<void> {
-    await this.deptRepository.update(dept.deptId, dept);
+  async update(deptId: number, dept: UpdateDeptDto): Promise<void> {
+    await this.deptRepository.update(deptId, dept);
   }
 
   /**

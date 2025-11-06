@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { LoginLogModule } from '@/modules/system/login-log/login-log.module';
+import { LoginLogModule } from '@/modules/monitor/login-log/login-log.module';
 import { ConfigModule } from '@/modules/system/config/config.module';
 import { MenuModule } from '@/modules/system/menu/menu.module';
 import { UserModule } from '@/modules/system/user/user.module';

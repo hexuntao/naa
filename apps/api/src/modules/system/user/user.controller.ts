@@ -14,11 +14,9 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-
-import { AjaxResult } from '@/modules/core';
+import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
-
 import { ListUserDto, CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { UserService } from './user.service';
 
@@ -27,16 +25,16 @@ import { UserService } from './user.service';
  */
 @ApiTags('用户管理')
 @ApiBearerAuth()
-@Controller('user')
+@Controller('users')
 export class UserController {
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService, private securityContext: SecurityContext) {}
 
   /**
    * 用户列表
    * @param user 用户信息
    * @returns 用户列表
    */
-  @Get('list')
+  @Get()
   @RequirePermissions('system:user:list')
   async list(@Query() user: ListUserDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.userService.list(user));
@@ -46,55 +44,58 @@ export class UserController {
    * 添加用户
    * @param user 用户信息
    */
-  @Post('add')
+  @Post()
   @Log({ title: '用户管理', operType: OperType.INSERT })
   @RequirePermissions('system:user:add')
   async add(@Body() user: CreateUserDto): Promise<AjaxResult> {
-    if (!(await this.userService.checkUserNameUnique(user))) {
+    if (!(await this.userService.checkUserNameUnique(user.userName))) {
       return AjaxResult.error(`新增用户${user.userName}失败，登录账号已存在`);
     }
 
-    if (!(await this.userService.checkUserEmailUnique(user))) {
+    if (!(await this.userService.checkUserEmailUnique(user.email))) {
       return AjaxResult.error(`新增用户${user.userName}失败，邮箱账号已存在`);
     }
 
-    if (!(await this.userService.checkUserPhoneUnique(user))) {
+    if (!(await this.userService.checkUserPhoneUnique(user.phonenumber))) {
       return AjaxResult.error(`新增用户${user.userName}失败，手机号码已存在`);
     }
 
+    user.createBy = this.securityContext.getUserName();
     return AjaxResult.success(await this.userService.add(user));
   }
 
   /**
    * 更新用户
+   * @param userId 用户ID
    * @param user 用户信息
    */
-  @Put('update')
+  @Put(':userId')
   @Log({ title: '用户管理', operType: OperType.UPDATE })
   @RequirePermissions('system:user:update')
-  async update(@Body() user: UpdateUserDto): Promise<AjaxResult> {
+  async update(@Param('userId') userId: number, @Body() user: UpdateUserDto): Promise<AjaxResult> {
     this.userService.checkUserAllowed(user);
 
-    if (!(await this.userService.checkUserNameUnique(user))) {
+    if (!(await this.userService.checkUserNameUnique(user.userName, userId))) {
       return AjaxResult.error(`修改用户${user.userName}失败，登录账号已存在`);
     }
 
-    if (!(await this.userService.checkUserEmailUnique(user))) {
+    if (!(await this.userService.checkUserEmailUnique(user.email, userId))) {
       return AjaxResult.error(`修改用户${user.userName}失败，邮箱账号已存在`);
     }
 
-    if (!(await this.userService.checkUserPhoneUnique(user))) {
+    if (!(await this.userService.checkUserPhoneUnique(user.phonenumber, userId))) {
       return AjaxResult.error(`修改用户${user.userName}失败，手机号码已存在`);
     }
 
-    return AjaxResult.success(await this.userService.update(user));
+    user.updateBy = this.securityContext.getUserName();
+    return AjaxResult.success(await this.userService.update(userId, user));
   }
 
   /**
    * 删除用户
    * @param userIds 用户ID
    */
-  @Delete('delete/:userIds')
+  @Delete(':userIds')
   @Log({ title: '用户管理', operType: OperType.DELETE })
   @RequirePermissions('system:user:delete')
   async delete(
@@ -109,7 +110,7 @@ export class UserController {
    * @param userId 用户ID
    * @returns 用户详情
    */
-  @Get('info/:userId')
+  @Get(':userId')
   @RequirePermissions('system:user:query')
   async info(@Param('userId') userId: number): Promise<AjaxResult> {
     return AjaxResult.success(await this.userService.info(userId));
@@ -118,7 +119,7 @@ export class UserController {
   /**
    * 导出用户
    */
-  @Get('export')
+  @Post('export')
   @Log({ title: '用户管理', operType: OperType.EXPORT })
   @RequirePermissions('system:user:export')
   async export() {
@@ -129,7 +130,7 @@ export class UserController {
   /**
    * 导出模板
    */
-  @Get('export/template')
+  @Post('exportTemplate')
   @Log({ title: '用户管理', operType: OperType.EXPORT })
   @RequirePermissions('system:user:export')
   async exportTemplate() {

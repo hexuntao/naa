@@ -13,7 +13,7 @@ export * from './model';
  * 查询用户列表
  */
 export function listUser(params: ListUserParams) {
-  return request<Pagination<UserModel>>('/user/list', {
+  return request<Pagination<UserModel>>(`/users`, {
     method: RequestEnum.GET,
     params,
   });
@@ -23,7 +23,7 @@ export function listUser(params: ListUserParams) {
  * 添加用户
  */
 export function addUser(params: CreateUserParams) {
-  return request('/user/add', {
+  return request(`/users`, {
     method: RequestEnum.POST,
     data: params,
   });
@@ -32,8 +32,8 @@ export function addUser(params: CreateUserParams) {
 /**
  * 更新用户
  */
-export function updateUser(params: UpdateUserParams) {
-  return request('/user/update', {
+export function updateUser(userId: number, params: UpdateUserParams) {
+  return request(`/users/${userId}`, {
     method: RequestEnum.PUT,
     data: params,
   });
@@ -42,8 +42,8 @@ export function updateUser(params: UpdateUserParams) {
 /**
  * 删除用户
  */
-export function deleteUser(userIds: React.Key) {
-  return request(`/user/delete/${userIds}`, {
+export function deleteUser(userIds: number | string) {
+  return request(`/users/${userIds}`, {
     method: RequestEnum.DELETE,
   });
 }
@@ -51,8 +51,8 @@ export function deleteUser(userIds: React.Key) {
 /**
  * 查询用户详情
  */
-export function infoUser(userId: React.Key) {
-  return request<UserInfoResult>(`/user/info/${userId}`, {
+export function infoUser(userId: number) {
+  return request<UserInfoResult>(`/users/${userId}`, {
     method: RequestEnum.GET,
   });
 }
@@ -61,8 +61,8 @@ export function infoUser(userId: React.Key) {
  * 导出用户列表
  */
 export function exportUserList() {
-  return request(`/user/export`, {
-    method: RequestEnum.GET,
+  return request(`/users/export`, {
+    method: RequestEnum.POST,
     responseType: 'blob',
     getResponse: true,
   });
@@ -72,8 +72,8 @@ export function exportUserList() {
  * 导出用户模板
  */
 export function exportUserTemplate() {
-  return request(`/user/export/template`, {
-    method: RequestEnum.GET,
+  return request(`/users/exportTemplate`, {
+    method: RequestEnum.POST,
     responseType: 'blob',
     getResponse: true,
   });
@@ -83,7 +83,7 @@ export function exportUserTemplate() {
  * 导入用户列表
  */
 export function importUserList(data: FormData) {
-  return request(`/user/import`, {
+  return request(`/users/import`, {
     method: RequestEnum.POST,
     data,
     headers: {

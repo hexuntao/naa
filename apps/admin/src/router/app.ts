@@ -1,5 +1,5 @@
 import { history } from '@umijs/max';
-import { RouterTreeResult, getUserRouters } from '@/apis/system/menu';
+import { RouterTreeResult, getUserRouters } from '@/apis/auth/login';
 import { RuntimeConfig } from '@umijs/max';
 import { buildRoutes } from './helper/route';
 import { getToken, removeToken } from '@/utils/auth';

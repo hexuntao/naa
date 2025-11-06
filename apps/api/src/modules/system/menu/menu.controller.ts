@@ -1,10 +1,8 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-
-import { AjaxResult, UserId } from '@/modules/core';
+import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
-
 import { CreateMenuDto, UpdateMenuDto } from './dto/menu.dto';
 import { MenuService } from './menu.service';
 
@@ -13,9 +11,9 @@ import { MenuService } from './menu.service';
  */
 @ApiTags('菜单管理')
 @ApiBearerAuth()
-@Controller('menu')
+@Controller('menus')
 export class MenuController {
-  constructor(private menuService: MenuService) {}
+  constructor(private menuService: MenuService, private securityContext: SecurityContext) {}
 
   /**
    * 查询菜单树结构
@@ -30,10 +28,11 @@ export class MenuController {
    * 添加菜单
    * @param menu 菜单信息
    */
-  @Post('add')
+  @Post()
   @Log({ title: '菜单管理', operType: OperType.INSERT })
   @RequirePermissions('system:menu:add')
   async add(@Body() menu: CreateMenuDto): Promise<AjaxResult> {
+    menu.createBy = this.securityContext.getUserName();
     return AjaxResult.success(await this.menuService.add(menu));
   }
 
@@ -41,22 +40,23 @@ export class MenuController {
    * 更新菜单
    * @param menu 菜单信息
    */
-  @Put('update')
+  @Put(':menuId')
   @Log({ title: '菜单管理', operType: OperType.UPDATE })
   @RequirePermissions('system:menu:update')
-  async update(@Body() menu: UpdateMenuDto): Promise<AjaxResult> {
-    if (menu.menuId === menu.parentId) {
+  async update(@Param('menuId') menuId: number, @Body() menu: UpdateMenuDto): Promise<AjaxResult> {
+    if (menuId === menu.parentId) {
       return AjaxResult.error(`修改菜单${menu.menuName}失败，上级菜单不能是自己`);
     }
 
-    return AjaxResult.success(await this.menuService.update(menu));
+    menu.updateBy = this.securityContext.getUserName();
+    return AjaxResult.success(await this.menuService.update(menuId, menu));
   }
 
   /**
    * 删除菜单
    * @param menuId 菜单ID
    */
-  @Delete('delete/:menuId')
+  @Delete(':menuId')
   @Log({ title: '菜单管理', operType: OperType.DELETE })
   @RequirePermissions('system:menu:delete')
   async delete(@Param('menuId') menuId: number): Promise<AjaxResult> {
@@ -72,32 +72,22 @@ export class MenuController {
   }
 
   /**
-   * 菜单详情
-   * @param menuId 菜单ID
-   * @returns 菜单详情
-   */
-  @Get('info/:menuId')
-  @RequirePermissions('system:menu:query')
-  async info(@Param('menuId') menuId: number): Promise<AjaxResult> {
-    return AjaxResult.success(await this.menuService.info(menuId));
-  }
-
-  /**
    * 查询菜单选项树
    * @returns 菜单选项树
    */
-  @Get('tree/options')
+  @Get('treeOptions')
   async treeOptions(): Promise<AjaxResult> {
     return AjaxResult.success(await this.menuService.treeOptions());
   }
 
   /**
-   * 查询用户路由信息
-   * @returns 用户路由信息
+   * 菜单详情
+   * @param menuId 菜单ID
+   * @returns 菜单详情
    */
-  @Get('getUserRouters')
-  async getUserRouters(@UserId() userId: number): Promise<AjaxResult> {
-    const menus = await this.menuService.selectUserMenuTree(userId);
-    return AjaxResult.success(this.menuService.buildUmiMaxRouters(menus));
+  @Get(':menuId')
+  @RequirePermissions('system:menu:query')
+  async info(@Param('menuId') menuId: number): Promise<AjaxResult> {
+    return AjaxResult.success(await this.menuService.info(menuId));
   }
 }

@@ -5,26 +5,26 @@ import {
   ProFormText,
   ProFormSelect,
   ProFormRadio,
-} from '@ant-design/pro-components'
-import { useModel, useRequest } from '@umijs/max'
-import { useRef } from 'react'
-import { addNotice, updateNotice, infoNotice } from '@/apis/system/notice'
-import type { CreateNoticeParams, NoticeModel } from '@/apis/system/notice'
-import { ProFormWangEditor } from '@/components/WangEditor'
+} from '@ant-design/pro-components';
+import { useModel, useRequest } from '@umijs/max';
+import { useRef } from 'react';
+import { addNotice, updateNotice, infoNotice } from '@/apis/system/notice';
+import type { CreateNoticeParams, NoticeModel } from '@/apis/system/notice';
+import { ProFormWangEditor } from '@/components/WangEditor';
 
 interface UpdateFormProps extends DrawerFormProps {
-  record?: NoticeModel
+  record?: NoticeModel;
 }
 
 const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
-  const formRef = useRef<ProFormInstance>()
+  const formRef = useRef<ProFormInstance>();
 
   /**
    * 注册字典数据
    */
-  const { loadDict, toSelect } = useModel('dict')
-  const sysNoticeType = loadDict('sys_notice_type')
-  const sysNormalDisable = loadDict('sys_normal_disable')
+  const { loadDict, toSelect } = useModel('dict');
+  const sysNoticeType = loadDict('sys_notice_type');
+  const sysNormalDisable = loadDict('sys_normal_disable');
 
   /**
    * 获取初始化数据
@@ -32,13 +32,13 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
   const { run: runInfoNotice } = useRequest(infoNotice, {
     manual: true,
     onSuccess(data) {
-      formRef.current?.setFieldsValue(data)
+      formRef.current?.setFieldsValue(data);
     },
-  })
+  });
   const handleInitial = () => {
-    formRef.current?.resetFields()
-    record && runInfoNotice(record.noticeId)
-  }
+    formRef.current?.resetFields();
+    record && runInfoNotice(record.noticeId);
+  };
 
   /**
    * 提交表单
@@ -46,14 +46,11 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
    */
   const handleSubmit = async (values: CreateNoticeParams) => {
     if (record) {
-      await updateNotice({
-        ...values,
-        noticeId: record.noticeId,
-      })
+      await updateNotice(record.noticeId, values);
     } else {
-      await addNotice(values)
+      await addNotice(values);
     }
-  }
+  };
 
   return (
     <DrawerForm
@@ -64,16 +61,21 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
       formRef={formRef}
       title={record ? `编辑通知公告` : `新增通知公告`}
       onFinish={async (values: any) => {
-        await handleSubmit(values)
-        props.onFinish?.(values)
-        return true
+        await handleSubmit(values);
+        props.onFinish?.(values);
+        return true;
       }}
       onOpenChange={(open) => {
-        open && handleInitial()
-        props.onOpenChange?.(open)
+        open && handleInitial();
+        props.onOpenChange?.(open);
       }}
     >
-      <ProFormText name="noticeTitle" label="公告标题" rules={[{ required: true }]} fieldProps={{ maxLength: 50 }} />
+      <ProFormText
+        name="noticeTitle"
+        label="公告标题"
+        rules={[{ required: true }]}
+        fieldProps={{ maxLength: 50 }}
+      />
       <ProFormSelect
         name="noticeType"
         label="公告类型"
@@ -88,7 +90,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
       />
       <ProFormWangEditor name="noticeContent" label="公告内容" rules={[{ required: true }]} />
     </DrawerForm>
-  )
-}
+  );
+};
 
-export default UpdateForm
+export default UpdateForm;

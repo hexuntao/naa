@@ -90,10 +90,11 @@ export class RoleService {
 
   /**
    * 更新角色
+   * @param roleId 角色ID
    * @param role 角色信息
    */
-  async update(role: UpdateRoleDto): Promise<void> {
-    const { menuIds, deptIds, roleId, ...roleInfo } = role;
+  async update(roleId: number, role: UpdateRoleDto): Promise<void> {
+    const { menuIds, deptIds, ...roleInfo } = role;
 
     await this.dataSource.transaction(async (manager) => {
       // 修改角色信息
@@ -181,12 +182,11 @@ export class RoleService {
 
   /**
    * 校验角色名称是否唯一
-   * @param role 角色信息
+   * @param roleName 角色名称
+   * @param roleId 角色ID
    * @returns true 唯一 / false 不唯一
    */
-  async checkRoleNameUnique(role: Partial<SysRole>): Promise<boolean> {
-    const { roleId, roleName } = role;
-
+  async checkRoleNameUnique(roleName: string, roleId?: number): Promise<boolean> {
     const info = await this.roleRepository.findOneBy({ roleName });
     if (info && info.roleId !== roleId) {
       return false;
@@ -197,12 +197,11 @@ export class RoleService {
 
   /**
    * 校验角色编码是否唯一
-   * @param role 角色信息
+   * @param roleCode 角色编码
+   * @param roleId 角色ID
    * @returns true 唯一 / false 不唯一
    */
-  async checkRoleCodeUnique(role: Partial<SysRole>): Promise<boolean> {
-    const { roleId, roleCode } = role;
-
+  async checkRoleCodeUnique(roleCode: string, roleId?: number): Promise<boolean> {
     const info = await this.roleRepository.findOneBy({ roleCode });
     if (info && info.roleId !== roleId) {
       return false;

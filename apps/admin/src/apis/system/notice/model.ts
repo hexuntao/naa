@@ -3,19 +3,19 @@
  */
 export interface NoticeModel {
   /** 公告ID */
-  noticeId: number
+  noticeId: number;
 
   /** 公告标题 */
-  noticeTitle: string
+  noticeTitle: string;
 
   /** 公告类型（1通知 2公告） */
-  noticeType: string
+  noticeType: string;
 
   /** 公告内容 */
-  noticeContent: string
+  noticeContent: string;
 
   /** 公告状态（0正常 1关闭） */
-  status: string
+  status: string;
 }
 
 /**
@@ -23,18 +23,18 @@ export interface NoticeModel {
  */
 export interface ListNoticeParams extends PaginateParams {
   /** 公告标题 */
-  noticeTitle?: string
+  noticeTitle?: string;
 
   /** 公告类型（1通知 2公告） */
-  noticeType?: string
+  noticeType?: string;
 }
 
 /**
  * 添加通知公告
  */
-export type CreateNoticeParams = Omit<NoticeModel, 'noticeId'>
+export type CreateNoticeParams = Omit<NoticeModel, 'noticeId'>;
 
 /**
  * 更新通知公告
  */
-export type UpdateNoticeParams = NoticeModel
+export type UpdateNoticeParams = Omit<NoticeModel, 'noticeId'>;

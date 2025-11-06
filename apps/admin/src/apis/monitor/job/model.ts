@@ -20,7 +20,7 @@ export interface JobModel {
   /** Cron表达式 */
   cronExpression: string;
 
-  /** 状态（1正常 0停用） */
+  /** 状态（0正常 1停用） */
   status: string;
 
   /** 备注 */
@@ -40,7 +40,7 @@ export interface ListJobParams extends PaginateParams {
   /** 调用目标 */
   invokeTarget?: string;
 
-  /** 状态（1正常 0停用） */
+  /** 状态（0正常 1停用） */
   status?: string;
 }
 
@@ -52,7 +52,7 @@ export type CreateJobParams = Omit<JobModel, 'jobId'>;
 /**
  * 更新定时任务
  */
-export type UpdateJobParams = JobModel;
+export type UpdateJobParams = Omit<JobModel, 'jobId'>;
 
 /**
  * 任务日志信息
@@ -114,4 +114,4 @@ export type CreateJobLogParams = Omit<JobLogModel, 'jobLogId'>;
 /**
  * 更新任务日志
  */
-export type UpdateJobLogParams = JobLogModel;
+export type UpdateJobLogParams = Omit<JobLogModel, 'jobLogId'>;

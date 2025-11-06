@@ -10,11 +10,9 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-
-import { AjaxResult } from '@/modules/core';
+import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
-
 import { ConfigService } from './config.service';
 import { ListConfigDto, CreateConfigDto, UpdateConfigDto } from './dto/config.dto';
 
@@ -23,16 +21,16 @@ import { ListConfigDto, CreateConfigDto, UpdateConfigDto } from './dto/config.dt
  */
 @ApiTags('参数配置')
 @ApiBearerAuth()
-@Controller('config')
+@Controller('configs')
 export class ConfigController {
-  constructor(private configService: ConfigService) {}
+  constructor(private configService: ConfigService, private securityContext: SecurityContext) {}
 
   /**
    * 参数配置列表
    * @param config 参数配置信息
    * @returns 参数配置列表
    */
-  @Get('list')
+  @Get()
   @RequirePermissions('system:config:list')
   async list(@Query() config: ListConfigDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.configService.list(config));
@@ -42,40 +40,48 @@ export class ConfigController {
    * 添加参数配置
    * @param config 参数配置信息
    */
-  @Post('add')
+  @Post()
   @Log({ title: '参数配置', operType: OperType.INSERT })
   @RequirePermissions('system:config:add')
   async add(@Body() config: CreateConfigDto): Promise<AjaxResult> {
-    if (!(await this.configService.checkConfigKeyUnique(config))) {
+    if (!(await this.configService.checkConfigKeyUnique(config.configKey))) {
       return AjaxResult.error(`新增参数配置${config.configName}失败，参数键名已存在`);
     }
 
+    config.createBy = this.securityContext.getUserName();
     return AjaxResult.success(await this.configService.add(config));
   }
 
   /**
    * 更新参数配置
+   * @param configId 参数配置ID
    * @param config 参数配置信息
    */
-  @Put('update')
+  @Put(':configId')
   @Log({ title: '参数配置', operType: OperType.UPDATE })
   @RequirePermissions('system:config:update')
-  async update(@Body() config: UpdateConfigDto): Promise<AjaxResult> {
-    if (!(await this.configService.checkConfigKeyUnique(config))) {
+  async update(
+    @Param('configId') configId: number,
+    @Body() config: UpdateConfigDto,
+  ): Promise<AjaxResult> {
+    if (!(await this.configService.checkConfigKeyUnique(config.configKey, configId))) {
       return AjaxResult.error(`修改参数配置${config.configName}失败，参数键名已存在`);
     }
 
-    return AjaxResult.success(await this.configService.update(config));
+    config.updateBy = this.securityContext.getUserName();
+    return AjaxResult.success(await this.configService.update(configId, config));
   }
 
   /**
    * 删除参数配置
    * @param configIds 参数配置ID
    */
-  @Delete('delete/:configIds')
+  @Delete(':configIds')
   @Log({ title: '参数配置', operType: OperType.DELETE })
   @RequirePermissions('system:config:delete')
-  async delete(@Param('configIds', ParseArrayPipe) configIds: number[]): Promise<AjaxResult> {
+  async delete(
+    @Param('configIds', new ParseArrayPipe({ items: Number })) configIds: number[],
+  ): Promise<AjaxResult> {
     return AjaxResult.success(await this.configService.delete(configIds));
   }
 
@@ -84,7 +90,7 @@ export class ConfigController {
    * @param configId 参数配置ID
    * @returns 参数配置详情
    */
-  @Get('info/:configId')
+  @Get(':configId')
   @RequirePermissions('system:config:query')
   async info(@Param('configId') configId: number): Promise<AjaxResult> {
     return AjaxResult.success(await this.configService.info(configId));
@@ -95,9 +101,9 @@ export class ConfigController {
    * @param configKey 参数配置键名
    * @returns 参数配置键值
    */
-  @Get('value/:configKey')
+  @Get(':configKey/value')
   @RequirePermissions('system:config:query')
-  async getConfigValueByKey(@Param('configKey') configKey: string): Promise<AjaxResult> {
+  async value(@Param('configKey') configKey: string): Promise<AjaxResult> {
     return AjaxResult.success(await this.configService.value(configKey));
   }
 }
