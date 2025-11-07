@@ -18,22 +18,22 @@ export class CacheConstants {
   static readonly LOGIN_TOKEN_KEY = 'login_token:';
 
   /**
-   * 验证码 cache key
+   * 重复提交 cache key
+   */
+  static readonly REPEAT_SUBMIT_KEY = 'repeat_submit:';
+
+  /**
+   * 验证码
    */
   static readonly CAPTCHA_CODE_KEY = 'captcha_code:';
 
   /**
-   * 参数管理 cache key
+   * 参数管理
    */
   static readonly SYS_CONFIG_KEY = 'sys_config:';
 
   /**
-   * 字典管理 cache key
+   * 字典管理
    */
   static readonly SYS_DICT_KEY = 'sys_dict:';
-
-  /**
-   * 重复提交 cache key
-   */
-  static readonly REPEAT_SUBMIT_KEY = 'repeat_submit:';
 }

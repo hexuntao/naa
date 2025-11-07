@@ -1,12 +1,9 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-
+import { BaseStatusEnum } from '@/modules/core';
 import { Queue } from 'bull';
 import { Repository } from 'typeorm';
-
-import { BaseStatusEnum } from '@/modules/core';
-
 import { JOB_BULL_NAME } from './constants/bull.constants';
 import { SysJob } from './entities/sys-job.entity';
 
@@ -14,7 +11,7 @@ import { SysJob } from './entities/sys-job.entity';
  * 定时任务队列
  */
 @Injectable()
-export class JobQueue implements OnModuleInit {
+export class JobQueueService implements OnModuleInit {
   constructor(
     @InjectQueue(JOB_BULL_NAME)
     private queue: Queue,
@@ -24,13 +21,13 @@ export class JobQueue implements OnModuleInit {
   ) {}
 
   async onModuleInit() {
-    await this.initJobs();
+    await this.init();
   }
 
   /**
-   * 初始化任务，应用启动时调用
+   * 初始化任务
    */
-  async initJobs(): Promise<void> {
+  async init(): Promise<void> {
     // 停止所有的任务
     const oldJobs = await this.queue.getRepeatableJobs();
     await Promise.all(oldJobs.map((job) => this.queue.removeRepeatableByKey(job.key)));
@@ -71,9 +68,9 @@ export class JobQueue implements OnModuleInit {
    */
   async stop(job: SysJob): Promise<void> {
     const jobs = await this.queue.getRepeatableJobs();
-    const hasJob = jobs.find((item) => item.id === job.jobId.toString());
-    if (hasJob) {
-      await this.queue.removeRepeatableByKey(hasJob.key);
+    const item = jobs.find((item) => item.id === job.jobId.toString());
+    if (item) {
+      await this.queue.removeRepeatableByKey(item.key);
     }
   }
 }
