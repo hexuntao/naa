@@ -25,7 +25,7 @@ export class DictCacheService implements OnModuleInit {
   }
 
   /**
-   * 加载参数配置缓存
+   * 加载字典数据缓存
    */
   async init(): Promise<void> {
     const datas = await this.dictDataRepository.find({ order: { dictSort: 'ASC' } });
@@ -37,14 +37,7 @@ export class DictCacheService implements OnModuleInit {
   }
 
   /**
-   * 清空参数配置缓存
-   */
-  async clear(): Promise<void> {
-    await this.redis.del(`${CacheConstants.SYS_DICT_KEY}*`);
-  }
-
-  /**
-   * 重置参数配置缓存
+   * 重置字典数据缓存
    */
   async reset(): Promise<void> {
     await this.clear();
@@ -52,7 +45,7 @@ export class DictCacheService implements OnModuleInit {
   }
 
   /**
-   * 设置参数配置缓存
+   * 设置字典数据缓存
    * @param dictType 缓存 key
    */
   async set(dictType: string): Promise<void> {
@@ -61,7 +54,7 @@ export class DictCacheService implements OnModuleInit {
   }
 
   /**
-   * 查询参数配置缓存
+   * 查询字典数据缓存
    * @param dictType 缓存 key
    * @returns 缓存值
    */
@@ -71,11 +64,19 @@ export class DictCacheService implements OnModuleInit {
   }
 
   /**
-   * 删除参数配置缓存
+   * 删除字典数据缓存
    * @param dictType 缓存 key
    */
   async del(dictType: string): Promise<void> {
     await this.redis.del(this.getCacheKey(dictType));
+  }
+
+  /**
+   * 清空字典数据缓存
+   */
+  async clear(): Promise<void> {
+    const keys = await this.redis.keys(this.getCacheKey('*'));
+    await this.redis.del(keys);
   }
 
   /**
