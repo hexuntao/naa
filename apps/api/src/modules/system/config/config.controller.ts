@@ -13,6 +13,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
+import { ConfigCacheService } from './config-cache.service';
 import { ConfigService } from './config.service';
 import { ListConfigDto, CreateConfigDto, UpdateConfigDto } from './dto/config.dto';
 
@@ -23,7 +24,11 @@ import { ListConfigDto, CreateConfigDto, UpdateConfigDto } from './dto/config.dt
 @ApiBearerAuth()
 @Controller('configs')
 export class ConfigController {
-  constructor(private configService: ConfigService, private securityContext: SecurityContext) {}
+  constructor(
+    private configService: ConfigService,
+    private configCacheService: ConfigCacheService,
+    private securityContext: SecurityContext,
+  ) {}
 
   /**
    * 参数配置列表
@@ -70,6 +75,16 @@ export class ConfigController {
 
     config.updateBy = this.securityContext.getUserName();
     return AjaxResult.success(await this.configService.update(configId, config));
+  }
+
+  /**
+   * 刷新参数配置缓存
+   */
+  @Delete('refresh-cache')
+  @Log({ title: '参数配置', operType: OperType.DELETE })
+  @RequirePermissions('system:config:delete')
+  async refreshCache(): Promise<AjaxResult> {
+    return AjaxResult.success(await this.configCacheService.reset());
   }
 
   /**

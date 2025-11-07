@@ -67,4 +67,6 @@ declare type AccessPermission =
   | 'monitor:job:query'
   | 'monitor:job:add'
   | 'monitor:job:update'
-  | 'monitor:job:delete';
+  | 'monitor:job:delete'
+  | 'monitor:cache:query'
+  | 'monitor:cache:delete';

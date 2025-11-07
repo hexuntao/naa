@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { isNotEmpty } from 'class-validator';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { In, Like, Repository } from 'typeorm';
+import { DictCacheService } from './dict-cache.service';
 import { ListDictDataDto, CreateDictDataDto, UpdateDictDataDto } from './dto/dict-data.dto';
 import { SysDictData } from './entities/sys-dict-data.entity';
 
@@ -14,6 +15,7 @@ export class DictDataService {
   constructor(
     @InjectRepository(SysDictData)
     private dictDataRepository: Repository<SysDictData>,
+    private dictCacheService: DictCacheService,
   ) {}
 
   /**
@@ -47,6 +49,7 @@ export class DictDataService {
    */
   async add(dictData: CreateDictDataDto): Promise<void> {
     await this.dictDataRepository.insert(dictData);
+    await this.dictCacheService.set(dictData.dictType);
   }
 
   /**
@@ -56,6 +59,7 @@ export class DictDataService {
    */
   async update(dictId: number, dictData: UpdateDictDataDto): Promise<void> {
     await this.dictDataRepository.update(dictId, dictData);
+    await this.dictCacheService.set(dictData.dictType);
   }
 
   /**
@@ -63,7 +67,11 @@ export class DictDataService {
    * @param dictIds 字典数据ID
    */
   async delete(dictIds: number[]): Promise<void> {
-    await this.dictDataRepository.delete(dictIds);
+    for (const dictId of dictIds) {
+      const { dictType } = await this.dictDataRepository.findOneBy({ dictId });
+      await this.dictDataRepository.delete(dictId);
+      await this.dictCacheService.set(dictType);
+    }
   }
 
   /**
@@ -121,14 +129,8 @@ export class DictDataService {
    * @returns 字典数据选项列表
    */
   async options(dictType: string): Promise<SysDictData[]> {
-    return this.dictDataRepository.find({
-      order: {
-        dictSort: 'ASC',
-      },
-      where: {
-        dictType,
-      },
-    });
+    const datas = await this.dictCacheService.get(dictType);
+    return datas || [];
   }
 
   /**

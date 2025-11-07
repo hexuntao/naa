@@ -4,6 +4,7 @@ import { BaseStatusEnum } from '@/modules/core';
 import { isNotEmpty } from 'class-validator';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { Like, Repository } from 'typeorm';
+import { ConfigCacheService } from './config-cache.service';
 import { ListConfigDto, CreateConfigDto, UpdateConfigDto } from './dto/config.dto';
 import { SysConfig } from './entities/sys-config.entity';
 
@@ -15,6 +16,7 @@ export class ConfigService {
   constructor(
     @InjectRepository(SysConfig)
     private configRepository: Repository<SysConfig>,
+    private configCacheService: ConfigCacheService,
   ) {}
 
   /**
@@ -45,6 +47,9 @@ export class ConfigService {
    */
   async add(config: CreateConfigDto): Promise<void> {
     await this.configRepository.insert(config);
+    if (config.status === BaseStatusEnum.NORMAL) {
+      await this.configCacheService.set(config.configKey);
+    }
   }
 
   /**
@@ -53,7 +58,13 @@ export class ConfigService {
    * @param config 参数配置信息
    */
   async update(configId: number, config: UpdateConfigDto): Promise<void> {
+    const oldConfig = await this.configRepository.findOneBy({ configId });
+    await this.configCacheService.del(oldConfig.configKey);
+
     await this.configRepository.update(configId, config);
+    if (config.status === BaseStatusEnum.NORMAL) {
+      await this.configCacheService.set(config.configKey);
+    }
   }
 
   /**
@@ -61,7 +72,11 @@ export class ConfigService {
    * @param configIds 参数配置ID
    */
   async delete(configIds: number[]): Promise<void> {
-    await this.configRepository.delete(configIds);
+    for (const configId of configIds) {
+      const { configKey } = await this.configRepository.findOneBy({ configId });
+      await this.configRepository.delete(configId);
+      await this.configCacheService.del(configKey);
+    }
   }
 
   /**
@@ -79,11 +94,8 @@ export class ConfigService {
    * @returns 参数配置键值
    */
   async value(configKey: string): Promise<string> {
-    const info = await this.configRepository.findOneBy({
-      configKey,
-      status: BaseStatusEnum.NORMAL,
-    });
-    return info?.configValue;
+    const config = await this.configCacheService.get(configKey);
+    return config?.configValue;
   }
 
   /**

@@ -68,11 +68,23 @@ export class DictDataController {
     @Param('dictId') dictId: number,
     @Body() dictData: UpdateDictDataDto,
   ): Promise<AjaxResult> {
-    if (!(await this.dictDataService.checkDictLabelUnique(dictData.dictType, dictData.dictLabel))) {
+    if (
+      !(await this.dictDataService.checkDictLabelUnique(
+        dictData.dictType,
+        dictData.dictLabel,
+        dictId,
+      ))
+    ) {
       return AjaxResult.error(`修改字典${dictData.dictLabel}失败，字典标签已存在`);
     }
 
-    if (!(await this.dictDataService.checkDictValueUnique(dictData.dictType, dictData.dictValue))) {
+    if (
+      !(await this.dictDataService.checkDictValueUnique(
+        dictData.dictType,
+        dictData.dictValue,
+        dictId,
+      ))
+    ) {
       return AjaxResult.error(`修改字典${dictData.dictLabel}失败，字典键值已存在`);
     }
 

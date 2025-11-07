@@ -4,6 +4,7 @@ import { BaseStatusEnum, ServiceException } from '@/modules/core';
 import { isNotEmpty } from 'class-validator';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { DataSource, Like, Repository } from 'typeorm';
+import { DictCacheService } from './dict-cache.service';
 import { ListDictTypeDto, CreateDictTypeDto, UpdateDictTypeDto } from './dto/dict-type.dto';
 import { SysDictData } from './entities/sys-dict-data.entity';
 import { SysDictType } from './entities/sys-dict-type.entity';
@@ -22,6 +23,8 @@ export class DictTypeService {
 
     @InjectRepository(SysDictData)
     private dictDataRepository: Repository<SysDictData>,
+
+    private dictCacheService: DictCacheService,
   ) {}
 
   /**
@@ -72,8 +75,10 @@ export class DictTypeService {
           { dictType: oldDict.dictType },
           { dictType: dictType.dictType },
         );
+        await this.dictCacheService.del(oldDict.dictType);
       }
     });
+    await this.dictCacheService.set(dictType.dictType);
   }
 
   /**
@@ -87,9 +92,9 @@ export class DictTypeService {
       if (count > 0) {
         throw new ServiceException(`${dictName}已分配,不能删除`);
       }
+      await this.dictTypeRepository.delete(dictId);
+      await this.dictCacheService.del(dictType);
     }
-
-    await this.dictTypeRepository.delete(dictIds);
   }
 
   /**
