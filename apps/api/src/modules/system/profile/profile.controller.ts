@@ -2,7 +2,7 @@ import { Body, Controller, Get, Put, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AjaxResult } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
-import { UpdatePasswordDto, UpdateProfileDto } from './dto/profile.dto';
+import { UpdateAvatarDto, UpdatePasswordDto, UpdateProfileDto } from './dto/profile.dto';
 import { ProfileService } from './profile.service';
 
 /**
@@ -45,7 +45,7 @@ export class ProfileController {
    */
   @Post('avatar')
   @Log({ title: '个人信息', operType: OperType.UPDATE })
-  async avatar(@Body() avatar: string): Promise<AjaxResult> {
+  async avatar(@Body() avatar: UpdateAvatarDto): Promise<AjaxResult> {
     return AjaxResult.success(await this.profileService.avatar(avatar));
   }
 }

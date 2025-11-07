@@ -35,7 +35,8 @@ const Login = () => {
       setToken(token.access_token);
       await fetchUserInfo();
       message.loading('登录中...');
-      window.location.href = PageEnum.BASE_HOME;
+      // window.location.href = PageEnum.BASE_HOME;
+      window.location.assign(`${window.location.origin}/`);
     } catch (error: any) {
       message.error(error.message || '登录失败，请重试！');
     }
@@ -44,7 +45,7 @@ const Login = () => {
   return (
     <div className="flex flex-col justify-center h-[100vh]">
       <div>
-        <LoginForm title="Vivy" subTitle="基于 Nest & React 权限管理系统" onFinish={handleLogin}>
+        <LoginForm title="Naa" subTitle="基于 Nest & React 权限管理系统" onFinish={handleLogin}>
           <ProFormText
             name="username"
             initialValue={'admin'}

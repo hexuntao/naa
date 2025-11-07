@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { PasswordUtils, ServiceException } from '@/modules/core';
 import { TokenService } from '@/modules/security';
 import { DeptService } from '@/modules/system/dept/dept.service';
+import { PostService } from '@/modules/system/post/post.service';
 import { RoleService } from '@/modules/system/role/role.service';
 import { UserService } from '@/modules/system/user/user.service';
-import { UpdatePasswordDto, UpdateProfileDto } from './dto/profile.dto';
+import { UpdateAvatarDto, UpdatePasswordDto, UpdateProfileDto } from './dto/profile.dto';
 import { ProfileInfoVo } from './vo/profile.vo';
 
 /**
@@ -15,6 +16,7 @@ export class ProfileService {
   constructor(
     private deptService: DeptService,
     private roleService: RoleService,
+    private postService: PostService,
     private userService: UserService,
     private tokenService: TokenService,
   ) {}
@@ -28,6 +30,7 @@ export class ProfileService {
     const userInfo: ProfileInfoVo = loginUser.sysUser;
     userInfo.dept = userInfo.deptId && (await this.deptService.info(userInfo.deptId));
     userInfo.roles = await this.roleService.selectRoleByUserId(userInfo.userId);
+    userInfo.posts = await this.postService.selectPostByUserId(userInfo.userId);
     return userInfo;
   }
 
@@ -86,16 +89,14 @@ export class ProfileService {
    * 修改个人头像
    * @param avatar 头像地址
    */
-  async avatar(avatar: string): Promise<void> {
+  async avatar(avatar: UpdateAvatarDto): Promise<void> {
     const token = this.tokenService.getToken();
     const loginUser = await this.tokenService.getLoginUser(token);
 
-    await this.userService.updateBasicInfo(loginUser.userId, {
-      avatar,
-    });
+    await this.userService.updateBasicInfo(loginUser.userId, avatar);
 
     // 更新缓存用户信息
-    Object.assign(loginUser.sysUser, { avatar });
+    Object.assign(loginUser.sysUser, avatar);
     await this.tokenService.setLoginUser(loginUser);
   }
 }

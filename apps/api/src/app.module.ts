@@ -13,6 +13,7 @@ import { ExcelModule } from '@/modules/excel';
 import { GenModule } from '@/modules/gen/gen.module';
 import { LoggerModule, TypeORMLogger } from '@/modules/logger';
 import { MonitorModule } from '@/modules/monitor/monitor.module';
+import { DataScopeModule } from './modules/datascope';
 import { MybatisModule } from '@/modules/mybatis';
 import { SecurityModule } from '@/modules/security';
 import { FileModule } from '@/modules/file/file.module';
@@ -86,6 +87,7 @@ import * as configs from './config';
       inject: [ConfigService],
     }),
     ExcelModule.forRoot(),
+    DataScopeModule.forRoot(),
     SharedModule,
     AuthModule,
     FileModule,

@@ -1,7 +1,7 @@
+import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
+import { DataScopeType } from '@/modules/datascope';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
-import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
 
 /**
  * 角色信息表
@@ -48,11 +48,23 @@ export class SysRole extends BaseBusinessEntity {
   roleSort: number;
 
   @Column({
-    name: 'status',
+    name: 'data_scope',
     type: 'char',
     length: 1,
     default: '1',
-    comment: '角色状态（1正常 0停用）',
+    comment:
+      '数据范围（1全部数据权限 2自定数据权限 3本部门数据权限 4本部门及以下数据权限 5仅本人数据权限）',
+  })
+  @IsEnum(DataScopeType)
+  @IsOptional()
+  dataScope: string;
+
+  @Column({
+    name: 'status',
+    type: 'char',
+    length: 1,
+    default: '0',
+    comment: '角色状态（0正常 1停用）',
   })
   @IsEnum(BaseStatusEnum)
   @IsOptional()

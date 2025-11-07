@@ -6,6 +6,7 @@ import {
   CreateRoleParams,
   ListRoleParams,
   UpdateRoleParams,
+  UpdateDataScopeParams,
 } from './model';
 export * from './model';
 
@@ -63,5 +64,15 @@ export function infoRole(roleId: number) {
 export function roleOptions() {
   return request<RoleModel[]>(`/roles/options`, {
     method: RequestEnum.GET,
+  });
+}
+
+/**
+ * 更新数据权限
+ */
+export function updateDataScope(roleId: number, params: UpdateDataScopeParams) {
+  return request(`/roles/${roleId}/data-scope`, {
+    method: RequestEnum.PUT,
+    data: params,
   });
 }

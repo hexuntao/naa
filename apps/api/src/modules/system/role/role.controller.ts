@@ -13,7 +13,7 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
-import { ListRoleDto, CreateRoleDto, UpdateRoleDto } from './dto/role.dto';
+import { ListRoleDto, CreateRoleDto, UpdateRoleDto, UpdateDataScopeDto } from './dto/role.dto';
 import { RoleService } from './role.service';
 
 /**
@@ -66,6 +66,7 @@ export class RoleController {
   @RequirePermissions('system:role:update')
   async update(@Param('roleId') roleId: number, @Body() role: UpdateRoleDto): Promise<AjaxResult> {
     this.roleService.checkRoleAllowed(roleId);
+    await this.roleService.checkRoleDataScope(roleId);
 
     if (!(await this.roleService.checkRoleNameUnique(role.roleName, roleId))) {
       return AjaxResult.error(`修改角色${role.roleName}失败，角色名称已存在`);
@@ -90,6 +91,7 @@ export class RoleController {
     @Param('roleIds', new ParseArrayPipe({ items: Number })) roleIds: number[],
   ): Promise<AjaxResult> {
     this.roleService.checkRoleAllowed(roleIds);
+    await this.roleService.checkRoleDataScope(roleIds);
     return AjaxResult.success(await this.roleService.delete(roleIds));
   }
 
@@ -110,6 +112,24 @@ export class RoleController {
   @Get(':roleId')
   @RequirePermissions('system:role:query')
   async info(@Param('roleId') roleId: number): Promise<AjaxResult> {
+    await this.roleService.checkRoleDataScope(roleId);
     return AjaxResult.success(await this.roleService.info(roleId));
+  }
+
+  /**
+   * 更新数据权限
+   * @param roleId 角色ID
+   * @param dataScopeDto 数据权限范围信息
+   */
+  @Put(':roleId/data-scope')
+  @Log({ title: '角色管理', operType: OperType.UPDATE })
+  @RequirePermissions('system:role:update')
+  async updateDataScope(
+    @Param('roleId') roleId: number,
+    @Body() dataScopeDto: UpdateDataScopeDto,
+  ): Promise<AjaxResult> {
+    this.roleService.checkRoleAllowed(roleId);
+    await this.roleService.checkRoleDataScope(roleId);
+    return AjaxResult.success(await this.roleService.updateDataScope(roleId, dataScopeDto));
   }
 }
