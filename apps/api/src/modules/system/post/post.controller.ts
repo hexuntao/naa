@@ -10,9 +10,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
+
 import { ListPostDto, CreatePostDto, UpdatePostDto } from './dto/post.dto';
 import { PostService } from './post.service';
 
@@ -23,7 +25,10 @@ import { PostService } from './post.service';
 @ApiBearerAuth()
 @Controller('posts')
 export class PostController {
-  constructor(private postService: PostService, private securityContext: SecurityContext) {}
+  constructor(
+    private postService: PostService,
+    private securityContext: SecurityContext,
+  ) {}
 
   /**
    * 岗位列表

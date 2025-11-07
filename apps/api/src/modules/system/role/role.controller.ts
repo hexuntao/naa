@@ -10,9 +10,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
+
 import { ListRoleDto, CreateRoleDto, UpdateRoleDto, UpdateDataScopeDto } from './dto/role.dto';
 import { RoleService } from './role.service';
 
@@ -23,7 +25,10 @@ import { RoleService } from './role.service';
 @ApiBearerAuth()
 @Controller('roles')
 export class RoleController {
-  constructor(private roleService: RoleService, private securityContext: SecurityContext) {}
+  constructor(
+    private roleService: RoleService,
+    private securityContext: SecurityContext,
+  ) {}
 
   /**
    * 角色列表

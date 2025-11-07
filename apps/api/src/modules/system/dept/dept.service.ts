@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+
+import { isEmpty } from 'class-validator';
+
+import { Repository } from 'typeorm';
+
 import {
   TreeUtils,
   BaseStatusEnum,
@@ -8,9 +13,9 @@ import {
   ServiceException,
 } from '@/modules/core';
 import { DataScope, DataScopeService } from '@/modules/datascope';
-import { isEmpty } from 'class-validator';
-import { Repository } from 'typeorm';
+
 import { SysUser } from '@/modules/system/user/entities/sys-user.entity';
+
 import { CreateDeptDto, UpdateDeptDto } from './dto/dept.dto';
 import { SysDept } from './entities/sys-dept.entity';
 import { DeptTreeVo } from './vo/dept.vo';

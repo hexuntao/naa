@@ -1,4 +1,5 @@
 import { OmitType } from '@nestjs/mapped-types';
+
 import { SysMenu } from '../entities/sys-menu.entity';
 
 /**

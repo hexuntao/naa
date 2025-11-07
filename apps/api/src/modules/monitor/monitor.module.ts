@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+
 import { JobModule } from './job/job.module';
 import { LoginLogModule } from './login-log/login-log.module';
 import { OnlineUserModule } from './online-user/online-user.module';

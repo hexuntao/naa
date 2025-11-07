@@ -1,4 +1,5 @@
 import { DynamicModule, Global, Module, Provider } from '@nestjs/common';
+
 import { LOGGER_OPTIONS } from './logger.constants';
 import { LoggerOptions, LoggerAsyncOptions } from './logger.interface';
 import { NestLogger } from './nest.logger';

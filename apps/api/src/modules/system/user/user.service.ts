@@ -1,5 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+
+import { isNotEmpty, isEmpty, isArray } from 'class-validator';
+
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
+
+import { DataSource, In, Like, Repository } from 'typeorm';
+
 import {
   ServiceException,
   PasswordUtils,
@@ -11,12 +18,11 @@ import {
 } from '@/modules/core';
 import { DataScope, DataScopeService } from '@/modules/datascope';
 import { ExcelService } from '@/modules/excel';
-import { isNotEmpty, isEmpty, isArray } from 'class-validator';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { DataSource, In, Like, Repository } from 'typeorm';
+
 import { ConfigService } from '@/modules/system/config/config.service';
 import { MenuService } from '@/modules/system/menu/menu.service';
 import { RoleService } from '@/modules/system/role/role.service';
+
 import { ListUserDto, CreateUserDto, UpdateUserDto } from './dto/user.dto';
 import { SysUserPost } from './entities/sys-user-post.entity';
 import { SysUserRole } from './entities/sys-user-role.entity';
@@ -287,10 +293,9 @@ export class UserService {
   async getRolePermission(userId: number): Promise<string[]> {
     if (IdentityUtils.isAdminUser(userId)) {
       return [UserConstants.SUPER_ROLE_CODE];
-    } else {
-      const roles = await this.roleService.selectRoleByUserId(userId);
-      return roles.map((role) => role.roleCode).filter(Boolean);
     }
+    const roles = await this.roleService.selectRoleByUserId(userId);
+    return roles.map((role) => role.roleCode).filter(Boolean);
   }
 
   /**
@@ -314,10 +319,9 @@ export class UserService {
   async getMenuPermission(userId: number): Promise<string[]> {
     if (IdentityUtils.isAdminUser(userId)) {
       return [UserConstants.SUPER_ROLE_PERMISSION];
-    } else {
-      const menus = await this.menuService.selectMenuByUserId(userId);
-      return menus.map((menu) => menu.permission).filter(Boolean);
     }
+    const menus = await this.menuService.selectMenuByUserId(userId);
+    return menus.map((menu) => menu.permission).filter(Boolean);
   }
 
   /**

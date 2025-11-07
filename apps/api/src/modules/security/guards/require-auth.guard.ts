@@ -10,7 +10,10 @@ import { AuthService } from '../services/auth.service';
  */
 @Injectable()
 export class RequireAuthGuard implements CanActivate {
-  constructor(private reflector: Reflector, private authService: AuthService) {}
+  constructor(
+    private reflector: Reflector,
+    private authService: AuthService,
+  ) {}
 
   canActivate(context: ExecutionContext): boolean {
     // 校验 @RequireRoles 装饰器

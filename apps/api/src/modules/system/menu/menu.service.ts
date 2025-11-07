@@ -1,8 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { TreeUtils, BaseStatusEnum, IdentityUtils } from '@/modules/core';
+
 import { Repository } from 'typeorm';
+
+import { TreeUtils, BaseStatusEnum, IdentityUtils } from '@/modules/core';
 import { SysRoleMenu } from '@/modules/system/role/entities/sys-role-menu.entity';
+
 import { CreateMenuDto, UpdateMenuDto } from './dto/menu.dto';
 import { SysMenu } from './entities/sys-menu.entity';
 import { MenuTreeVo } from './vo/menu.vo';

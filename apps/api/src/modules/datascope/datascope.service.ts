@@ -1,13 +1,18 @@
 import { Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
+
 import { SecurityContext, IdentityUtils, SysLoginUser } from '@/modules/core';
+
 import { DATA_SCOPE_METADATA } from './datascope.constants';
 import { DataScopeType } from './datascope.enum';
 import { TableAlias } from './datascope.interface';
 
 @Injectable()
 export class DataScopeService {
-  constructor(private reflector: Reflector, private securityContext: SecurityContext) {}
+  constructor(
+    private reflector: Reflector,
+    private securityContext: SecurityContext,
+  ) {}
 
   /**
    * 不判断 SQL 是否为空，安全的使用 WHERE 语句

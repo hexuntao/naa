@@ -36,12 +36,10 @@ export class MybatisService<M = MybatisMapper> implements OnModuleInit {
     param?: MybatisParams,
     format?: MybatisFormat,
   ) {
-    return mybatisMapper.getStatement(
-      namespace,
-      sql,
-      param,
-      Object.assign({}, this.options.format || {}, format) as any,
-    );
+    return mybatisMapper.getStatement(namespace, sql, param, {
+      ...(this.options.format || {}),
+      ...format,
+    } as any);
   }
 
   /**

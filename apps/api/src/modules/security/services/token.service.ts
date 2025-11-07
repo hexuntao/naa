@@ -1,7 +1,12 @@
 import { randomUUID } from 'crypto';
+
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRedis } from '@nestjs-modules/ioredis';
+
+import { Request } from 'express';
+import Redis from 'ioredis';
+
 import {
   IpUtils,
   CacheConstants,
@@ -9,8 +14,7 @@ import {
   SecurityContext,
   type SysLoginUser,
 } from '@/modules/core';
-import { Request } from 'express';
-import Redis from 'ioredis';
+
 import { JwtToken } from '../interfaces/jwt-token.interface';
 
 /**

@@ -1,7 +1,10 @@
 import { OmitType } from '@nestjs/mapped-types';
+
+import { Allow, IsArray, IsEnum, IsOptional } from 'class-validator';
+
 import { PaginateDto } from '@/modules/core';
 import { DataScopeType } from '@/modules/datascope';
-import { Allow, IsArray, IsEnum, IsOptional } from 'class-validator';
+
 import { SysRole } from '../entities/sys-role.entity';
 
 /**

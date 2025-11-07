@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
+
 import { CreateMenuDto, UpdateMenuDto } from './dto/menu.dto';
 import { MenuService } from './menu.service';
 
@@ -13,7 +15,10 @@ import { MenuService } from './menu.service';
 @ApiBearerAuth()
 @Controller('menus')
 export class MenuController {
-  constructor(private menuService: MenuService, private securityContext: SecurityContext) {}
+  constructor(
+    private menuService: MenuService,
+    private securityContext: SecurityContext,
+  ) {}
 
   /**
    * 查询菜单树结构

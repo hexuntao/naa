@@ -1,5 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
+
+import { isNotEmpty, isEmpty, isArray } from 'class-validator';
+import { paginate, Pagination } from 'nestjs-typeorm-paginate';
+import { DataSource, In, Like, Not, Repository } from 'typeorm';
+
 import {
   ServiceException,
   BaseStatusEnum,
@@ -9,10 +14,8 @@ import {
   SecurityContext,
 } from '@/modules/core';
 import { DataScope, DataScopeService } from '@/modules/datascope';
-import { isNotEmpty, isEmpty, isArray } from 'class-validator';
-import { paginate, Pagination } from 'nestjs-typeorm-paginate';
-import { DataSource, In, Like, Not, Repository } from 'typeorm';
 import { SysUserRole } from '@/modules/system/user/entities/sys-user-role.entity';
+
 import { ListRoleDto, CreateRoleDto, UpdateRoleDto, UpdateDataScopeDto } from './dto/role.dto';
 import { SysRoleDept } from './entities/sys-role-dept.entity';
 import { SysRoleMenu } from './entities/sys-role-menu.entity';

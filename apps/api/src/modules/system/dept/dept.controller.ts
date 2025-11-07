@@ -1,8 +1,10 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
+
 import { DeptService } from './dept.service';
 import { CreateDeptDto, UpdateDeptDto } from './dto/dept.dto';
 
@@ -13,7 +15,10 @@ import { CreateDeptDto, UpdateDeptDto } from './dto/dept.dto';
 @ApiBearerAuth()
 @Controller('depts')
 export class DeptController {
-  constructor(private deptService: DeptService, private securityContext: SecurityContext) {}
+  constructor(
+    private deptService: DeptService,
+    private securityContext: SecurityContext,
+  ) {}
 
   /**
    * 查询部门树结构

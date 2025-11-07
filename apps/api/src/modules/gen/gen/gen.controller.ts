@@ -11,8 +11,10 @@ import {
   StreamableFile,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AjaxResult } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
+
 import { ListGenDto, UpdateGenDto } from './dto/gen.dto';
 import { GenService } from './gen.service';
 

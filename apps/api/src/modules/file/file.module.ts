@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { MulterModule } from '@nestjs/platform-express';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { ConfigService } from '@/modules/config';
 
 import { SysFile } from './file/entities/sys-file.entity';

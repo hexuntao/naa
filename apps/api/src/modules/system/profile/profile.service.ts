@@ -1,10 +1,12 @@
 import { Injectable } from '@nestjs/common';
+
 import { PasswordUtils, ServiceException } from '@/modules/core';
 import { TokenService } from '@/modules/security';
 import { DeptService } from '@/modules/system/dept/dept.service';
 import { PostService } from '@/modules/system/post/post.service';
 import { RoleService } from '@/modules/system/role/role.service';
 import { UserService } from '@/modules/system/user/user.service';
+
 import { UpdateAvatarDto, UpdatePasswordDto, UpdateProfileDto } from './dto/profile.dto';
 import { ProfileInfoVo } from './vo/profile.vo';
 

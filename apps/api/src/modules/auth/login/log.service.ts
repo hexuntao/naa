@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
+
 import { BaseStatusEnum, IpUtils, RequestContext } from '@/modules/core';
 import { LoginType } from '@/modules/logger';
-import { LoginLogService } from '@/modules/monitor/login-log/login-log.service';
 import { CreateLoginLogDto } from '@/modules/monitor/login-log/dto/login-log.dto';
+import { LoginLogService } from '@/modules/monitor/login-log/login-log.service';
 
 @Injectable()
 export class LogService {
-  constructor(private requestContext: RequestContext, private loginLogService: LoginLogService) {}
+  constructor(
+    private requestContext: RequestContext,
+    private loginLogService: LoginLogService,
+  ) {}
 
   /**
    * 登录成功

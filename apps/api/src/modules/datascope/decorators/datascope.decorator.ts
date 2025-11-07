@@ -1,6 +1,7 @@
-import { SetMetadata } from '@nestjs/common'
-import { DATA_SCOPE_METADATA } from '../datascope.constants'
-import { TableAlias } from '../datascope.interface'
+import { SetMetadata } from '@nestjs/common';
+
+import { DATA_SCOPE_METADATA } from '../datascope.constants';
+import { TableAlias } from '../datascope.interface';
 
 /**
  * 数据权限装饰器
@@ -8,5 +9,5 @@ import { TableAlias } from '../datascope.interface'
  * @returns MethodDecorator
  */
 export const DataScope = (tableAlias: TableAlias) => {
-  return SetMetadata(DATA_SCOPE_METADATA, tableAlias)
-}
+  return SetMetadata(DATA_SCOPE_METADATA, tableAlias);
+};

@@ -1,6 +1,8 @@
-import { BaseBusinessEntity, BaseIsEnum } from '@/modules/core';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+
+import { BaseBusinessEntity, BaseIsEnum } from '@/modules/core';
+
 import { GenTable } from './gen-table.entity';
 
 /**

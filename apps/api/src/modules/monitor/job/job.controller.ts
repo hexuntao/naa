@@ -10,9 +10,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
+
 import { ListJobDto, CreateJobDto, UpdateJobDto } from './dto/job.dto';
 import { JobService } from './job.service';
 
@@ -23,7 +25,10 @@ import { JobService } from './job.service';
 @ApiBearerAuth()
 @Controller('jobs')
 export class JobController {
-  constructor(private jobService: JobService, private securityContext: SecurityContext) {}
+  constructor(
+    private jobService: JobService,
+    private securityContext: SecurityContext,
+  ) {}
 
   /**
    * 定时任务列表

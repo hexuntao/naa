@@ -1,9 +1,12 @@
 import { InjectQueue } from '@nestjs/bull';
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { BaseStatusEnum } from '@/modules/core';
+
 import { Queue } from 'bull';
 import { Repository } from 'typeorm';
+
+import { BaseStatusEnum } from '@/modules/core';
+
 import { JOB_BULL_NAME } from './constants/bull.constants';
 import { SysJob } from './entities/sys-job.entity';
 

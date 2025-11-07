@@ -1,7 +1,9 @@
+import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
+
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
 import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
 import { DataScopeType } from '@/modules/datascope';
-import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * 角色信息表

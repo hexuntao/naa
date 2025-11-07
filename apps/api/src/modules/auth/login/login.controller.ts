@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AjaxResult, UserId } from '@/modules/core';
-import { Public, TokenService } from '@/modules/security';
 import { LoginType } from '@/modules/logger';
+import { Public, TokenService } from '@/modules/security';
+
 import { LoginDto } from './dto/login.dto';
 import { LogService } from './log.service';
 import { LoginService } from './login.service';

@@ -1,4 +1,5 @@
 import { OmitType } from '@nestjs/mapped-types';
+
 import { SysDept } from '../entities/sys-dept.entity';
 
 /**

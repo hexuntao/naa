@@ -3,20 +3,19 @@ import { resolve } from 'path';
 import { BullModule } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-
 import { RedisModule, RedisModuleOptions } from '@nestjs-modules/ioredis';
 
 import { AuthModule } from '@/modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@/modules/config';
 import { CoreModule, TokenConstants } from '@/modules/core';
+import { DataScopeModule } from '@/modules/datascope';
 import { ExcelModule } from '@/modules/excel';
+import { FileModule } from '@/modules/file/file.module';
 import { GenModule } from '@/modules/gen/gen.module';
 import { LoggerModule, TypeORMLogger } from '@/modules/logger';
 import { MonitorModule } from '@/modules/monitor/monitor.module';
-import { DataScopeModule } from './modules/datascope';
 import { MybatisModule } from '@/modules/mybatis';
 import { SecurityModule } from '@/modules/security';
-import { FileModule } from '@/modules/file/file.module';
 import { SharedModule } from '@/modules/shared/shared.module';
 import { SystemModule } from '@/modules/system/system.module';
 

@@ -1,6 +1,7 @@
-import { BaseTimeEntity, BaseStatusEnum } from '@/modules/core';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+import { BaseTimeEntity, BaseStatusEnum } from '@/modules/core';
 
 /**
  * 定时任务日志表

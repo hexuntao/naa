@@ -1,4 +1,3 @@
-import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
 import {
   IsEnum,
   IsInt,
@@ -12,6 +11,8 @@ import {
 } from 'class-validator';
 import * as parser from 'cron-parser';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
 
 /**
  * Cron 表达式验证，Bull 使用 cron-parser 解析

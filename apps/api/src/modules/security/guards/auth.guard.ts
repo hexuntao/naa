@@ -15,7 +15,10 @@ import { TokenService } from '../services/token.service';
  */
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private reflector: Reflector, private tokenService: TokenService) {}
+  constructor(
+    private reflector: Reflector,
+    private tokenService: TokenService,
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const ctx = context.switchToHttp();

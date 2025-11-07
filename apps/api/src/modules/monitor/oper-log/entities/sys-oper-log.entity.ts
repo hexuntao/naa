@@ -1,7 +1,9 @@
+import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
+
+import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
 import { BaseStatusEnum, BaseTimeEntity } from '@/modules/core';
 import { OperType } from '@/modules/logger';
-import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 /**
  * 操作日志表

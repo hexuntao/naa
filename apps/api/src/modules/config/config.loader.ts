@@ -1,8 +1,10 @@
 import * as fs from 'fs';
 import * as path from 'path';
+
 import { Inject, Injectable } from '@nestjs/common';
 import { mergeWith, isArray } from 'lodash';
 import * as YAML from 'yaml';
+
 import { CONFIG_OPTIONS } from './config.constants';
 import { ConfigOptions } from './config.interface';
 

@@ -1,6 +1,9 @@
 import { OmitType } from '@nestjs/mapped-types';
-import { PaginateDto } from '@/modules/core';
+
 import { Allow } from 'class-validator';
+
+import { PaginateDto } from '@/modules/core';
+
 import { SysOperLog } from '../entities/sys-oper-log.entity';
 
 /**

@@ -1,6 +1,12 @@
 import { randomUUID } from 'crypto';
+
 import { Injectable } from '@nestjs/common';
 import { InjectRedis } from '@nestjs-modules/ioredis';
+
+import { isEmpty } from 'class-validator';
+import Redis from 'ioredis';
+import * as svgCaptcha from 'svg-captcha';
+
 import {
   SysLoginUser,
   ServiceException,
@@ -9,13 +15,11 @@ import {
   UserStatusEnum,
   CacheConstants,
 } from '@/modules/core';
-import { isEmpty } from 'class-validator';
-import Redis from 'ioredis';
-import * as svgCaptcha from 'svg-captcha';
 import { ConfigService } from '@/modules/system/config/config.service';
 import { MenuService } from '@/modules/system/menu/menu.service';
 import { MenuTreeVo } from '@/modules/system/menu/vo/menu.vo';
 import { UserService } from '@/modules/system/user/user.service';
+
 import { LoginDto } from './dto/login.dto';
 import { CaptchaVo, RouterTreeVo } from './vo/login.vo';
 

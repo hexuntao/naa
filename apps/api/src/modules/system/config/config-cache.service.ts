@@ -1,10 +1,12 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { InjectRedis } from '@nestjs-modules/ioredis';
-import { BaseStatusEnum } from '@/modules/core';
+
 import { Redis } from 'ioredis';
 import { Repository } from 'typeorm';
-import { CacheConstants } from '@/modules/core';
+
+import { BaseStatusEnum, CacheConstants } from '@/modules/core';
+
 import { SysConfig } from './entities/sys-config.entity';
 
 /**

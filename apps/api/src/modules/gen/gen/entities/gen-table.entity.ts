@@ -1,4 +1,3 @@
-import { BaseBusinessEntity } from '@/modules/core';
 import { Type } from 'class-transformer';
 import {
   ArrayNotEmpty,
@@ -9,6 +8,9 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+
+import { BaseBusinessEntity } from '@/modules/core';
+
 import { GenTableColumn } from './gen-table-column.entity';
 
 /**

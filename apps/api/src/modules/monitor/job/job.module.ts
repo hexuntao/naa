@@ -1,6 +1,7 @@
 import { BullModule } from '@nestjs/bull';
 import { Module, Provider } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
+
 import { JOB_BULL_NAME } from './constants/bull.constants';
 
 import { SysJobLog } from './entities/sys-job-log.entity';

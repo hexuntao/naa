@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectDataSource } from '@nestjs/typeorm';
-import { MybatisService } from '@/modules/mybatis';
+
 import { DataSource } from 'typeorm';
+
+import { MybatisService } from '@/modules/mybatis';
+
 import { GenTableColumn } from './entities/gen-table-column.entity';
 import { GenTable } from './entities/gen-table.entity';
 

@@ -1,5 +1,3 @@
-import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
-import { ExcelSheet, ExcelColumn } from '@/modules/excel';
 import {
   IsEmail,
   IsEnum,
@@ -10,7 +8,11 @@ import {
   IsOptional,
   MaxLength,
 } from 'class-validator';
+
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
+import { ExcelSheet, ExcelColumn } from '@/modules/excel';
 
 /**
  * 用户信息表

@@ -1,10 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { ModuleRef, Reflector } from '@nestjs/core';
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm';
-import { BaseStatusEnum, ServiceException } from '@/modules/core';
+
 import { isNotEmpty } from 'class-validator';
 import { paginate, Pagination } from 'nestjs-typeorm-paginate';
 import { DataSource, In, Like, Repository } from 'typeorm';
+
+import { BaseStatusEnum, ServiceException } from '@/modules/core';
+
 import { ListJobDto, CreateJobDto, UpdateJobDto } from './dto/job.dto';
 import { SysJob } from './entities/sys-job.entity';
 import { JobQueueService } from './job-queue.service';

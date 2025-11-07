@@ -10,9 +10,12 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AjaxResult } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
+
 import { UploadFileUrl, UploadFileUrls } from '../upload/upload.decorator';
+
 import { CreateFileDto, ListFileDto } from './dto/file.dto';
 import { FileService } from './file.service';
 

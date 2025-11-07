@@ -10,9 +10,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
+
 import { ListNoticeDto, CreateNoticeDto, UpdateNoticeDto } from './dto/notice.dto';
 import { NoticeService } from './notice.service';
 
@@ -23,7 +25,10 @@ import { NoticeService } from './notice.service';
 @ApiBearerAuth()
 @Controller('notices')
 export class NoticeController {
-  constructor(private noticeService: NoticeService, private securityContext: SecurityContext) {}
+  constructor(
+    private noticeService: NoticeService,
+    private securityContext: SecurityContext,
+  ) {}
 
   /**
    * 通知公告列表

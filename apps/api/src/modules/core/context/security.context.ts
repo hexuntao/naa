@@ -1,8 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { Request } from 'express';
+
 import { SysLoginUser } from '../class/sys-login-user';
 import { SecurityConstants } from '../constants/security.constants';
 import { TokenConstants } from '../constants/token.constants';
+
 import { RequestContext } from './request.context';
 
 /**
@@ -65,8 +67,7 @@ export class SecurityContext {
   private replaceTokenPrefix(token: string): string {
     if (token && token.startsWith(TokenConstants.PREFIX)) {
       return token.replace(TokenConstants.PREFIX, '');
-    } else {
-      return token;
     }
+    return token;
   }
 }

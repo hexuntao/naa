@@ -1,9 +1,11 @@
 import { resolve } from 'path';
+
 import { Injectable, LoggerService } from '@nestjs/common';
 import { assign } from 'lodash';
 import { WinstonLogger } from 'nest-winston';
 import { Logger } from 'typeorm';
 import { createLogger } from 'winston';
+
 import { LoggerOptions } from './logger.interface';
 import { WinstonTransportBuilder } from './winston.transport';
 
@@ -43,9 +45,9 @@ export class TypeORMLogger implements Logger {
     const sql =
       query +
       (parameters && parameters.length
-        ? ' -- PARAMETERS: ' + this.stringifyParams(parameters)
+        ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
         : '');
-    this.logger.verbose('[QUERY]: ' + sql);
+    this.logger.verbose(`[QUERY]: ${sql}`);
   }
 
   /**
@@ -55,7 +57,7 @@ export class TypeORMLogger implements Logger {
     const sql =
       query +
       (parameters && parameters.length
-        ? ' -- PARAMETERS: ' + this.stringifyParams(parameters)
+        ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
         : '');
     this.logger.error(`${`[FAILED QUERY]: ${sql}`} ${`[QUERY ERROR]: ${error}`}`);
   }
@@ -67,9 +69,9 @@ export class TypeORMLogger implements Logger {
     const sql =
       query +
       (parameters && parameters.length
-        ? ' -- PARAMETERS: ' + this.stringifyParams(parameters)
+        ? ` -- PARAMETERS: ${this.stringifyParams(parameters)}`
         : '');
-    this.logger.warn(`[SLOW QUERY: ${time} ms]: ` + sql);
+    this.logger.warn(`[SLOW QUERY: ${time} ms]: ${sql}`);
   }
 
   /**

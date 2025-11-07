@@ -1,6 +1,7 @@
-import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
 import { IsEnum, IsInt, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+import { BaseBusinessEntity, BaseStatusEnum } from '@/modules/core';
 
 /**
  * 字典类型表

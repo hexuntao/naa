@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Redis } from 'ioredis';
+
 import { CacheVo } from './vo/cache.vo';
 
 /**

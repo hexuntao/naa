@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
+import { ConfigCacheService } from './config-cache.service';
 import { ConfigController } from './config.controller';
 import { ConfigService } from './config.service';
 import { SysConfig } from './entities/sys-config.entity';
-import { ConfigCacheService } from './config-cache.service';
 
 /**
  * 系统配置模块

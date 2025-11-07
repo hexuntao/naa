@@ -5,6 +5,7 @@ import {
   MemoryHealthIndicator,
   TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
+
 import { RedisHealthIndicator } from './indicators/redis.health';
 
 @Injectable()

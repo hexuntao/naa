@@ -4,7 +4,9 @@ import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Redis } from 'ioredis';
 import { groupBy } from 'lodash';
 import { Repository } from 'typeorm';
+
 import { CacheConstants } from '@/modules/core';
+
 import { SysDictData } from './entities/sys-dict-data.entity';
 
 /**

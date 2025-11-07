@@ -1,8 +1,10 @@
 import { resolve } from 'path';
+
 import { Inject, Injectable } from '@nestjs/common';
 import { assign } from 'lodash';
 import { WinstonLogger } from 'nest-winston';
 import { createLogger } from 'winston';
+
 import { LOGGER_OPTIONS } from './logger.constants';
 import { LoggerOptions } from './logger.interface';
 import { WinstonTransportBuilder } from './winston.transport';

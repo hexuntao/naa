@@ -6,7 +6,10 @@ import { SwaggerOptions } from './swagger.interface';
 export class SwaggerService {
   builder: DocumentBuilder;
 
-  constructor(private app: INestApplication, private options: SwaggerOptions = {}) {
+  constructor(
+    private app: INestApplication,
+    private options: SwaggerOptions = {},
+  ) {
     this.builder = new DocumentBuilder();
   }
 

@@ -1,7 +1,9 @@
 import { Controller, Get, ServiceUnavailableException } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { HealthCheckService, HealthCheck, HealthCheckResult } from '@nestjs/terminus';
+
 import { Public } from '@/modules/security';
+
 import { HealthService } from './health.service';
 
 /**
@@ -10,7 +12,10 @@ import { HealthService } from './health.service';
 @ApiTags('健康检查')
 @Controller('health')
 export class HealthController {
-  constructor(private health: HealthCheckService, private healthService: HealthService) {}
+  constructor(
+    private health: HealthCheckService,
+    private healthService: HealthService,
+  ) {}
 
   /**
    * 健康检查

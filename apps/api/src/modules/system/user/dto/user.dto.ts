@@ -1,6 +1,9 @@
 import { OmitType } from '@nestjs/mapped-types';
-import { PaginateDto } from '@/modules/core';
+
 import { Allow, IsArray, IsOptional } from 'class-validator';
+
+import { PaginateDto } from '@/modules/core';
+
 import { SysUser } from '../entities/sys-user.entity';
 
 /**

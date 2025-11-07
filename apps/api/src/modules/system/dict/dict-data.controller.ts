@@ -10,9 +10,11 @@ import {
   Query,
 } from '@nestjs/common';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 import { AjaxResult, SecurityContext } from '@/modules/core';
 import { Log, OperType } from '@/modules/logger';
 import { RequirePermissions } from '@/modules/security';
+
 import { DictDataService } from './dict-data.service';
 import { ListDictDataDto, CreateDictDataDto, UpdateDictDataDto } from './dto/dict-data.dto';
 
@@ -23,7 +25,10 @@ import { ListDictDataDto, CreateDictDataDto, UpdateDictDataDto } from './dto/dic
 @ApiBearerAuth()
 @Controller('dict/datas')
 export class DictDataController {
-  constructor(private dictDataService: DictDataService, private securityContext: SecurityContext) {}
+  constructor(
+    private dictDataService: DictDataService,
+    private securityContext: SecurityContext,
+  ) {}
 
   /**
    * 查询字典数据列表

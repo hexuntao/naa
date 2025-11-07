@@ -1,6 +1,7 @@
-import { BaseBusinessEntity } from '@/modules/core';
 import { IsInt, IsNotEmpty, MaxLength } from 'class-validator';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+
+import { BaseBusinessEntity } from '@/modules/core';
 
 /**
  * 文件表
