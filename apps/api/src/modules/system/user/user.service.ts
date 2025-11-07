@@ -323,7 +323,7 @@ export class UserService {
   /**
    * 导出用户
    */
-  async export() {
+  async export(): Promise<Buffer> {
     const data = await this.dsUserQueryBuilder().getMany();
     const buffer = await this.excelService.export(SysUser, data);
     return buffer;
@@ -332,7 +332,7 @@ export class UserService {
   /**
    * 导出模板
    */
-  async exportTemplate() {
+  async exportTemplate(): Promise<Buffer> {
     const buffer = await this.excelService.exportTemplate(SysUser, {
       exclude: ['sex', 'avatar'],
     });
@@ -343,8 +343,8 @@ export class UserService {
    * 导入用户
    * @param buffer 导入文件
    */
-  async import(buffer: Buffer | any) {
-    const data = await this.excelService.import(SysUser, buffer);
+  async import(buffer: Buffer) {
+    const data = await this.excelService.import(SysUser, buffer as unknown as ArrayBuffer);
     const password = await this.configService.value('sys.user.initPassword');
 
     // TODO: Data validation
