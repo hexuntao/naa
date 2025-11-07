@@ -100,7 +100,7 @@ export class UserService {
 > 它从 [异步上下文](./context.md) 中获取用户信息，你可以随意调用包含数据权限的方法而无需传递参数。
 
 ```ts{5,9}
-import { DataScope, DataScopeService } from '@vivy-common/datascope'
+import { DataScope, DataScopeService } from '@/modules/datascope'
 export class UserService {
   @DataScope({ deptAlias: 'd', userAlias: 'u' })
   async list() {

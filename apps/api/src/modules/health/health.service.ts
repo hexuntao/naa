@@ -21,7 +21,7 @@ export class HealthService {
    * 检查网络连接
    */
   async checkNetwork() {
-    return this.http.pingCheck('vivy', 'http://43.140.221.180:8000/');
+    return this.http.pingCheck('naa', 'http://127.0.0.1:6010/');
   }
 
   /**

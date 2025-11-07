@@ -9,7 +9,7 @@ title: 数据脱敏
 | 姓名(userName)   | 张三                | 张\*                            |
 | 密码(password)   | 123456              | \*\*\*\*\*\*                    |
 | 手机(phone)      | 15888888888         | 158\*\*\*\*8888                 |
-| 邮箱(email)      | vivy@qq.com         | v\*\*\*\*@qq.com                |
+| 邮箱(email)      | naa@qq.com          | v\*\*\*\*@qq.com                |
 | 身份证(idCard)   | 430602198812136666  | 4306\*\* \*\*\*\*\*\* \*\*6666  |
 | 银行卡(bankCard) | 6211222200008888666 | \*\*\*\* \*\*\*\* \*\*\*\* 8666 |
 
@@ -20,7 +20,7 @@ title: 数据脱敏
 在字段上添加 `@Sensitive` 脱敏装饰器。
 
 ```ts{4}
-import { Sensitive, DesensitizedUtils } from '@vivy-common/core'
+import { Sensitive, DesensitizedUtils } from '@/modules/core'
 
 export class UserEntity {
   @Sensitive(DesensitizedUtils.phone)
@@ -32,7 +32,7 @@ export class UserEntity {
 
 ```ts{8}
 import { ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common'
-import { AjaxResult } from '@vivy-common/core'
+import { AjaxResult } from '@/modules/core'
 import { UserEntity } from './entities/user.entity'
 
 @Controller()
@@ -63,7 +63,7 @@ export class UserController {
 
 ```ts{14}
 import { ClassSerializerInterceptor, UseInterceptors } from '@nestjs/common'
-import { AjaxResult } from '@vivy-common/core'
+import { AjaxResult } from '@/modules/core'
 import { plainToInstance } from 'class-transformer'
 import { UserEntity } from './entities/user.entity'
 

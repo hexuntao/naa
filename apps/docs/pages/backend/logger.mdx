@@ -30,7 +30,7 @@ export class AppService {
 在需要被记录日志的请求方法上添加 `@Log` 装饰器，使用方法如下：
 
 ```ts {4}
-import { Log, OperType } from '@vivy-common/logger';
+import { Log, OperType } from '@/modules/logger';
 export class UserController {
   @Post('add')
   @Log({ title: '用户管理', operType: OperType.INSERT })

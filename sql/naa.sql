@@ -5,7 +5,7 @@
  Source Server Type    : MySQL
  Source Server Version : 80027
  Source Host           : localhost:3306
- Source Schema         : vivy-nest-admin
+ Source Schema         : naa
 
  Target Server Type    : MySQL
  Target Server Version : 80027
@@ -86,7 +86,6 @@ BEGIN;
 INSERT INTO `sys_menu` VALUES (1, 0, '系统管理', 'M', 1, '0', 'system',                                        NULL, NULL, NULL, 'ant-design:setting-outlined', '1', '0', '0', '0', 'admin', sysdate(), 'admin', sysdate());
 INSERT INTO `sys_menu` VALUES (2, 0, '系统监控', 'M', 2, '0', 'monitor',                                       NULL, NULL, NULL, 'ant-design:fund-outlined',    '1', '0', '0', '0', 'admin', sysdate(), 'admin', sysdate());
 INSERT INTO `sys_menu` VALUES (3, 0, '系统工具', 'M', 3, '0', 'tool',                                          NULL, NULL, NULL, 'ant-design:tool-outlined',    '1', '0', '0', '0', 'admin', sysdate(), 'admin', sysdate());
-INSERT INTO `sys_menu` VALUES (4, 0, '项目源码', 'M', 4, '0', 'https://github.com/haiweilian/vivy-nest-admin', NULL, NULL, NULL, 'ant-design:link-outlined',    '1', '1', '0', '0', 'admin', sysdate(), 'admin', sysdate());
 
 -- 二级菜单
 INSERT INTO `sys_menu` VALUES (100, 1, '用户管理', 'C', 1, '0', 'user',        'system/user/index',         NULL, 'system:user:list',      NULL, '1', '0', '0', '0', 'admin', sysdate(), 'admin', sysdate());
@@ -344,8 +343,8 @@ CREATE TABLE `sys_user` (
 -- Records of sys_user
 -- ----------------------------
 BEGIN;
-INSERT INTO `sys_user` VALUES (1, 100, 'admin', '管理员', '00', 'admin@vivy.com', '18688888888', '1', '/uploads/avatar/admin.png', '$2b$10$Ls.NOGe4NoJeqPyndmZuouXQMAql3r4HaMnqDGn0lKdEbrPwpIKpe', '0', 'admin', sysdate(), 'admin', sysdate());
-INSERT INTO `sys_user` VALUES (2, 105, 'test', '测试员', '00', 'test@vivy.com', '18666666666', '1', '/uploads/avatar/test.png', '$2b$10$r1Eul7Lc388k9rphYYt9uO0k1LWw.3ArgbX0VrhjjG1h4lDjBq9tq', '0', 'admin', sysdate(), 'admin', sysdate());
+INSERT INTO `sys_user` VALUES (1, 100, 'admin', '管理员', '00', 'admin@qq.com', '18688888888', '1', '/uploads/avatar/admin.png', '$2b$10$Ls.NOGe4NoJeqPyndmZuouXQMAql3r4HaMnqDGn0lKdEbrPwpIKpe', '0', 'admin', sysdate(), 'admin', sysdate());
+INSERT INTO `sys_user` VALUES (2, 105, 'test', '测试员', '00', 'test@qq.com', '18666666666', '1', '/uploads/avatar/test.png', '$2b$10$r1Eul7Lc388k9rphYYt9uO0k1LWw.3ArgbX0VrhjjG1h4lDjBq9tq', '0', 'admin', sysdate(), 'admin', sysdate());
 COMMIT;
 
 -- ----------------------------

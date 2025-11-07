@@ -3,7 +3,7 @@
  */
 export class GenConstants {
   /** 所有者 */
-  static AUTHOR = 'vivy';
+  static AUTHOR = 'naa';
 
   /** 模块名 */
   static MODULE = 'system';
