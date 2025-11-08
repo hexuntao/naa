@@ -1,0 +1,35 @@
+# Mysql 配置
+datasource:
+  type: mysql
+  port: ${{ DB_PORT || 3306 }}
+  host: ${{ DB_HOST || 'localhost' }}
+  username: ${{ DB_USER || 'root' }}
+  password: ${{ DB_PASSWORD || 'root123456' }}
+  database: ${{ DB_NAME || 'naa'}}
+  # 可以在开发环境下同步entity的数据结构到数据库,生产环境建议不开启
+  synchronize: true
+  # 自动加载模块中注册的entity
+  autoLoadEntities: true
+  bigNumberStrings: false
+  supportBigNumbers: true
+
+# Redis 配置
+redis:
+  port: ${{ REIDS_PORT || 6379 }}
+  host: ${{ REDIS_HOST || 'localhost' }}
+  username: ${{ REDIS_USER }}
+  password: ${{ REDIS_PASSWORD }}
+  db: 0
+
+# Bull 配置
+bull:
+  redis:
+    port: ${{ REIDS_PORT || 6379 }}
+    host: ${{ REDIS_HOST || 'localhost' }}
+    username: ${{ REDIS_USER }}
+    password: ${{ REDIS_PASSWORD }}
+    db: 1
+
+# Swagger 配置
+swagger:
+  enabled: true

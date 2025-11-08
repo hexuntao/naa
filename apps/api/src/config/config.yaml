@@ -1,0 +1,37 @@
+# App 配置
+app:
+  port: ${{ API_PORT || 6010 }}
+  name: ${{ npm_package_name || 'naa-api' }}
+  domain: ${{ APP_URL || 'http://localhost:'+ API_PORT }}
+  host: ${{ API_HOST || '127.0.0.1' }}
+  prefix: ${{ API_PREFIX || 'api' }}
+  socket: ${{ API_WEBSOCKETS || false }}
+
+# Logger 配置
+logger:
+  appName: ${{ app.name }}
+  logPath: ${{ PWD }}/logs
+
+# Security 配置
+security:
+  jwt:
+    secret: abcdefghijklmnopqrstuvwxyz
+
+# Upload 配置
+upload:
+  path: ${{ PWD }}/uploads
+  prefix: /uploads
+  # domain: http://localhost:${{ app.port }}
+
+# Swagger 配置
+swagger:
+  title: naa-api-docs
+  path: api-docs
+  description: naa-api-docs for Admin
+  contact:
+    name: hexuntao
+    url: https://github.com/hexuntao/naa
+    email: hexuntao@gmail.com
+  license:
+    name: MIT
+    url: https://github.com/hexuntao/naa/blob/main/LICENSE

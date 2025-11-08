@@ -1,40 +1,42 @@
 import { resolve } from 'path';
 
-import { BullModule } from '@nestjs/bull';
+import { BullModule, BullModuleOptions } from '@nestjs/bull';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { RedisModule, RedisModuleOptions } from '@nestjs-modules/ioredis';
 
 import { AuthModule } from '@/modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@/modules/config';
-import { CoreModule, TokenConstants } from '@/modules/core';
+import { CoreModule } from '@/modules/core';
 import { DataScopeModule } from '@/modules/datascope';
 import { ExcelModule } from '@/modules/excel';
 import { FileModule } from '@/modules/file/file.module';
 import { GenModule } from '@/modules/gen/gen.module';
-import { LoggerModule, TypeORMLogger } from '@/modules/logger';
+import { LoggerModule, LoggerOptions, TypeORMLogger } from '@/modules/logger';
 import { MonitorModule } from '@/modules/monitor/monitor.module';
 import { MybatisModule } from '@/modules/mybatis';
-import { SecurityModule } from '@/modules/security';
+import { SecurityModule, SecurityOptions } from '@/modules/security';
 import { SystemModule } from '@/modules/system/system.module';
 
-import * as configs from './config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       cwd: resolve(__dirname, 'config'),
-      data: configs,
     }),
-    CoreModule.forRoot(),
+    MybatisModule.forRoot({
+      cwd: __dirname,
+      globs: ['**/*.mapper.xml'],
+    }),
     RedisModule.forRootAsync({
       useFactory(config: ConfigService) {
         return {
           config: config.get<RedisModuleOptions['config']>('redis'),
         };
-        // return {
-        //   type: 'single',
-        //   options: config.get<RedisModuleOptions['config']>('redis.defalut'),
+        // return {type: 'single',
+        //   options: config.get<RedisModuleOptions['config']>('redis'),
         // }
       },
       inject: [ConfigService],
@@ -42,57 +44,42 @@ import * as configs from './config';
     TypeOrmModule.forRootAsync({
       useFactory(config: ConfigService) {
         return {
-          ...config.get<TypeOrmModuleOptions>('database'),
-          logger: new TypeORMLogger({
-            appName: config.get('app.name'),
-            logPath: resolve(__dirname, '../logs'),
-          }),
+          ...config.get<TypeOrmModuleOptions>('datasource'),
+          logger: new TypeORMLogger(config.get<LoggerOptions>('logger')),
         };
       },
       inject: [ConfigService],
     }),
-    MybatisModule.forRoot({
-      cwd: __dirname,
-      // dts: resolve(__dirname, './types/mapper.d.ts'),
-      globs: ['**/*.mapper.xml'],
-    }),
-    SecurityModule.forRootAsync({
-      useFactory() {
-        return {
-          secret: TokenConstants.SECRET,
-        };
-      },
-      // useFactory(config: ConfigService) {
-      //   return config.get<SecurityOptions>('security')
-      // },
-      // inject: [ConfigService],
-    }),
     BullModule.forRootAsync({
       useFactory(config: ConfigService) {
-        return {
-          redis: config.get<RedisModuleOptions['config']>('redis'),
-        };
+        return config.get<BullModuleOptions>('bull');
+      },
+      inject: [ConfigService],
+    }),
+
+    CoreModule.forRoot(),
+    SecurityModule.forRootAsync({
+      useFactory(config: ConfigService) {
+        return config.get<SecurityOptions>('security');
       },
       inject: [ConfigService],
     }),
     LoggerModule.forRootAsync({
       useFactory(config: ConfigService) {
-        return {
-          appName: config.get('app.name'),
-          logPath: resolve(__dirname, '../logs'),
-        };
+        return config.get<LoggerOptions>('logger');
       },
       inject: [ConfigService],
     }),
     ExcelModule.forRoot(),
     DataScopeModule.forRoot(),
+
     AuthModule,
     FileModule,
-    SystemModule,
     MonitorModule,
     GenModule,
+    SystemModule,
   ],
-  controllers: [],
-  providers: [],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}

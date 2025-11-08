@@ -51,8 +51,23 @@ export class ConfigStore {
 
   private compileWithEnv(key: string | number, parent: any, config: any) {
     if (isString(config)) {
-      const template = compile(config.replace(/\${{/g, '{{'));
-      parent[key] = template({ ...process.env, ...this._data });
+      // 将 ${{ VAR || defaultValue }} 转换为 Handlebars 语法
+      // 支持默认值：${{ API_PORT || 6010 }}
+      let templateStr = config.replace(/\${{/g, '{{');
+
+      // 处理 || 默认值语法：{{ VAR || defaultValue }} -> {{#if VAR}}{{VAR}}{{else}}defaultValue{{/if}}
+      templateStr = templateStr.replace(
+        /\{\{([^}]+)\s*\|\|\s*([^}]+)\}\}/g,
+        (_match, varName, defaultValue) => {
+          const trimmedVar = varName.trim();
+          const trimmedDefault = defaultValue.trim();
+          return `{{#if ${trimmedVar}}}{{${trimmedVar}}}{{else}}${trimmedDefault}}{{/if}}`;
+        },
+      );
+
+      const template = compile(templateStr);
+      const context = { ...process.env, ...this._data };
+      parent[key] = template(context);
     } else if (isArray(config)) {
       config.forEach((item, index) => this.compileWithEnv(index, config, item));
     } else if (isObject(config)) {
