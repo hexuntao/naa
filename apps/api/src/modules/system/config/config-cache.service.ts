@@ -5,10 +5,10 @@ import { InjectRedis } from '@nestjs-modules/ioredis';
 import { Redis } from 'ioredis';
 import { Repository } from 'typeorm';
 
-import { BaseStatusEnum, CacheConstants } from '@/modules/core';
+import { BaseStatusEnum } from '@/modules/core';
 
+import { SYS_CONFIG_KEY } from './config.constants';
 import { SysConfig } from './entities/sys-config.entity';
-
 /**
  * 参数配置缓存
  */
@@ -83,6 +83,6 @@ export class ConfigCacheService implements OnModuleInit {
    * 获取缓存 key
    */
   private getCacheKey(configKey: string): string {
-    return `${CacheConstants.SYS_CONFIG_KEY}${configKey}`;
+    return `${SYS_CONFIG_KEY}${configKey}`;
   }
 }

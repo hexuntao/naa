@@ -31,6 +31,7 @@ export class ConfigLoader {
       if (isArray(objValue)) {
         return srcValue;
       }
+      return undefined;
     });
   }
 

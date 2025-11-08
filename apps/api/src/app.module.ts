@@ -16,7 +16,6 @@ import { LoggerModule, TypeORMLogger } from '@/modules/logger';
 import { MonitorModule } from '@/modules/monitor/monitor.module';
 import { MybatisModule } from '@/modules/mybatis';
 import { SecurityModule } from '@/modules/security';
-import { SharedModule } from '@/modules/shared/shared.module';
 import { SystemModule } from '@/modules/system/system.module';
 
 import * as configs from './config';
@@ -87,7 +86,6 @@ import * as configs from './config';
     }),
     ExcelModule.forRoot(),
     DataScopeModule.forRoot(),
-    SharedModule,
     AuthModule,
     FileModule,
     SystemModule,

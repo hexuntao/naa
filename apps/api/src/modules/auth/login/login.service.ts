@@ -13,7 +13,6 @@ import {
   PasswordUtils,
   BaseIsEnum,
   UserStatusEnum,
-  CacheConstants,
 } from '@/modules/core';
 import { ConfigService } from '@/modules/system/config/config.service';
 import { MenuService } from '@/modules/system/menu/menu.service';
@@ -21,6 +20,7 @@ import { MenuTreeVo } from '@/modules/system/menu/vo/menu.vo';
 import { UserService } from '@/modules/system/user/user.service';
 
 import { LoginDto } from './dto/login.dto';
+import { CAPTCHA_CODE_KEY } from './login.constants';
 import { CaptchaVo, RouterTreeVo } from './vo/login.vo';
 
 /**
@@ -88,7 +88,7 @@ export class LoginService {
       uuid: randomUUID(),
     };
 
-    const key = `${CacheConstants.CAPTCHA_CODE_KEY}${result.uuid}`;
+    const key = `${CAPTCHA_CODE_KEY}${result.uuid}`;
     await this.redis.set(key, text, 'EX', 60 * 5);
 
     return result;
@@ -100,7 +100,7 @@ export class LoginService {
    * @returns 验证失败抛出错误信息
    */
   async verifyCaptcha(form: LoginDto): Promise<void> {
-    const key = `${CacheConstants.CAPTCHA_CODE_KEY}${form.uuid}`;
+    const key = `${CAPTCHA_CODE_KEY}${form.uuid}`;
     const code = await this.redis.get(key);
     if (!code) {
       throw new ServiceException('验证码已过期');

@@ -5,8 +5,7 @@ import { Redis } from 'ioredis';
 import { groupBy } from 'lodash';
 import { Repository } from 'typeorm';
 
-import { CacheConstants } from '@/modules/core';
-
+import { SYS_DICT_KEY } from './dict.constants';
 import { SysDictData } from './entities/sys-dict-data.entity';
 
 /**
@@ -85,6 +84,6 @@ export class DictCacheService implements OnModuleInit {
    * 获取缓存 key
    */
   private getCacheKey(dictType: string): string {
-    return `${CacheConstants.SYS_DICT_KEY}${dictType}`;
+    return `${SYS_DICT_KEY}${dictType}`;
   }
 }
