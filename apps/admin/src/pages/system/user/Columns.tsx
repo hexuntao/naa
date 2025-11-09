@@ -58,7 +58,7 @@ const Columns: CrudColumnsType<UserModel>[] = [
   },
   {
     title: '手机号码',
-    dataIndex: 'phone',
+    dataIndex: 'phonenumber',
     search: false,
     align: 'center',
     fieldProps: {
@@ -82,7 +82,7 @@ const Columns: CrudColumnsType<UserModel>[] = [
     valueType: 'radio',
     initialValue: '0',
     render: (_, record, index, action, schema) => {
-      const statusKey = `${schema.dataIndex || 'sex'}`;
+      const statusKey = 'sex';
       return dictMap[ageType] && <DictTag options={dictMap[ageType]} value={record[statusKey]} />;
     },
     request: async () => {

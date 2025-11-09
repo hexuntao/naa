@@ -119,7 +119,7 @@ export type CrudProps<
     /** 是否显示 */
     show?: boolean;
     text?: string;
-    api?: (params?: any) => Promise<any>;
+    api?: (id: number, params?: any) => Promise<any>;
     /**
      * 打开弹窗时操作
      * @description 返回false可进行拦截

@@ -87,7 +87,7 @@ const baseYesNoColumn: CrudColumnsType<MenuModel> = {
   formItemProps: {
     rules: [{ required: true }],
   },
-  render: (_, record, index, action, schema) => {
+  render: (_, record: MenuModel | any, index, action, schema) => {
     const key = `${schema.dataIndex || 'status'}`;
     return dictMap[yesNoType] && <DictTag options={dictMap[yesNoType]} value={record[key]} />;
   },

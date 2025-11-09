@@ -11,40 +11,40 @@ import { httpRequest } from '@/utils/request';
  * 查询树
  */
 export function getTreeList(params?: ListDeptParams) {
-  return httpRequest.get<DeptTreeResult[]>('/dept/tree', params);
+  return httpRequest.get<DeptTreeResult[]>('/depts/tree', params);
 }
 
 /**
  * 查询树选项
  */
 export function getOptionTree() {
-  return httpRequest.get<DeptTreeResult[]>('/dept/tree/options');
+  return httpRequest.get<DeptTreeResult[]>('/depts/tree-options');
 }
 
 /**
  * 查询详情
  */
 export function getDetail(deptId: React.Key) {
-  return httpRequest.get<DeptModel>(`/dept/info/${deptId}`);
+  return httpRequest.get<DeptModel>(`/depts/${deptId}`);
 }
 
 /**
  * 添加
  */
 export function add(params: CreateDeptParams) {
-  return httpRequest.post('/dept/add', params);
+  return httpRequest.post('/depts', params);
 }
 
 /**
  * 更新
  */
-export function update(params: UpdateDeptParams) {
-  return httpRequest.put('/dept/update', params);
+export function update(deptId: number, params: UpdateDeptParams) {
+  return httpRequest.put(`/depts/${deptId}`, params);
 }
 
 /**
  * 删除
  */
 export function deletes(deptId: React.Key) {
-  return httpRequest.delete(`/dept/delete/${deptId}`);
+  return httpRequest.delete(`/depts/${deptId}`);
 }

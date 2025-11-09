@@ -1,7 +1,7 @@
 /**
  * 通知公告信息
  */
-export interface NoticeModel extends ObjectLiteral {
+export interface NoticeModel {
   /** 公告ID */
   noticeId: number;
 
@@ -37,4 +37,4 @@ export type CreateNoticeParams = Omit<NoticeModel, 'noticeId'>;
 /**
  * 更新通知公告
  */
-export type UpdateNoticeParams = NoticeModel;
+export type UpdateNoticeParams = Omit<NoticeModel, 'noticeId'>;

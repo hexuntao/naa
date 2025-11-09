@@ -1,4 +1,4 @@
-import { DictDataModel } from './model';
+import { DictTypeModel } from './model';
 import { CrudColumnsType } from '@/components/Crud';
 import {
   createTimeColumn,
@@ -8,7 +8,7 @@ import {
   statusInForm,
 } from '@/models/columns';
 
-const Columns: CrudColumnsType<DictDataModel>[] = [
+const Columns: CrudColumnsType<DictTypeModel>[] = [
   // {
   //   title: '数据编号',
   //   dataIndex: 'dictId',

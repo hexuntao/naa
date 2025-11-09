@@ -38,12 +38,11 @@ export class SecurityModule {
       module: SecurityModule,
       imports: [
         JwtModule.registerAsync({
-          async useFactory(...args: any) {
+          async useFactory(...args) {
             const options: SecurityOptions = await OptionsProvider.useFactory(...args);
             return {
               global: true,
-              secret: options.secret,
-              // ...options.jwt,
+              ...options.jwt,
             };
           },
           inject: OptionsProvider.inject,

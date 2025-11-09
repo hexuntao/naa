@@ -38,7 +38,6 @@ const UpdateAvatar: React.FC<{ profile: ProfileInfoResult }> = ({ profile }) => 
   const handleRotateRight = () => {
     cropperRef.current?.cropper.rotate(90);
   };
-
   /**
    * 提交表单
    */

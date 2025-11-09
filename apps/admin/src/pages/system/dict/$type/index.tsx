@@ -2,14 +2,14 @@ import { useParams, useAccess } from '@umijs/max';
 import Crud from '@/components/Crud';
 import Columns from './Columns';
 import { add, deletes, getPageList, update } from './services';
-import { DictDataModel, ListDictDataParams } from './model';
+import { DictTypeModel, ListDictTypeParams } from './model';
 
 const DictData = () => {
   const { type: dictType } = useParams();
   const { hasPermission } = useAccess();
 
   return (
-    <Crud<DictDataModel, ListDictDataParams>
+    <Crud<DictTypeModel, ListDictTypeParams>
       rowKey="dictId"
       columns={Columns}
       list={{

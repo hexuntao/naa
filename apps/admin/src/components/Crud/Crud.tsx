@@ -174,10 +174,15 @@ const Crud = <
     if (currentRecord?.[rowKeyName]) {
       params[rowKeyName] = currentRecord[rowKeyName];
     }
-
-    await (params[rowKeyName] ? update.api : add.api)(params).finally(() => {
-      tableRef.current?.reload();
-    });
+    if (params[rowKeyName]) {
+      await update.api(_values.id, params).finally(() => {
+        tableRef.current?.reload();
+      });
+    } else {
+      await add.api(params).finally(() => {
+        tableRef.current?.reload();
+      });
+    }
 
     message.success({ key: 'success', content: '操作成功' });
 

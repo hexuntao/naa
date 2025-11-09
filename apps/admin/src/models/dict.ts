@@ -1,8 +1,8 @@
 import { useMap } from 'ahooks';
 import { isArray } from 'lodash';
 import { useCallback } from 'react';
-import { dictDataOptions } from '@/pages/system/dict/$type/services';
-import type { DictDataModel } from '@/pages/system/dict/$type/model';
+import { dictDataOptions } from '@/pages/system/dict/services';
+import type { DictDataModel } from '@/pages/system/dict/model';
 import { isNullOrUndef } from '@/utils/is';
 
 export type DictKeys = number | number[] | string | string[];
@@ -73,7 +73,7 @@ export default () => {
    * 转化为下拉选项
    */
   const toSelect = (data: DictData[]) => {
-    return data.filter((i) => i.status === '1');
+    return data.filter((i) => i.status === '0');
   };
 
   /**

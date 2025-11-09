@@ -20,7 +20,7 @@ export interface ProfileInfoResult extends UserModel {
 /**
  * 更新个人信息
  */
-export type UpdateProfileParams = Pick<UserModel, 'nickName' | 'sex' | 'email' | 'phone'>;
+export type UpdateProfileParams = Pick<UserModel, 'nickName' | 'sex' | 'email' | 'phonenumber'>;
 
 /**
  * 更新个人密码

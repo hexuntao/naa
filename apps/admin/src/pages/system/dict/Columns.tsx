@@ -1,4 +1,4 @@
-import { DictTypeModel } from './model';
+import { DictDataModel } from './model';
 import { CrudColumnsType } from '@/components/Crud';
 import {
   createTimeColumn,
@@ -9,7 +9,7 @@ import {
 } from '@/models/columns';
 import { Link } from '@umijs/max';
 
-const Columns: CrudColumnsType<DictTypeModel>[] = [
+const Columns: CrudColumnsType<DictDataModel>[] = [
   // {
   //   title: '字典编号',
   //   dataIndex: 'dictId',

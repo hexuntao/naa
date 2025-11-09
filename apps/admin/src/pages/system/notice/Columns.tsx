@@ -38,7 +38,7 @@ const Columns: CrudColumnsType<NoticeModel>[] = [
       rules: [{ required: true }],
     },
     render: (_, record, index, action, schema) => {
-      const statusKey = `${schema.dataIndex || 'noticeType'}`;
+      const statusKey = 'noticeType';
       return (
         dictMap[noticeType] && <DictTag options={dictMap[noticeType]} value={record[statusKey]} />
       );

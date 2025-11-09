@@ -1,7 +1,7 @@
 /**
  * 用户信息
  */
-export interface UserModel extends ObjectLiteral {
+export interface UserModel {
   /** 用户ID */
   userId: number;
 
@@ -21,9 +21,9 @@ export interface UserModel extends ObjectLiteral {
   email?: string;
 
   /** 手机号码 */
-  phone?: string;
+  phonenumber?: string;
 
-  /** 用户性别（0男 1女 2未知） */
+  /** 用户性别（1男 2女 3保密） */
   sex: string;
 
   /** 头像地址 */
@@ -32,7 +32,7 @@ export interface UserModel extends ObjectLiteral {
   /** 密码 */
   password: string;
 
-  /** 用户状态（1正常 0停用） */
+  /** 用户状态（0正常 1停用 2删除） */
   status: string;
 }
 
@@ -60,7 +60,7 @@ export interface ListUserParams extends PaginateParams {
   /** 用户昵称 */
   nickName?: string;
 
-  /** 用户状态（1正常 0停用） */
+  /** 用户状态（0正常 1停用 2删除） */
   status?: string;
 }
 
@@ -72,4 +72,4 @@ export type CreateUserParams = Omit<UserModel, 'userId'>;
 /**
  * 更新
  */
-export type UpdateUserParams = UserModel;
+export type UpdateUserParams = Omit<UserModel, 'userId'>;
