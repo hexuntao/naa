@@ -2,9 +2,13 @@
 title: 系统日志
 ---
 
-## 外部日志
+提供完整的日志记录功能，包括应用日志和操作日志。基于 [Winston](https://github.com/winstonjs/winston) 实现文件日志，支持日志分级、日志轮转和日志查询。
 
-在实际开发中，我们通常需要把日志(错误日志、手动打印日志) 存储到本地文件中，以便我们在生产环境便于排查错误。内部使用 [Winston](https://github.com/winstonjs/winston) 完全 [自定义日志](https://docs.nestjs.com/techniques/logger) 来替换内部的记录器。
+## 应用日志
+
+在实际开发中，我们通常需要把日志（错误日志、手动打印日志）存储到本地文件中，以便我们在生产环境便于排查错误。内部使用 [Winston](https://github.com/winstonjs/winston) 完全 [自定义日志](https://docs.nestjs.com/techniques/logger) 来替换内部的记录器。
+
+### 使用 Logger
 
 在应用中一个好的实践是实例化 `Logger` 类，这将与具体的实现无关。
 
@@ -16,12 +20,52 @@ export class AppService {
   private logger = new Logger(AppService.name);
 
   getHello(): string {
-    this.logger.log('logger log');
-    this.logger.warn('logger warn');
-    this.logger.error('logger error');
+    this.logger.log('logger log');      // 信息日志
+    this.logger.warn('logger warn');     // 警告日志
+    this.logger.error('logger error');  // 错误日志
+    this.logger.debug('logger debug');  // 调试日志
+    this.logger.verbose('logger verbose'); // 详细日志
   }
 }
 ```
+
+### 日志级别
+
+日志级别从低到高：
+
+- `verbose`：详细日志，用于调试
+- `debug`：调试日志
+- `log`：信息日志（默认级别）
+- `warn`：警告日志
+- `error`：错误日志
+
+### 日志配置
+
+日志配置在 `config/logger.config.yaml` 中：
+
+```yaml
+logger:
+  level: info              # 日志级别
+  dir: logs                # 日志目录
+  maxSize: 20m             # 单个日志文件最大大小
+  maxFiles: 14d            # 保留日志文件天数
+  datePattern: YYYY-MM-DD  # 日志文件日期格式
+```
+
+### 日志文件
+
+日志文件按日期和类型分类存储：
+
+```
+logs/
+  ├── naa-2024-01-01.log          # 应用日志
+  ├── naa-error-2024-01-01.log    # 错误日志
+  └── naa-sql-2024-01-01.log       # SQL 日志
+```
+
+::: tip 日志轮转
+日志文件支持按大小和日期自动轮转，避免单个文件过大。超过保留天数的日志文件会自动删除。
+:::
 
 ## 操作日志
 
@@ -96,3 +140,32 @@ export class TestController {
   async test(): Promise<AjaxResult> {}
 }
 ```
+
+## 请求日志
+
+系统会自动记录所有 HTTP 请求的日志，包括：
+
+- 请求方法、URL、参数
+- 响应状态码、响应数据
+- 请求耗时
+- 客户端 IP、User-Agent
+
+请求日志通过拦截器自动记录，无需手动添加代码。
+
+## 注意事项
+
+::: tip 日志性能
+- 日志记录是异步操作，不会阻塞业务请求
+- 大量日志可能影响磁盘 I/O，建议合理设置日志级别
+- 生产环境建议关闭 `debug` 和 `verbose` 级别日志
+:::
+
+::: warning 日志安全
+- 日志中可能包含敏感信息（密码、token 等），注意保护日志文件
+- 建议对日志文件设置适当的文件权限
+- 定期清理历史日志，避免占用过多磁盘空间
+:::
+
+::: tip 日志查询
+操作日志可以在"系统监控 -> 操作日志"中查看和查询。应用日志需要直接查看日志文件或使用日志分析工具。
+:::

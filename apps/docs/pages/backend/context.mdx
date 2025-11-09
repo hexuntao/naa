@@ -4,6 +4,8 @@ title: 异步上下文
 
 在 Node.js 服务开发中，把用户信息保存在请求对象上是一种常见的方式。为了不在类之间传递请求对象，所以集成了 [Async Local Storage](https://docs.nestjs.com/recipes/async-local-storage) 便于获取请求信息。
 
+基于 `nestjs-cls` 实现，提供了全局的异步上下文管理，可以在任何地方获取当前请求的信息，无需显式传递请求对象。
+
 ## 请求上下文
 
 获取当前请求和响应对象。
@@ -17,28 +19,108 @@ export class AppService {
   constructor(private requestContext: RequestContext) {}
 
   getHello() {
-    this.requestContext.getRequest();
-    this.requestContext.getResponse();
+    // 获取 Express Request 对象
+    const request = this.requestContext.getRequest();
+    const method = request.method;
+    const url = request.url;
+    const headers = request.headers;
+
+    // 获取 Express Response 对象
+    const response = this.requestContext.getResponse();
+
+    // 获取请求 ID（自动生成）
+    const requestId = this.requestContext.getId();
   }
 }
 ```
 
+### 使用场景
+
+- 在 Service 层获取请求头信息
+- 记录请求日志时获取请求 ID
+- 获取客户端 IP 地址
+- 设置响应头
+
 ## 安全上下文
 
-获取当前已认证的用户信息。
+获取当前已认证的用户信息。这是获取登录用户信息最推荐的方式。
 
 ```ts
 import { Injectable } from '@nestjs/common';
-import { SecurityContext } from '@/moduls/core';
+import { SecurityContext } from '@/modules/core';
 
 @Injectable()
 export class AppService {
   constructor(private securityContext: SecurityContext) {}
 
   getHello() {
-    this.securityContext.getUserId();
-    this.securityContext.getUserName();
-    this.securityContext.getLoginUser();
+    // 获取用户 ID
+    const userId = this.securityContext.getUserId();
+
+    // 获取用户名
+    const userName = this.securityContext.getUserName();
+
+    // 获取完整的登录用户信息（包含角色、权限等）
+    const loginUser = this.securityContext.getLoginUser();
+
+    // 检查用户是否已登录
+    const isAuthenticated = this.securityContext.isAuthenticated();
   }
 }
 ```
+
+### 返回类型
+
+```ts
+// getLoginUser() 返回 SysLoginUser 类型
+interface SysLoginUser {
+  userId: number;
+  userName: string;
+  sysUser: SysUser; // 用户基本信息
+  roles: string[]; // 角色标识列表
+  permissions: string[]; // 权限标识列表
+  scopes: DataScopeType[]; // 数据权限范围
+  loginIp: string; // 登录 IP
+  loginTime: Date; // 登录时间
+  userSk: string; // 用户会话标识
+}
+```
+
+## 注意事项
+
+::: warning 异步上下文限制异步上下文只在请求处理期间有效，以下场景无法获取上下文：
+
+1. **定时任务中**：定时任务不在请求上下文中执行
+2. **消息队列处理中**：需要手动传递上下文信息
+3. **WebSocket 连接中**：需要特殊处理
+
+```ts
+// ❌ 错误：在定时任务中无法获取上下文
+@Cron('0 0 * * *')
+async scheduledTask() {
+  // 这里无法获取 RequestContext 和 SecurityContext
+}
+
+// ✅ 正确：在请求处理中使用
+@Get('info')
+async getUserInfo() {
+  const userId = this.securityContext.getUserId(); // 可以正常获取
+}
+```
+
+:::
+
+::: tip 性能考虑异步上下文基于 AsyncLocalStorage 实现，性能开销很小，可以放心使用。但避免在循环中频繁调用。:::
+
+::: warning 未登录用户如果用户未登录，`SecurityContext` 的方法会返回 `undefined` 或抛出异常。建议在使用前检查：
+
+```ts
+if (this.securityContext.isAuthenticated()) {
+  const userId = this.securityContext.getUserId();
+  // 处理已登录用户逻辑
+} else {
+  // 处理未登录用户逻辑
+}
+```
+
+:::

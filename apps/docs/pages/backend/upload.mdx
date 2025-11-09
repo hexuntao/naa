@@ -2,7 +2,7 @@
 title: 文件上传
 ---
 
-本地文件存储服务。可在(系统工具 -> 文件上传)中管理文件。
+提供文件上传、下载和管理功能。支持本地存储，可在"系统工具 -> 文件上传"中管理文件。
 
 ## 配置
 
@@ -10,9 +10,14 @@ title: 文件上传
 
 ```yaml
 upload:
-  path: ${{ PWD }}/uploads
-  prefix: /uploads
-  # domain: http://localhost:${{ app.port }}
+  path: ${{ PWD }}/uploads      # 上传文件存储路径
+  prefix: /uploads                # 文件访问路径前缀
+  # domain: http://localhost:${{ app.port }}  # 文件访问域名（可选）
+  maxSize: 10mb                   # 单个文件最大大小
+  allowedMimeTypes:               # 允许的 MIME 类型（可选）
+    - image/jpeg
+    - image/png
+    - image/gif
 ```
 
 把上传的文件作为静态文件响应。
@@ -24,6 +29,125 @@ async function bootstrap() {
   // ...
 }
 ```
+
+## 文件上传
+
+### 单文件上传
+
+```ts
+import { Controller, Post, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { UploadFileUrl } from '@/modules/file';
+
+@Controller('file')
+export class FileController {
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('file'))
+  async upload(@UploadFileUrl() url: string): Promise<AjaxResult> {
+    // url: '/uploads/1723965589601fc7229032d084cf4a39ad492507bbe51.png'
+    return AjaxResult.success({ url });
+  }
+}
+```
+
+### 多文件上传
+
+```ts
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { UploadFileUrls } from '@/modules/file';
+
+@Controller('file')
+export class FileController {
+  @Post('uploads')
+  @UseInterceptors(FilesInterceptor('files', 10)) // 最多 10 个文件
+  async uploads(@UploadFileUrls() urls: string[]): Promise<AjaxResult> {
+    // urls: ['/uploads/file1.png', '/uploads/file2.png', ...]
+    return AjaxResult.success({ urls });
+  }
+}
+```
+
+### 文件信息
+
+上传的文件信息会自动保存到数据库（`sys_file` 表），包括：
+
+- 文件原始名称
+- 文件存储路径
+- 文件大小
+- 文件 MIME 类型
+- 上传时间
+- 上传用户
+
+## 文件下载
+
+```ts
+import { Controller, Get, Param, Res, StreamableFile } from '@nestjs/common';
+import { Response } from 'express';
+import { FileService } from '@/modules/file';
+
+@Controller('file')
+export class FileController {
+  constructor(private fileService: FileService) {}
+
+  @Get('download/:fileId')
+  async download(@Param('fileId') fileId: number, @Res() res: Response) {
+    const file = await this.fileService.findOne(fileId);
+    const filePath = path.join(config.get('upload.path'), file.filePath);
+    return res.download(filePath, file.originalName);
+  }
+}
+```
+
+## 文件管理
+
+文件管理功能提供了以下接口：
+
+- 查询文件列表
+- 根据文件 ID 查询文件信息
+- 删除文件（同时删除物理文件）
+
+```ts
+// 查询文件列表
+// GET /api/file/list?page=1&limit=10&originalName=test
+
+// 根据 ID 查询文件
+// GET /api/file/:fileId
+
+// 删除文件
+// DELETE /api/file/:fileId
+```
+
+## 注意事项
+
+::: warning 文件大小限制
+- 默认单个文件最大大小为 10MB
+- 可以通过配置 `upload.maxSize` 修改
+- 注意服务器磁盘空间，避免上传过大文件
+:::
+
+::: tip 文件类型限制
+- 可以通过 `upload.allowedMimeTypes` 配置允许的文件类型
+- 建议在生产环境中限制文件类型，防止上传恶意文件
+- 图片文件建议进行格式验证和大小限制
+:::
+
+::: warning 文件安全
+- 上传的文件会直接存储在服务器上，注意文件权限设置
+- 建议对上传的文件进行病毒扫描
+- 用户上传的文件不要直接执行，避免安全风险
+:::
+
+::: tip 文件访问
+- 上传的文件通过静态资源服务提供访问
+- 文件 URL 格式：`{domain}{prefix}/{filePath}`
+- 建议使用 CDN 加速文件访问
+:::
+
+::: warning 文件存储
+- 当前仅支持本地存储
+- 如需支持云存储（OSS、S3 等），需要实现自定义存储策略
+- 建议定期备份重要文件
+:::
 
 ## 装饰器
 

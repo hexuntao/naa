@@ -1,0 +1,225 @@
+---
+title: 健康检查
+---
+
+提供系统健康状态检查功能，用于监控应用运行状态。基于 `@nestjs/terminus` 实现。
+
+## 功能特性
+
+健康检查模块提供了以下检查项：
+
+- **网络连接检查**：检查应用自身网络可达性
+- **MySQL 连接检查**：检查数据库连接状态
+- **Redis 连接检查**：检查 Redis 连接状态
+- **磁盘使用检查**：检查磁盘空间使用情况
+- **内存堆检查**：检查进程堆内存使用情况
+- **内存 RSS 检查**：检查进程常驻内存使用情况
+
+## 使用
+
+### 健康检查接口
+
+```ts
+// GET /api/health
+// 无需认证（@Public()）
+
+// 响应示例
+{
+  "status": "ok",
+  "info": {
+    "naa": {
+      "status": "up"
+    },
+    "mysql": {
+      "status": "up"
+    },
+    "redis": {
+      "status": "up"
+    },
+    "disk": {
+      "status": "up",
+      "message": "Disk storage is healthy"
+    },
+    "memory-heap": {
+      "status": "up",
+      "message": "Memory heap is healthy"
+    },
+    "memory-rss": {
+      "status": "up",
+      "message": "Memory RSS is healthy"
+    }
+  },
+  "error": {},
+  "details": {
+    "naa": {
+      "status": "up"
+    },
+    "mysql": {
+      "status": "up"
+    },
+    "redis": {
+      "status": "up"
+    },
+    "disk": {
+      "status": "up",
+      "message": "Disk storage is healthy"
+    },
+    "memory-heap": {
+      "status": "up",
+      "message": "Memory heap is healthy"
+    },
+    "memory-rss": {
+      "status": "up",
+      "message": "Memory RSS is healthy"
+    }
+  }
+}
+```
+
+### 状态说明
+
+- `status: "ok"`：所有检查项都正常
+- `status: "error"`：至少有一个检查项失败
+- 每个检查项的 `status` 可以是 `"up"` 或 `"down"`
+
+## 检查项配置
+
+### 磁盘使用检查
+
+```ts
+// 默认配置
+disk.checkStorage('disk', {
+  path: '/',
+  thresholdPercent: 0.8, // 磁盘使用率超过 80% 时标记为不健康
+});
+```
+
+### 内存检查
+
+```ts
+// 堆内存检查（默认阈值：200MB）
+memory.checkHeap('memory-heap', 200 * 1024 * 1024);
+
+// RSS 内存检查（默认阈值：200MB）
+memory.checkRSS('memory-rss', 200 * 1024 * 1024);
+```
+
+## 自定义健康检查
+
+如果需要添加自定义健康检查，可以扩展 `HealthService`：
+
+```ts
+import { Injectable } from '@nestjs/common';
+import { HealthCheckService, HealthIndicator } from '@nestjs/terminus';
+
+@Injectable()
+export class CustomHealthIndicator extends HealthIndicator {
+  constructor(private healthCheck: HealthCheckService) {
+    super();
+  }
+
+  async checkCustomService(key: string) {
+    try {
+      // 执行自定义检查逻辑
+      const isHealthy = await this.checkCustomLogic();
+
+      return this.getStatus(key, isHealthy, {
+        message: isHealthy ? 'Custom service is healthy' : 'Custom service is down',
+      });
+    } catch (error) {
+      return this.getStatus(key, false, { error: error.message });
+    }
+  }
+
+  private async checkCustomLogic(): Promise<boolean> {
+    // 实现检查逻辑
+    return true;
+  }
+}
+```
+
+然后在 `HealthController` 中添加：
+
+```ts
+@Get()
+@Public()
+@HealthCheck()
+async check(): Promise<HealthCheckResult> {
+  return await this.health.check([
+    () => this.healthService.checkNetwork(),
+    () => this.healthService.checkMysql(),
+    () => this.healthService.checkRedis(),
+    () => this.healthService.checkDisk(),
+    () => this.healthService.checkMemoryHeap(),
+    () => this.healthService.checkMemoryRSS(),
+    () => this.customHealthIndicator.checkCustomService('custom'), // 添加自定义检查
+  ]);
+}
+```
+
+## 集成监控系统
+
+健康检查接口可以集成到监控系统中：
+
+### Prometheus
+
+```yaml
+# prometheus.yml
+scrape_configs:
+  - job_name: 'naa-health'
+    metrics_path: '/api/health'
+    static_configs:
+      - targets: ['localhost:6010']
+```
+
+### Kubernetes
+
+```yaml
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: naa-api
+spec:
+  template:
+    spec:
+      containers:
+        - name: api
+          livenessProbe:
+            httpGet:
+              path: /api/health
+              port: 6010
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /api/health
+              port: 6010
+            initialDelaySeconds: 5
+            periodSeconds: 5
+```
+
+### Docker
+
+```dockerfile
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:6010/api/health || exit 1
+```
+
+## 注意事项
+
+::: tip 性能考虑健康检查接口会执行多个检查操作，可能有一定延迟。建议：
+
+- 不要过于频繁地调用健康检查接口
+- 在生产环境中设置合理的超时时间
+- 考虑使用缓存减少检查频率 :::
+
+::: warning 检查失败处理当某个检查项失败时：
+
+- 接口会返回 `status: "error"`
+- 失败的检查项会显示在 `error` 字段中
+- 建议配置告警通知，及时处理问题 :::
+
+::: tip 网络检查网络检查默认检查应用自身（`http://127.0.0.1:6010/`），主要用于验证应用是否正常响应。可以根据需要修改检查目标。:::
+
+::: warning 磁盘检查路径磁盘检查默认检查根路径 `/`，在 Windows 系统上可能需要修改为 `C:\\` 等路径。:::

@@ -1,3 +1,21 @@
 {
-  "introduce": "介绍"
+  "introduce": "介绍",
+  "config": "配置系统",
+  "context": "异步上下文",
+  "auth": "认证模块",
+  "security": "系统权限",
+  "datascope": "数据权限",
+  "exception": "异常处理",
+  "logger": "系统日志",
+  "validator": "参数校验",
+  "decorator": "装饰器",
+  "excel": "导入导出",
+  "upload": "文件上传",
+  "gen": "代码生成",
+  "swagger": "系统接口",
+  "mybatis": "Mybatis",
+  "sensitive": "数据脱敏",
+  "job": "定时任务",
+  "monitor": "监控模块",
+  "health": "健康检查"
 }

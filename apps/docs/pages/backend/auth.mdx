@@ -1,0 +1,206 @@
+---
+title: 认证模块
+---
+
+提供用户登录、登出、验证码生成和会话管理功能。基于 JWT 实现无状态认证。
+
+## 功能特性
+
+- 用户登录/登出
+- 验证码生成与验证（基于 svg-captcha）
+- 会话信息获取
+- 登录日志记录
+- 密码加密存储（bcrypt）
+
+## 登录接口
+
+### 用户登录
+
+```ts
+// POST /api/auth/login
+{
+  "username": "admin",
+  "password": "123456",
+  "code": "1234",      // 验证码（如果启用）
+  "uuid": "xxx-xxx"    // 验证码唯一标识
+}
+
+// 响应
+{
+  "code": 200,
+  "data": {
+    "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
+    "expiresIn": 7200  // token 过期时间（秒）
+  },
+  "message": "登录成功"
+}
+```
+
+### 获取验证码
+
+```ts
+// GET /api/auth/captcha
+
+// 响应
+{
+  "code": 200,
+  "data": {
+    "img": "<svg>...</svg>",  // SVG 格式的验证码图片
+    "uuid": "xxx-xxx"         // 验证码唯一标识，登录时需要传递
+  }
+}
+```
+
+### 用户登出
+
+```ts
+// POST /api/auth/logout
+// Headers: Authorization: Bearer {token}
+
+// 响应
+{
+  "code": 200,
+  "message": "退出成功"
+}
+```
+
+### 获取会话信息
+
+```ts
+// GET /api/auth/info
+// Headers: Authorization: Bearer {token}
+
+// 响应
+{
+  "code": 200,
+  "data": {
+    "user": {
+      "userId": 1,
+      "userName": "admin",
+      "nickName": "管理员",
+      // ... 其他用户信息
+    },
+    "roles": ["admin"],
+    "permissions": ["system:user:list", "system:user:add", ...],
+    "scopes": ["ALL"]  // 数据权限范围
+  }
+}
+```
+
+## 验证码配置
+
+验证码功能可以通过系统参数配置开启或关闭：
+
+```ts
+// 系统参数键名：sys.account.captchaEnabled
+// 值为 'true' 时启用验证码，'false' 时禁用
+```
+
+::: tip 验证码类型当前支持数学表达式验证码（加减乘除），验证码图片为 SVG 格式，无需额外依赖图片处理库。:::
+
+## 密码加密
+
+登录模块使用 `bcrypt` 进行密码加密存储：
+
+```ts
+import { PasswordUtils } from '@/modules/core';
+
+// 加密密码
+const hashedPassword = await PasswordUtils.hash('123456');
+
+// 验证密码
+const isMatch = await PasswordUtils.compare('123456', hashedPassword);
+```
+
+::: warning 密码安全
+
+- 密码使用 bcrypt 加密，salt rounds 为 10
+- 密码不会以明文形式存储或传输
+- 建议在生产环境中使用 HTTPS 协议 :::
+
+## 登录日志
+
+登录成功或失败都会自动记录登录日志，包括：
+
+- 登录账号
+- 登录类型（账号密码、手机号等）
+- 登录状态（成功/失败）
+- 登录 IP 地址
+- 登录地点（通过 IP 解析）
+- 登录信息（成功或失败原因）
+- 用户代理（User-Agent）
+
+登录日志可以在"系统监控 -> 登录日志"中查看。
+
+## 使用示例
+
+### 前端登录流程
+
+```ts
+// 1. 获取验证码
+const captchaRes = await request.get('/api/auth/captcha');
+const { img, uuid } = captchaRes.data;
+
+// 2. 用户输入账号密码和验证码后提交登录
+const loginRes = await request.post('/api/auth/login', {
+  username: 'admin',
+  password: '123456',
+  code: '1234',
+  uuid: uuid,
+});
+
+// 3. 保存 token
+localStorage.setItem('token', loginRes.data.accessToken);
+
+// 4. 获取用户信息
+const userInfo = await request.get('/api/auth/info');
+```
+
+### 后端自定义登录逻辑
+
+如果需要扩展登录功能，可以注入 `LoginService`：
+
+```ts
+import { Injectable } from '@nestjs/common';
+import { LoginService } from '@/modules/auth';
+
+@Injectable()
+export class CustomAuthService {
+  constructor(private loginService: LoginService) {}
+
+  async customLogin(username: string, password: string) {
+    // 验证用户
+    const user = await this.loginService.login({
+      username,
+      password,
+    });
+
+    // 自定义业务逻辑
+    // ...
+
+    return user;
+  }
+}
+```
+
+## 注意事项
+
+::: warning Token 过期
+
+- Token 默认有效期为 2 小时（7200 秒）
+- Token 过期后需要重新登录
+- 建议前端在 token 即将过期时自动刷新或提示用户重新登录 :::
+
+::: tip 验证码缓存验证码存储在 Redis 中，默认过期时间为 2 分钟。验证码验证成功后会自动删除，防止重复使用。:::
+
+::: warning 登录失败处理
+
+- 连续登录失败可能会触发账户锁定（如果实现了该功能）
+- 建议记录登录失败次数，防止暴力破解
+- 生产环境建议启用验证码 :::
+
+::: tip 会话管理
+
+- 使用 Redis 存储用户会话信息
+- 支持多设备同时登录
+- 可以通过"系统监控 -> 在线用户"查看和管理在线用户 :::

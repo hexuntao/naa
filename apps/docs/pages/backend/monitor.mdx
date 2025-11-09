@@ -1,0 +1,245 @@
+---
+title: 监控模块
+---
+
+提供系统监控和审计功能，包括登录日志、操作日志、在线用户管理和缓存监控。
+
+## 模块组成
+
+监控模块包含以下子模块：
+
+- **登录日志** (`login-log`)：记录用户登录成功和失败的信息
+- **操作日志** (`oper-log`)：记录用户的操作行为
+- **在线用户** (`online-user`)：管理当前在线用户会话
+- **缓存监控** (`cache`)：查看和管理 Redis 缓存
+- **定时任务** (`job`)：管理定时任务和执行日志（详见 [定时任务](./job.md)）
+
+## 登录日志
+
+记录用户登录的详细信息，包括登录账号、登录类型、登录状态、IP 地址、登录地点等。
+
+### 功能特性
+
+- 自动记录登录成功和失败日志
+- 支持按登录账号、IP 地址、登录状态等条件查询
+- 支持按时间范围查询
+- 支持导出登录日志
+
+### 使用示例
+
+```ts
+// 查询登录日志
+// GET /api/login-log/list?page=1&limit=10&loginName=admin&loginStatus=0
+
+// 响应
+{
+  "code": 200,
+  "data": {
+    "items": [
+      {
+        "loginId": 1,
+        "loginName": "admin",
+        "loginType": "0",  // 0-账号密码登录
+        "loginStatus": "0", // 0-成功 1-失败
+        "loginIp": "127.0.0.1",
+        "loginLocation": "内网IP",
+        "loginMessage": "登录成功",
+        "userAgent": "Mozilla/5.0...",
+        "createTime": "2024-01-01 12:00:00"
+      }
+    ],
+    "meta": {
+      "totalItems": 100,
+      "itemCount": 10,
+      "itemsPerPage": 10,
+      "totalPages": 10,
+      "currentPage": 1
+    }
+  }
+}
+```
+
+### 登录类型
+
+```ts
+enum LoginType {
+  ACCOUNT_PASSWORD = '0', // 账号密码登录
+  MOBILE = '1', // 手机号登录
+  EMAIL = '2', // 邮箱登录
+  // 可扩展其他登录类型
+}
+```
+
+## 操作日志
+
+记录用户的操作行为，包括操作模块、操作类型、操作内容、请求参数、响应结果等。
+
+### 功能特性
+
+- 通过 `@Log` 装饰器自动记录操作日志
+- 支持按操作类型、操作状态、操作人员等条件查询
+- 支持按时间范围查询
+- 支持清空操作日志
+
+### 使用示例
+
+```ts
+// 查询操作日志
+// GET /api/oper-log/list?page=1&limit=10&operType=INSERT&operStatus=0
+
+// 响应
+{
+  "code": 200,
+  "data": {
+    "items": [
+      {
+        "operId": 1,
+        "title": "用户管理",
+        "operType": "INSERT",
+        "operStatus": "0",  // 0-成功 1-失败
+        "operName": "admin",
+        "requestMethod": "POST",
+        "requestUrl": "/api/user/add",
+        "requestParam": "{\"userName\":\"test\"}",
+        "jsonResult": "{\"code\":200}",
+        "operIp": "127.0.0.1",
+        "operLocation": "内网IP",
+        "operTime": "2024-01-01 12:00:00",
+        "costTime": 50  // 操作耗时（毫秒）
+      }
+    ],
+    "meta": { /* 分页信息 */ }
+  }
+}
+```
+
+### 清空操作日志
+
+```ts
+// DELETE /api/oper-log/clear
+// 需要权限：monitor:operlog:remove
+```
+
+::: warning 数据安全清空操作日志会永久删除所有记录，请谨慎操作。建议在生产环境中定期备份日志数据。:::
+
+## 在线用户
+
+管理当前在线用户会话，支持查看在线用户列表和强制退出用户。
+
+### 功能特性
+
+- 实时查看当前在线用户
+- 支持按用户名、IP 地址查询
+- 支持强制退出指定用户
+- 显示用户登录时间和登录 IP
+
+### 使用示例
+
+```ts
+// 查询在线用户列表
+// GET /api/online-users?userName=admin&loginIp=127.0.0.1
+
+// 响应
+{
+  "code": 200,
+  "data": [
+    {
+      "userSk": "xxx-xxx-xxx",  // 用户会话标识
+      "userId": 1,
+      "userName": "admin",
+      "nickName": "管理员",
+      "loginIp": "127.0.0.1",
+      "loginTime": "2024-01-01 12:00:00"
+    }
+  ]
+}
+
+// 强制退出用户
+// DELETE /api/online-users/{userSk}
+// 需要权限：monitor:online:logout
+```
+
+::: tip 会话管理在线用户信息存储在 Redis 中，当用户 token 过期或主动退出时，会自动从在线用户列表中移除。:::
+
+## 缓存监控
+
+查看和管理 Redis 缓存信息。
+
+### 功能特性
+
+- 查看缓存信息（键名、类型、大小、过期时间等）
+- 根据键名查询缓存
+- 删除指定缓存
+- 清空所有缓存
+
+### 使用示例
+
+```ts
+// 查询缓存信息
+// GET /api/cache/info?pattern=*&page=1&limit=10
+
+// 响应
+{
+  "code": 200,
+  "data": {
+    "items": [
+      {
+        "key": "login_tokens:xxx-xxx",
+        "type": "string",
+        "size": 1024,
+        "ttl": 7200  // 剩余过期时间（秒），-1 表示永不过期
+      }
+    ],
+    "meta": { /* 分页信息 */ }
+  }
+}
+
+// 根据键名查询缓存值
+// GET /api/cache/value?key=login_tokens:xxx-xxx
+
+// 删除指定缓存
+// DELETE /api/cache/{key}
+// 需要权限：monitor:cache:remove
+
+// 清空所有缓存
+// DELETE /api/cache/clear
+// 需要权限：monitor:cache:remove
+```
+
+::: warning 缓存清空清空所有缓存会删除 Redis 中的所有数据，包括用户会话、验证码等，可能导致所有用户被强制退出。请谨慎操作！:::
+
+## 权限说明
+
+监控模块的各个功能需要相应的权限：
+
+| 功能         | 权限标识                 |
+| ------------ | ------------------------ |
+| 登录日志查询 | `monitor:loginlog:list`  |
+| 操作日志查询 | `monitor:operlog:list`   |
+| 操作日志删除 | `monitor:operlog:remove` |
+| 在线用户查询 | `monitor:online:list`    |
+| 在线用户强退 | `monitor:online:logout`  |
+| 缓存信息查询 | `monitor:cache:list`     |
+| 缓存删除     | `monitor:cache:remove`   |
+
+## 注意事项
+
+::: tip 日志存储
+
+- 登录日志和操作日志存储在 MySQL 数据库中
+- 建议定期清理历史日志，避免数据库过大
+- 可以考虑将历史日志迁移到专门的日志存储系统 :::
+
+::: warning 性能考虑
+
+- 日志记录是异步操作，不会阻塞业务请求
+- 大量日志查询可能影响性能，建议使用分页查询
+- 可以考虑使用 Elasticsearch 等专业日志系统存储和查询日志 :::
+
+::: tip 在线用户实时性在线用户列表基于 Redis 中的 token 信息，可能存在一定的延迟。如果需要更精确的在线状态，可以考虑使用 WebSocket 实时推送。:::
+
+::: warning 缓存键命名规范建议使用统一的缓存键命名规范，例如：
+
+- 用户会话：`login_tokens:{userSk}`
+- 验证码：`captcha:{uuid}`
+- 字典缓存：`dict:{dictType}` :::

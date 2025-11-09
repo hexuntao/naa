@@ -76,12 +76,86 @@ export class AppController {
   constructor(private authService: AuthService) {}
 
   getHello() {
+    // 检查角色
     if (this.authService.hasRole('admin')) {
-      // ...
+      // 用户拥有 admin 角色
     }
+    
+    // 检查权限
     if (this.authService.hasPermission('system:user:add')) {
-      // ...
+      // 用户拥有 system:user:add 权限
+    }
+    
+    // 检查多个角色（AND 逻辑）
+    if (this.authService.hasRoles(['admin', 'manager'], Logical.AND)) {
+      // 用户同时拥有 admin 和 manager 角色
+    }
+    
+    // 检查多个权限（OR 逻辑）
+    if (this.authService.hasPermissions(['system:user:add', 'system:user:edit'], Logical.OR)) {
+      // 用户拥有 system:user:add 或 system:user:edit 权限之一
     }
   }
 }
 ```
+
+## Token 管理
+
+系统使用 JWT Token 进行身份认证，Token 相关信息由 `TokenService` 管理。
+
+### Token 创建
+
+```ts
+import { TokenService } from '@/modules/security';
+
+@Injectable()
+export class AuthService {
+  constructor(private tokenService: TokenService) {}
+  
+  async login(user: SysLoginUser) {
+    // 创建 token
+    const token = await this.tokenService.createToken(user);
+    return token;
+  }
+}
+```
+
+### Token 验证
+
+Token 验证由全局守卫自动处理，无需手动验证。如果需要手动验证：
+
+```ts
+const isValid = await this.tokenService.verifyToken(token);
+if (isValid) {
+  const loginUser = await this.tokenService.getLoginUser(token);
+}
+```
+
+### Token 刷新
+
+系统暂不支持 token 刷新，token 过期后需要重新登录。
+
+## 注意事项
+
+::: warning 权限标识格式
+权限标识建议使用 `模块:功能:操作` 的格式，例如：
+- `system:user:list` - 系统模块用户列表
+- `system:user:add` - 系统模块用户新增
+- `system:user:edit` - 系统模块用户编辑
+- `system:user:remove` - 系统模块用户删除
+:::
+
+::: tip 超级管理员
+用户 ID 为 1 的用户（通常是 admin）拥有所有权限，不受权限控制限制。这是系统内置的特殊处理。
+:::
+
+::: warning Token 安全
+- Token 存储在 Redis 中，默认过期时间为 2 小时
+- Token 包含用户基本信息，不要在前端存储敏感信息
+- 建议使用 HTTPS 协议传输 Token
+- 生产环境建议缩短 Token 有效期
+:::
+
+::: tip 权限缓存
+用户权限信息会缓存在 Redis 中，修改用户角色或权限后，需要清除缓存或等待缓存过期。系统会在权限变更时自动清除相关缓存。
+:::
