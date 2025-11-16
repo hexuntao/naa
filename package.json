@@ -1,7 +1,7 @@
 {
   "name": "naa",
   "private": true,
-  "version": "2.2.28",
+  "version": "2.2.29",
   "description": "基于 Nest + Antd 编写的一款前后端分离的权限管理系统",
   "author": {
     "name": "hexuntao",
@@ -30,7 +30,19 @@
     "dev:docs": "dotenv -- turbo run dev --filter=docs",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "upall": "pnpm up --filter @naa/* --latest && pnpm up --latest"
+    "upall": "pnpm up --filter @naa/* --latest && pnpm up --latest",
+    "prod:api": "cd apps/api && pnpm start:prod",
+    "prod:all": "dotenv -- turbo run build && pnpm prod:api",
+    "deploy": "pnpm prod:all",
+    "pm2:start": "cd apps/api && pm2 start ecosystem.config.js --name naa-api",
+    "pm2:stop": "pm2 stop naa-api",
+    "pm2:restart": "pm2 restart naa-api",
+    "pm2:logs": "pm2 logs naa-api",
+    "pm2:status": "pm2 status naa-api",
+    "pm2:monit": "pm2 monit",
+    "docker:build": "docker build -t naa-api ./apps/api",
+    "docker:run": "docker run -d --name naa-api -p 6010:6010 naa-api",
+    "docker:stop": "docker stop naa-api && docker rm naa-api"
   },
   "devDependencies": {
     "@naa/eslint-config": "workspace:*",
