@@ -15,6 +15,9 @@ datasource:
 
 # Redis 配置
 redis:
+  # Upstash配置 (优先使用)
+  url: ${{ REDIS_URL }}
+  # 本地Redis配置 (url为空时使用)
   port: ${{ REIDS_PORT || 6379 }}
   host: ${{ REDIS_HOST || 'localhost' }}
   username: ${{ REDIS_USER }}
@@ -24,6 +27,7 @@ redis:
 # Bull 配置
 bull:
   redis:
+    url: ${{ UPSTASH_REDIS_REST_URL }}
     port: ${{ REIDS_PORT || 6379 }}
     host: ${{ REDIS_HOST || 'localhost' }}
     username: ${{ REDIS_USER }}

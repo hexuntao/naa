@@ -1,27 +1,28 @@
 # Mysql 配置
 datasource:
-  defalut:
-    type: mysql
-    port: ${{ DB_PORT || 3306 }}
-    host: ${{ DB_HOST || 'localhost' }}
-    username: ${{ DB_USER || 'root' }}
-    password: ${{ DB_PASSWORD || 'root123456' }}
-    database: ${{ DB_NAME || 'naa'}}
-    # 可以在开发环境下同步entity的数据结构到数据库,生产环境建议不开启
-    synchronize: false
-    # 自动加载模块中注册的entity
-    autoLoadEntities: true
-    bigNumberStrings: false
-    supportBigNumbers: true
+  type: mysql
+  port: ${{ DB_PORT || 3306 }}
+  host: ${{ DB_HOST || 'localhost' }}
+  username: ${{ DB_USER || 'root' }}
+  password: ${{ DB_PASSWORD || 'root123456' }}
+  database: ${{ DB_NAME || 'naa'}}
+  # 可以在开发环境下同步entity的数据结构到数据库,生产环境建议不开启
+  synchronize: false
+  # 自动加载模块中注册的entity
+  autoLoadEntities: true
+  bigNumberStrings: false
+  supportBigNumbers: true
 
 # Redis 配置
 redis:
-  defalut:
-    port: ${{ REIDS_PORT || 6379 }}
-    host: ${{ REDIS_HOST || 'localhost' }}
-    username: ${{ REDIS_USER }}
-    password: ${{ REDIS_PASSWORD }}
-    db: 0
+  # Upstash配置 (优先使用)
+  url: ${{ REDIS_URL }}
+  # 本地Redis配置 (url为空时使用)
+  port: ${{ REIDS_PORT || 6379 }}
+  host: ${{ REDIS_HOST || 'localhost' }}
+  username: ${{ REDIS_USER }}
+  password: ${{ REDIS_PASSWORD }}
+  db: 0
 
 # Bull 配置
 bull:

@@ -31,13 +31,12 @@ import { AppService } from './app.service';
       globs: ['**/*.mapper.xml'],
     }),
     RedisModule.forRootAsync({
-      useFactory(config: ConfigService) {
-        return {
-          config: config.get<RedisModuleOptions['config']>('redis'),
-        };
-        // return {type: 'single',
-        //   options: config.get<RedisModuleOptions['config']>('redis'),
-        // }
+      useFactory: async (configService: ConfigService) => {
+        const config = configService.get<RedisModuleOptions['config']>('redis');
+        if (config.url) {
+          return { config: config.url } as RedisModuleOptions;
+        }
+        return { config };
       },
       inject: [ConfigService],
     }),
@@ -52,7 +51,11 @@ import { AppService } from './app.service';
     }),
     BullModule.forRootAsync({
       useFactory(config: ConfigService) {
-        return config.get<BullModuleOptions>('bull');
+        const bull = config.get<BullModuleOptions>('bull');
+        if (bull.url) {
+          return { redis: bull.url };
+        }
+        return bull;
       },
       inject: [ConfigService],
     }),
