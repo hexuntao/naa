@@ -106,4 +106,9 @@ export default defineConfig({
   icons: {
     include: icons,
   },
+
+  jsMinifier: 'esbuild',
+  jsMinifierOptions: {
+    target: ['chrome90', 'es2020'], // 升级到更新的目标环境
+  },
 });

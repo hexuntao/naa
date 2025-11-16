@@ -1,22 +1,25 @@
 import { useThemeStore } from '@/store';
 import Color from 'colorjs.io';
-import { EChartsOption } from 'echarts';
+// import { EChartsOption } from 'echarts';
 import { useEffect, useState } from 'react';
 import { EchartCard } from './EchartCard';
-const getCSSColor = (name:string) =>{
-  const oklchString:string = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+const getCSSColor = (name: string) => {
+  const oklchString: string = getComputedStyle(document.documentElement)
+    .getPropertyValue(name)
+    .trim();
   const color = new Color(oklchString);
   return color.toString({ format: 'rgb' });
-}
-
+};
 
 export default function Index() {
-  const {mode,color} = useThemeStore();
-  const [chartColor,setChartColor] = useState<string[]>([]);
+  const { mode, color } = useThemeStore();
+  const [chartColor, setChartColor] = useState<string[]>([]);
   useEffect(() => {
-    setChartColor(['--chart-1','--chart-2','--chart-3','--chart-4','--chart-5'].map(getCSSColor));
-  },[color]);
-  const basicLineChartOption: EChartsOption = {
+    setChartColor(
+      ['--chart-1', '--chart-2', '--chart-3', '--chart-4', '--chart-5'].map(getCSSColor),
+    );
+  }, [color]);
+  const basicLineChartOption: any = {
     darkMode: mode === 'dark',
     color: chartColor,
     grid: { top: 8, right: 8, bottom: 24, left: 36 },
@@ -45,36 +48,36 @@ export default function Index() {
     color: chartColor,
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
     },
     series: [
       {
         data: [820, 932, 901, 934, 1290, 1330, 1320],
         type: 'line',
-        smooth: true
-      }
-    ]
+        smooth: true,
+      },
+    ],
   };
   const basicAreaChartOption = {
     color: chartColor,
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
     },
     series: [
       {
         data: [820, 932, 901, 934, 1290, 1330, 1320],
         type: 'line',
-        areaStyle: {}
-      }
-    ]
+        areaStyle: {},
+      },
+    ],
   };
   const basicStackedLineChartOption = {
     //   title: {
@@ -82,62 +85,62 @@ export default function Index() {
     //   },
     color: chartColor,
     tooltip: {
-      trigger: 'axis'
+      trigger: 'axis',
     },
     legend: {
-      data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+      data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine'],
     },
     grid: {
       left: '3%',
       right: '4%',
       bottom: '3%',
-      containLabel: true
+      containLabel: true,
     },
     toolbox: {
       feature: {
-        saveAsImage: {}
-      }
+        saveAsImage: {},
+      },
     },
     xAxis: {
       type: 'category',
       boundaryGap: false,
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
     },
     series: [
       {
         name: 'Email',
         type: 'line',
         stack: 'Total',
-        data: [120, 132, 101, 134, 90, 230, 210]
+        data: [120, 132, 101, 134, 90, 230, 210],
       },
       {
         name: 'Union Ads',
         type: 'line',
         stack: 'Total',
-        data: [220, 182, 191, 234, 290, 330, 310]
+        data: [220, 182, 191, 234, 290, 330, 310],
       },
       {
         name: 'Video Ads',
         type: 'line',
         stack: 'Total',
-        data: [150, 232, 201, 154, 190, 330, 410]
+        data: [150, 232, 201, 154, 190, 330, 410],
       },
       {
         name: 'Direct',
         type: 'line',
         stack: 'Total',
-        data: [320, 332, 301, 334, 390, 330, 320]
+        data: [320, 332, 301, 334, 390, 330, 320],
       },
       {
         name: 'Search Engine',
         type: 'line',
         stack: 'Total',
-        data: [820, 932, 901, 934, 1290, 1330, 1320]
-      }
-    ]
+        data: [820, 932, 901, 934, 1290, 1330, 1320],
+      },
+    ],
   };
   const basicStackedAreaChartOption = {
     //   title: {
@@ -149,35 +152,35 @@ export default function Index() {
       axisPointer: {
         type: 'cross',
         label: {
-          backgroundColor: '#6a7985'
-        }
-      }
+          backgroundColor: '#6a7985',
+        },
+      },
     },
     legend: {
-      data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine']
+      data: ['Email', 'Union Ads', 'Video Ads', 'Direct', 'Search Engine'],
     },
     toolbox: {
       feature: {
-        saveAsImage: {}
-      }
+        saveAsImage: {},
+      },
     },
     grid: {
       left: '3%',
       right: '4%',
       bottom: '3%',
-      containLabel: true
+      containLabel: true,
     },
     xAxis: [
       {
         type: 'category',
         boundaryGap: false,
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      }
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      },
     ],
     yAxis: [
       {
-        type: 'value'
-      }
+        type: 'value',
+      },
     ],
     series: [
       {
@@ -186,9 +189,9 @@ export default function Index() {
         stack: 'Total',
         areaStyle: {},
         emphasis: {
-          focus: 'series'
+          focus: 'series',
         },
-        data: [120, 132, 101, 134, 90, 230, 210]
+        data: [120, 132, 101, 134, 90, 230, 210],
       },
       {
         name: 'Union Ads',
@@ -196,9 +199,9 @@ export default function Index() {
         stack: 'Total',
         areaStyle: {},
         emphasis: {
-          focus: 'series'
+          focus: 'series',
         },
-        data: [220, 182, 191, 234, 290, 330, 310]
+        data: [220, 182, 191, 234, 290, 330, 310],
       },
       {
         name: 'Video Ads',
@@ -206,9 +209,9 @@ export default function Index() {
         stack: 'Total',
         areaStyle: {},
         emphasis: {
-          focus: 'series'
+          focus: 'series',
         },
-        data: [150, 232, 201, 154, 190, 330, 410]
+        data: [150, 232, 201, 154, 190, 330, 410],
       },
       {
         name: 'Direct',
@@ -216,9 +219,9 @@ export default function Index() {
         stack: 'Total',
         areaStyle: {},
         emphasis: {
-          focus: 'series'
+          focus: 'series',
         },
-        data: [320, 332, 301, 334, 390, 330, 320]
+        data: [320, 332, 301, 334, 390, 330, 320],
       },
       {
         name: 'Search Engine',
@@ -226,15 +229,15 @@ export default function Index() {
         stack: 'Total',
         label: {
           show: true,
-          position: 'top'
+          position: 'top',
         },
         areaStyle: {},
         emphasis: {
-          focus: 'series'
+          focus: 'series',
         },
-        data: [820, 932, 901, 934, 1290, 1330, 1320]
-      }
-    ]
+        data: [820, 932, 901, 934, 1290, 1330, 1320],
+      },
+    ],
   };
 
   const gradientStackedAreaChartOption = {
@@ -247,35 +250,35 @@ export default function Index() {
       axisPointer: {
         type: 'cross',
         label: {
-          backgroundColor: '#6a7985'
-        }
-      }
+          backgroundColor: '#6a7985',
+        },
+      },
     },
     legend: {
-      data: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5']
+      data: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5'],
     },
     toolbox: {
       feature: {
-        saveAsImage: {}
-      }
+        saveAsImage: {},
+      },
     },
     grid: {
       left: '3%',
       right: '4%',
       bottom: '3%',
-      containLabel: true
+      containLabel: true,
     },
     xAxis: [
       {
         type: 'category',
         boundaryGap: false,
-        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-      }
+        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+      },
     ],
     yAxis: [
       {
-        type: 'value'
-      }
+        type: 'value',
+      },
     ],
     series: [
       {
@@ -284,7 +287,7 @@ export default function Index() {
         stack: 'Total',
         smooth: true,
         lineStyle: {
-          width: 0
+          width: 0,
         },
         showSymbol: false,
         areaStyle: {
@@ -301,9 +304,9 @@ export default function Index() {
           // ])
         },
         emphasis: {
-          focus: 'series'
+          focus: 'series',
         },
-        data: [140, 232, 101, 264, 90, 340, 250]
+        data: [140, 232, 101, 264, 90, 340, 250],
       },
       {
         name: 'Line 2',
@@ -311,7 +314,7 @@ export default function Index() {
         stack: 'Total',
         smooth: true,
         lineStyle: {
-          width: 0
+          width: 0,
         },
         showSymbol: false,
         areaStyle: {
@@ -328,9 +331,9 @@ export default function Index() {
           // ])
         },
         emphasis: {
-          focus: 'series'
+          focus: 'series',
         },
-        data: [120, 282, 111, 234, 220, 340, 310]
+        data: [120, 282, 111, 234, 220, 340, 310],
       },
       {
         name: 'Line 3',
@@ -338,7 +341,7 @@ export default function Index() {
         stack: 'Total',
         smooth: true,
         lineStyle: {
-          width: 0
+          width: 0,
         },
         showSymbol: false,
         areaStyle: {
@@ -355,9 +358,9 @@ export default function Index() {
           // ])
         },
         emphasis: {
-          focus: 'series'
+          focus: 'series',
         },
-        data: [320, 132, 201, 334, 190, 130, 220]
+        data: [320, 132, 201, 334, 190, 130, 220],
       },
       {
         name: 'Line 4',
@@ -365,7 +368,7 @@ export default function Index() {
         stack: 'Total',
         smooth: true,
         lineStyle: {
-          width: 0
+          width: 0,
         },
         showSymbol: false,
         areaStyle: {
@@ -382,9 +385,9 @@ export default function Index() {
           // ])
         },
         emphasis: {
-          focus: 'series'
+          focus: 'series',
         },
-        data: [220, 402, 231, 134, 190, 230, 120]
+        data: [220, 402, 231, 134, 190, 230, 120],
       },
       {
         name: 'Line 5',
@@ -392,12 +395,12 @@ export default function Index() {
         stack: 'Total',
         smooth: true,
         lineStyle: {
-          width: 0
+          width: 0,
         },
         showSymbol: false,
         label: {
           show: true,
-          position: 'top'
+          position: 'top',
         },
         areaStyle: {
           opacity: 0.8,
@@ -413,38 +416,38 @@ export default function Index() {
           // ])
         },
         emphasis: {
-          focus: 'series'
+          focus: 'series',
         },
-        data: [220, 302, 181, 234, 210, 290, 150]
-      }
-    ]
+        data: [220, 302, 181, 234, 210, 290, 150],
+      },
+    ],
   };
 
   const basicBaroption = {
     color: chartColor,
     xAxis: {
       type: 'category',
-      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+      data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
     },
     yAxis: {
-      type: 'value'
+      type: 'value',
     },
     series: [
       {
         data: [120, 200, 150, 80, 70, 110, 130],
-        type: 'bar'
-      }
-    ]
+        type: 'bar',
+      },
+    ],
   };
 
   const basicRingOption = {
     color: chartColor,
     tooltip: {
-      trigger: 'item'
+      trigger: 'item',
     },
     legend: {
       top: '5%',
-      left: 'center'
+      left: 'center',
     },
     series: [
       {
@@ -455,31 +458,31 @@ export default function Index() {
         itemStyle: {
           borderRadius: 10,
           borderColor: '#fff',
-          borderWidth: 2
+          borderWidth: 2,
         },
         label: {
           show: false,
-          position: 'center'
+          position: 'center',
         },
         emphasis: {
           label: {
             show: true,
             fontSize: 40,
-            fontWeight: 'bold'
-          }
+            fontWeight: 'bold',
+          },
         },
         labelLine: {
-          show: false
+          show: false,
         },
         data: [
           { value: 1048, name: 'Search Engine' },
           { value: 735, name: 'Direct' },
           { value: 580, name: 'Email' },
           { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' }
-        ]
-      }
-    ]
+          { value: 300, name: 'Video Ads' },
+        ],
+      },
+    ],
   };
   const basicPieOption = {
     //   title: {
@@ -489,11 +492,11 @@ export default function Index() {
     //   },
     color: chartColor,
     tooltip: {
-      trigger: 'item'
+      trigger: 'item',
     },
     legend: {
       orient: 'vertical',
-      left: 'left'
+      left: 'left',
     },
     series: [
       {
@@ -505,29 +508,45 @@ export default function Index() {
           { value: 735, name: 'Direct' },
           { value: 580, name: 'Email' },
           { value: 484, name: 'Union Ads' },
-          { value: 300, name: 'Video Ads' }
+          { value: 300, name: 'Video Ads' },
         ],
         emphasis: {
           itemStyle: {
             shadowBlur: 10,
             shadowOffsetX: 0,
-            shadowColor: 'rgba(0, 0, 0, 0.5)'
-          }
-        }
-      }
-    ]
+            shadowColor: 'rgba(0, 0, 0, 0.5)',
+          },
+        },
+      },
+    ],
   };
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 p-3">
+    <div className="grid grid-cols-1 gap-4 p-3 sm:grid-cols-2 lg:grid-cols-3">
       <EchartCard option={basicLineChartOption} title="基础折线图" description="Basic Line Chart" />
-      <EchartCard option={smoothedLineChartOption} title="基础平滑折线图" description="Smoothed Line Chart" />
+      <EchartCard
+        option={smoothedLineChartOption}
+        title="基础平滑折线图"
+        description="Smoothed Line Chart"
+      />
       <EchartCard option={basicAreaChartOption} title="基础面积图" description="Basic Area Chart" />
-      <EchartCard option={basicStackedLineChartOption} title="基础堆叠折线图" description="Basic Stacked Line Chart" />
-      <EchartCard option={basicStackedAreaChartOption} title="基础堆叠面积图" description="Basic Stacked Area Chart" />
-      <EchartCard option={gradientStackedAreaChartOption} title="基础渐变堆叠面积图" description="Gradient Stacked Area Chart" />
+      <EchartCard
+        option={basicStackedLineChartOption}
+        title="基础堆叠折线图"
+        description="Basic Stacked Line Chart"
+      />
+      <EchartCard
+        option={basicStackedAreaChartOption}
+        title="基础堆叠面积图"
+        description="Basic Stacked Area Chart"
+      />
+      <EchartCard
+        option={gradientStackedAreaChartOption}
+        title="基础渐变堆叠面积图"
+        description="Gradient Stacked Area Chart"
+      />
       <EchartCard option={basicBaroption} title="基础柱状图" description="Basic Bar Chart" />
       <EchartCard option={basicRingOption} title="基础环形图" description="Basic Ring Chart" />
       <EchartCard option={basicPieOption} title="基础饼图" description="Basic Pie Chart" />
     </div>
-  )
+  );
 }

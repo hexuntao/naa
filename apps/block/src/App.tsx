@@ -32,7 +32,7 @@ export default function Index() {
               route.redirect ? (
                 <Route path={route.path} element={<Navigate to={route.redirect} replace />} />
               ) : (
-                <Route path={route.path} Component={getLazyComponent(route.element ?? '')} />
+                <Route path={route.path} Component={getLazyComponent(route.element ?? '') as any} />
               ),
             )}
           </Route>
