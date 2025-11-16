@@ -93,7 +93,7 @@ export class ExcelService {
       sheetImages.map((image) =>
         axios
           .get<Buffer>(image.url, { responseType: 'arraybuffer' })
-          .then(({ data }) => Buffer.from(data)),
+          .then(({ data }) => Buffer.from(new Uint8Array(data))),
       ),
     );
     sheetImages.forEach((image, index) => {

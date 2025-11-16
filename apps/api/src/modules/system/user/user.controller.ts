@@ -1,3 +1,5 @@
+import { Readable } from 'stream';
+
 import {
   Body,
   Controller,
@@ -12,6 +14,7 @@ import {
   UploadedFile,
   UseInterceptors,
 } from '@nestjs/common';
+
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
@@ -141,6 +144,12 @@ export class UserController {
   @RequirePermissions('system:user:export')
   async export() {
     const file = await this.userService.export();
+    if (Buffer.isBuffer(file)) {
+      const stream = new Readable();
+      stream.push(file);
+      stream.push(null);
+      return new StreamableFile(stream);
+    }
     return new StreamableFile(file);
   }
 
@@ -152,6 +161,12 @@ export class UserController {
   @RequirePermissions('system:user:export')
   async exportTemplate() {
     const file = await this.userService.exportTemplate();
+    if (Buffer.isBuffer(file)) {
+      const stream = new Readable();
+      stream.push(file);
+      stream.push(null);
+      return new StreamableFile(stream);
+    }
     return new StreamableFile(file);
   }
 

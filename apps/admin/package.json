@@ -10,7 +10,7 @@
     "setup": "max setup"
   },
   "dependencies": {
-    "@ant-design/charts": "^1.4.3",
+    "@ant-design/charts": "^2.6.6",
     "@ant-design/icons": "^4.8.3",
     "@ant-design/pro-components": "^2.7.1",
     "@ant-design/use-emotion-css": "^1.0.4",
