@@ -35,6 +35,8 @@ module.exports = {
       env_test: {
         NODE_ENV: 'test',
       },
+      // 确保 PM2 能加载 .env.production 文件
+      env_file: '/opt/1panel/www/site/naa/.env.production',
     },
   ],
 };

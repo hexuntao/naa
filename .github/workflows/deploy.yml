@@ -1,0 +1,42 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Deploy to server via SSH
+        uses: appleboy/ssh-action@v0.1.5
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USERNAME }}
+          key: ${{ secrets.SERVER_SSH_KEY }}
+          script: |
+            # 进入项目目录
+            cd /opt/1panel/www/site/naa
+
+            # 拉取最新代码
+            git pull origin main
+
+            # 使用 pnpm 安装依赖
+            pnpm install
+
+            # 加载环境变量
+            # --skip-generate 可跳过生成，因为 pnpm build 会处理
+            source .env.production
+
+            # 构建项目 (构建时会读取 .env.production)
+            source .env.production && pnpm build
+
+            # 使用 PM2 重启应用
+            pm2 reload ecosystem.config.js
+
+            # 保存 PM2 进程列表
+            pm2 save

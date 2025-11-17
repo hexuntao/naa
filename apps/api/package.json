@@ -24,6 +24,7 @@
     "@nestjs/swagger": "^7.1.16",
     "@nestjs/terminus": "^11.0.0",
     "@nestjs/typeorm": "^10.0.1",
+    "@upstash/redis": "^1.35.6",
     "archiver": "^5.3.2",
     "axios": "^1.13.2",
     "bcrypt": "^5.1.1",
