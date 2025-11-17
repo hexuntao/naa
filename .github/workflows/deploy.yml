@@ -18,6 +18,7 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
+          port: 25036
           script: |
             # 进入项目目录
             cd /opt/1panel/www/site/naa
