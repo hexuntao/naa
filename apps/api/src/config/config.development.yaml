@@ -27,7 +27,7 @@ redis:
 # Bull 配置
 bull:
   redis:
-    url: ${{ UPSTASH_REDIS_REST_URL }}
+    url: ${{ REDIS_URL }}
     port: ${{ REIDS_PORT || 6379 }}
     host: ${{ REDIS_HOST || 'localhost' }}
     username: ${{ REDIS_USER }}
