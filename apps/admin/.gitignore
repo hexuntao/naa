@@ -14,5 +14,5 @@
 .DS_Store
 
 # Vercel config generated for admin app
-# vercel.json
-# /apps/admin/vercel.json
+vercel.json
+/apps/admin/vercel.json

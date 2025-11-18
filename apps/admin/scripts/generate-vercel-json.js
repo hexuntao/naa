@@ -29,6 +29,5 @@ if (!fs.existsSync(targetDir)) {
 
 fs.writeFileSync(targetPath, JSON.stringify(vercelConfig, null, 2));
 
-console.log(targetDir);
 console.log('✅ vercel.json 生成成功!');
 console.log(`API 代理: ${apiUrl}`);
