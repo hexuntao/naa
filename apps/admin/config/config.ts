@@ -9,8 +9,8 @@ import * as envs from './constants';
 console.info(`[${process.env.NODE_ENV}]`, { ...envs });
 
 export default defineConfig({
-  base: envs.ADMIN_BASE_PREFIX,
-  publicPath: envs.ADMIN_BASE_PREFIX,
+  // base: envs.ADMIN_BASE_PREFIX,
+  // publicPath: envs.ADMIN_BASE_PREFIX,
   npmClient: 'pnpm',
   /**
    * @name 配置全局变量

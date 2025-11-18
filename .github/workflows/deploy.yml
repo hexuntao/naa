@@ -20,4 +20,21 @@ jobs:
           key: ${{ secrets.SERVER_SSH_KEY }}
           port: 25036
           #来执行脚本
-          script: /home/deploy/deploy.sh
+          script: |
+            # 进入项目目录
+            cd /www/wwwwroot/naa
+
+            # 拉取最新代码
+            git pull origin main
+
+            # 使用 pnpm 安装依赖
+            pnpm install
+
+            # 构建项目
+            pnpm build
+
+            # 使用 PM2 重启应用
+            pm2 reload ecosystem.config.js
+
+            # 保存 PM2 进程列表
+            pm2 save

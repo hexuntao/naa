@@ -19,6 +19,8 @@ async function bootstrap() {
     logger: ['error', 'warn'],
   });
 
+  app.enableCors();
+
   app.useLogger(app.get(NestLogger));
 
   const config = app.get(ConfigService);
@@ -35,7 +37,10 @@ async function bootstrap() {
   swagger.setup();
 
   await app.listen(port, host, () => {
-    const url = `http://${host}:${port}`;
+    const url =
+      process.env.NODE_ENV === 'development'
+        ? `http://localhost:${port}`
+        : `http://${host}:${port}`;
 
     console.log(
       `- [${process.env.NODE_ENV}] ${name} RestAPI:  ${chalk.green.underline(`${url}/${prefix}`)}`,

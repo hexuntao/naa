@@ -5,7 +5,7 @@ import { PageEnum } from '@/enums/pageEnum';
 import { getToken, removeToken } from '@/utils/auth';
 import { getThemeSetting } from '@/utils/setting';
 
-const loginPath = `${ADMIN_BASE_PREFIX}${PageEnum.BASE_LOGIN.replace('/', '')}`;
+const loginPath = `${PageEnum.BASE_LOGIN.replace('/', '')}`;
 
 export interface InitialState {
   settings?: Partial<LayoutSettings & { token: ProLayoutProps['token'] }>;

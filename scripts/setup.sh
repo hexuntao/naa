@@ -4,7 +4,7 @@ set -e # 任何命令出错时立即退出
 
 # --- 配置区域 ---
 # 你的 naa 项目的绝对路径
-PROJECT_PATH="/opt/1panel/www/site/naa" 
+PROJECT_PATH="/www/wwwroot/naa" 
 # ---------------
 
 echo "🚀 开始部署... $(date)"
@@ -18,7 +18,7 @@ git pull origin main
 
 # 安装/更新依赖
 echo "📦 更新依赖 pnpm..."
-pnpm install --frozen-lockfile
+pnpm install
 
 # 构建项目
 echo "🔨 构建项目..."

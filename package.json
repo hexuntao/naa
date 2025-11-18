@@ -1,7 +1,7 @@
 {
   "name": "naa",
   "private": true,
-  "version": "2.2.31",
+  "version": "2.2.32",
   "description": "基于 Nest + Antd 编写的一款前后端分离的权限管理系统",
   "author": {
     "name": "hexuntao",
@@ -23,7 +23,7 @@
   },
   "packageManager": "pnpm@8.6.10",
   "scripts": {
-    "build": "dotenv -- turbo run build",
+    "build": "dotenv -- turbo run build --filter=!admin --filter=!docs --filter=!docs --filter=!block",
     "dev": "dotenv -- turbo run dev",
     "dev:api": "dotenv -- turbo run dev --filter=api",
     "dev:admin": "dotenv -- turbo run dev --filter=admin --filter=api",
@@ -35,7 +35,8 @@
     "build:api": "cd apps/api && pnpm build",
     "prod:all": "dotenv -- turbo run build && pnpm prod:api",
     "deploy": "pnpm prod:all",
-    "pm2:start": "cd apps/api && pm2 start ecosystem.config.js --name naa-api",
+    "start:api": "cd apps/api && pnpm run start:prod",
+    "pm2:start": "pm2 start ecosystem.config.js --name naa-api",
     "pm2:stop": "pm2 stop naa-api",
     "pm2:restart": "pm2 restart naa-api",
     "pm2:logs": "pm2 logs naa-api",
