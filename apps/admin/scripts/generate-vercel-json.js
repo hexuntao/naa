@@ -6,10 +6,18 @@ const apiUrl = process.env.APP_URL || `http://localhost:${process.env.API_PORT}`
 
 // 2. 定义 vercel.json 的内容
 const vercelConfig = {
+  // 规则按顺序匹配，越具体的规则越靠前
   rewrites: [
+    // 规则1: API 代理
     {
       source: '/api/(.*)',
       destination: `${apiUrl}/api/$1`,
+    },
+    // 规则2: SPA Fallback (新增)
+    // 这个规则会匹配所有不是静态文件、不是API请求的路径
+    {
+      source: '/((?!api|_next/static|_next/image|favicon.ico).*)',
+      destination: '/index.html',
     },
   ],
 };
