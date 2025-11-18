@@ -14,7 +14,7 @@ const vercelConfig = {
     // 规则2: SPA Fallback (新增)
     // 这个规则会匹配所有不是静态文件、不是API请求的路径
     {
-      source: '/((?!\\.\\w+$).*)',
+      source: '/((?!api|_next/static|_next/image|.*\\..*$).*)',
       destination: '/index.html',
     },
   ],
