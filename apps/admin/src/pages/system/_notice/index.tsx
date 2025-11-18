@@ -4,15 +4,15 @@ import { ProTable } from '@ant-design/pro-components';
 import { useModel, Access, useAccess } from '@umijs/max';
 import { Button, Popconfirm } from 'antd';
 import { useRef, useState } from 'react';
-import { listPost, deletePost } from '@/apis/system/post';
-import type { PostModel } from '@/apis/system/post';
+import { listNotice, deleteNotice } from '@/apis/system/notice';
+import type { NoticeModel } from '@/apis/system/notice';
 import { DictTag } from '@/components/Dict';
 import UpdateForm from './components/UpdateForm';
 
-const Post = () => {
+const Notice = () => {
   const { hasPermission } = useAccess();
   const actionRef = useRef<ActionType>(null);
-  const [record, setRecord] = useState<PostModel>();
+  const [record, setRecord] = useState<NoticeModel>();
   const [updateOpen, setUpdateOpen] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
@@ -20,14 +20,15 @@ const Post = () => {
    * 注册字典数据
    */
   const { loadDict, toSelect } = useModel('dict');
+  const sysNoticeType = loadDict('sys_notice_type');
   const sysNormalDisable = loadDict('sys_normal_disable');
 
   /**
-   * 删除岗位
-   * @param postIds 岗位ID
+   * 删除通知公告
+   * @param noticeIds 通知公告ID
    */
-  const handleDelete = async (postIds: number | string) => {
-    await deletePost(postIds);
+  const handleDelete = async (noticeIds: number | string) => {
+    await deleteNotice(noticeIds);
     setSelectedRowKeys([]);
     actionRef.current?.reload();
   };
@@ -35,28 +36,34 @@ const Post = () => {
   /**
    * 表格列配置
    */
-  const columns: ProColumns<PostModel>[] = [
+  const columns: ProColumns<NoticeModel>[] = [
     {
-      title: '岗位编号',
-      dataIndex: 'postId',
+      title: '公告ID',
+      dataIndex: 'noticeId',
       search: false,
     },
     {
-      title: '岗位名称',
-      dataIndex: 'postName',
+      title: '公告标题',
+      dataIndex: 'noticeTitle',
     },
     {
-      title: '岗位编码',
-      dataIndex: 'postCode',
+      title: '公告类型',
+      dataIndex: 'noticeType',
+      valueType: 'select',
+      fieldProps: { options: toSelect(sysNoticeType) },
+      render: (_, record) => {
+        return <DictTag options={sysNoticeType} value={record.noticeType} />;
+      },
     },
     {
-      title: '显示顺序',
-      dataIndex: 'postSort',
+      title: '公告内容',
+      dataIndex: 'noticeContent',
       search: false,
     },
     {
-      title: '状态',
+      title: '公告状态',
       dataIndex: 'status',
+      search: false,
       valueType: 'select',
       fieldProps: { options: toSelect(sysNormalDisable) },
       render: (_, record) => {
@@ -64,16 +71,11 @@ const Post = () => {
       },
     },
     {
-      title: '创建时间',
-      dataIndex: 'createTime',
-      search: false,
-    },
-    {
       title: '操作',
       valueType: 'option',
       key: 'option',
       render: (_, record) => [
-        <Access key="update" accessible={hasPermission('system:post:update')}>
+        <Access key="update" accessible={hasPermission('system:notice:update')}>
           <Button
             type="link"
             onClick={() => {
@@ -84,8 +86,8 @@ const Post = () => {
             编辑
           </Button>
         </Access>,
-        <Access key="delete" accessible={hasPermission('system:post:delete')}>
-          <Popconfirm title="是否确认删除？" onConfirm={() => handleDelete(record.postId)}>
+        <Access key="delete" accessible={hasPermission('system:notice:delete')}>
+          <Popconfirm title="是否确认删除？" onConfirm={() => handleDelete(record.noticeId)}>
             <Button type="link" danger>
               删除
             </Button>
@@ -98,8 +100,8 @@ const Post = () => {
   return (
     <>
       <ProTable
-        rowKey="postId"
-        headerTitle="岗位列表"
+        rowKey="noticeId"
+        headerTitle="通知公告列表"
         bordered
         columns={columns}
         actionRef={actionRef}
@@ -108,7 +110,7 @@ const Post = () => {
           onChange: setSelectedRowKeys,
         }}
         request={async (params) => {
-          const { items, meta } = await listPost({
+          const { items, meta } = await listNotice({
             ...params,
             page: params.current,
             limit: params.pageSize,
@@ -120,7 +122,7 @@ const Post = () => {
         }}
         toolbar={{
           actions: [
-            <Access key="add" accessible={hasPermission('system:post:add')}>
+            <Access key="add" accessible={hasPermission('system:notice:add')}>
               <Button
                 type="primary"
                 icon={<PlusOutlined />}
@@ -132,7 +134,7 @@ const Post = () => {
                 新增
               </Button>
             </Access>,
-            <Access key="delete" accessible={hasPermission('system:post:delete')}>
+            <Access key="delete" accessible={hasPermission('system:notice:delete')}>
               <Popconfirm
                 title="是否确认删除？"
                 disabled={!selectedRowKeys.length}
@@ -162,4 +164,4 @@ const Post = () => {
   );
 };
 
-export default Post;
+export default Notice;

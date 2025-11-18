@@ -2,8 +2,6 @@
 app:
   port: ${{ API_PORT || 6010 }}
   name: ${{ npm_package_name || 'naa-api' }}
-  domain: ${{ APP_URL || 'http://localhost:'+ API_PORT }}
-  host: ${{ API_HOST || '127.0.0.1' }}
   prefix: ${{ API_PREFIX || 'api' }}
   socket: ${{ API_WEBSOCKETS || false }}
 

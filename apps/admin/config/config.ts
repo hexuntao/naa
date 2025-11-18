@@ -11,7 +11,6 @@ console.info(`[${process.env.NODE_ENV}]`, { ...envs });
 export default defineConfig({
   // base: envs.ADMIN_BASE_PREFIX,
   // publicPath: envs.ADMIN_BASE_PREFIX,
-  npmClient: 'pnpm',
   /**
    * @name 配置全局变量
    * @description 设置代码中的可用变量。
@@ -107,7 +106,9 @@ export default defineConfig({
     include: icons,
   },
 
-  jsMinifier: 'esbuild',
+  npmClient: 'pnpm',
+  jsMinifier: 'terser',
+  esbuildMinifyIIFE: true,
   jsMinifierOptions: {
     target: ['chrome90', 'es2020'], // 升级到更新的目标环境
   },

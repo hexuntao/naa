@@ -1,9 +1,10 @@
 import { CopyOutlined } from '@ant-design/icons';
-import { Button, Modal, ModalProps, Tabs, App } from 'antd';
+import { Button, Modal, ModalProps, Tabs } from 'antd';
 import Clipboard from 'clipboard';
 import { useEffect, useState } from 'react';
 import { previewCode } from '@/apis/gen/gen';
 import type { GenTableModel, GenPreviewResult } from '@/apis/gen/gen';
+import { App } from 'antd';
 
 interface UpdateFormProps extends ModalProps {
   record: GenTableModel;
@@ -15,7 +16,6 @@ const removePrefix = (str: string) => {
 
 const PreviewModal: React.FC<UpdateFormProps> = ({ record, ...props }) => {
   const { message } = App.useApp();
-
   /**
    * 查询预览
    */

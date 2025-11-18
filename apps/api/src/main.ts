@@ -26,7 +26,6 @@ async function bootstrap() {
   const config = app.get(ConfigService);
   const name = config.get<string>('app.name');
   const port = config.get<number>('app.port');
-  const host = config.get<string>('app.host');
   const prefix = config.get<string>('app.prefix');
 
   app.setGlobalPrefix(prefix);
@@ -36,11 +35,11 @@ async function bootstrap() {
   const swagger = new SwaggerService(app, swaggerConfig);
   swagger.setup();
 
-  await app.listen(port, host, () => {
+  await app.listen(port, () => {
     const url =
       process.env.NODE_ENV === 'development'
         ? `http://localhost:${port}`
-        : `http://${host}:${port}`;
+        : `http://0.0.0.0:${port}`;
 
     console.log(
       `- [${process.env.NODE_ENV}] ${name} RestAPI:  ${chalk.green.underline(`${url}/${prefix}`)}`,

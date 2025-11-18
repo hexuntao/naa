@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const apiUrl = process.env.APP_URL || `http://localhost:${process.env.API_PORT}`;
+const apiUrl = process.env.API_URL || `http://localhost:${process.env.API_PORT}`;
 
 const vercelConfig = {
   // 规则按顺序匹配，越具体的规则越靠前

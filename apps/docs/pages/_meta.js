@@ -1,0 +1,6 @@
+export default {
+  index: '介绍',
+  development: '本地开发',
+  backend: '后端手册',
+  frontend: '前端手册',
+};

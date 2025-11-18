@@ -11,7 +11,7 @@ import type { UpdatePasswordParams } from '@/apis/system/profile';
 
 const UpdatePassword: React.FC = () => {
   const { message } = App.useApp();
-  const formRef = useRef<ProFormInstance>();
+  const formRef = useRef<ProFormInstance>(null);
 
   /**
    * 提交表单

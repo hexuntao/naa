@@ -63,7 +63,7 @@ const Login = () => {
           />
           <ProFormText.Password
             name="password"
-            initialValue={'Aa@123456'}
+            initialValue={'123456'}
             fieldProps={{
               size: 'large',
               prefix: <LockOutlined className={'prefixIcon'} />,

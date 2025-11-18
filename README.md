@@ -10,7 +10,7 @@
 
 使用 NestJS + Ant Design Admin 等技术栈，采用 monorepo 管理（前端后台、后端 API、文档站点统一在一个仓库），开箱即用的中后台权限管理系统与最佳实践。
 
-[在线预览](https://naa.hexuntao.com) 演示账号: demo / 123456
+[在线预览](https://admin.hexuntao.dpdns.org) 演示账号: test / 123456
 
 ---
 
@@ -36,6 +36,7 @@ apps/
   api/    # NestJS 后端服务
   admin/  # 后台前端（Umi + AntD）
   docs/   # 文档站点（Next.js + Nextra）
+  block/  # 未开发完成，请忽略
 packages/
   eslint-config/  # 统一 ESLint 规则
   ts-config/      # 统一 tsconfig 预设
@@ -168,8 +169,8 @@ pnpm run dev:docs
 
 - 后端接口：http://localhost:6010/api
 - 接口文档：http://localhost:6010/api-docs
-- 后台页面：http://localhost:6020/admin
-- 教程文档：http://localhost:6030/docs
+- 后台页面：http://localhost:6020
+- 教程文档：http://localhost:6030
 
 ### 构建与部署
 

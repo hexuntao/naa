@@ -1,7 +1,7 @@
 {
   "name": "naa",
   "private": true,
-  "version": "2.2.32",
+  "version": "2.3.0",
   "description": "基于 Nest + Antd 编写的一款前后端分离的权限管理系统",
   "author": {
     "name": "hexuntao",
@@ -23,7 +23,7 @@
   },
   "packageManager": "pnpm@8.6.10",
   "scripts": {
-    "build": "dotenv -- turbo run build --filter=!admin --filter=!docs --filter=!docs --filter=!block",
+    "build": "dotenv -- turbo run build",
     "dev": "dotenv -- turbo run dev",
     "dev:api": "dotenv -- turbo run dev --filter=api",
     "dev:admin": "dotenv -- turbo run dev --filter=admin --filter=api",

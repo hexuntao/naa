@@ -27,7 +27,7 @@ interface UpdateFormProps extends DrawerFormProps {
 }
 
 const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
-  const formRef = useRef<ProFormInstance>();
+  const formRef = useRef<ProFormInstance>(null);
 
   /**
    * 注册字典数据
@@ -146,7 +146,7 @@ const UpdateForm: React.FC<UpdateFormProps> = ({ record, ...props }) => {
               <ProFormText
                 name="query"
                 label="路由参数"
-                tooltip='访问路由的默认传递参数，如：`{"id": 1, "name": "naa"}`'
+                tooltip='访问路由的默认传递参数，如：`{"id": 1, "name": "vivy"}`'
                 rules={[{ max: 255 }]}
               />
             ) : null}

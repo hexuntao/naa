@@ -1,7 +1,7 @@
 const Swagger = () => {
   return (
     <iframe
-      src="/api/swagger"
+      src="/api-docs"
       style={{
         border: 'none',
         width: '100%',

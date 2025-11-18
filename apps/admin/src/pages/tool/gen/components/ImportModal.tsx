@@ -1,27 +1,27 @@
-import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
-import { Modal, ModalProps } from 'antd';
-import { useRef, useState } from 'react';
-import { listDbTable, importDbTable } from '@/apis/gen/gen';
-import type { GenTableModel } from '@/apis/gen/gen';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components'
+import { Modal, ModalProps } from 'antd'
+import { useRef, useState } from 'react'
+import { listDbTable, importDbTable } from '@/apis/gen/gen'
+import type { GenTableModel } from '@/apis/gen/gen'
 
 const ImportModal: React.FC<ModalProps> = (props) => {
-  const actionRef = useRef<ActionType>();
-  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
+  const actionRef = useRef<ActionType>(null)
+  const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([])
 
   /**
    * 提交导入
    */
-  const [confirmLoading, setConfirmLoading] = useState(false);
+  const [confirmLoading, setConfirmLoading] = useState(false)
   const handleSubmit = async (e: any) => {
-    if (!selectedRowKeys.length) return;
+    if (!selectedRowKeys.length) return
 
-    setConfirmLoading(true);
-    await importDbTable(selectedRowKeys.join(','));
-    setConfirmLoading(false);
+    setConfirmLoading(true)
+    await importDbTable(selectedRowKeys.join(','))
+    setConfirmLoading(false)
 
-    setSelectedRowKeys([]);
-    props.onOk?.(e);
-  };
+    setSelectedRowKeys([])
+    props.onOk?.(e)
+  }
 
   /**
    * 表格列配置
@@ -35,7 +35,7 @@ const ImportModal: React.FC<ModalProps> = (props) => {
       title: '表描述',
       dataIndex: 'tableComment',
     },
-  ];
+  ]
 
   return (
     <Modal
@@ -45,8 +45,8 @@ const ImportModal: React.FC<ModalProps> = (props) => {
       confirmLoading={confirmLoading}
       onOk={handleSubmit}
       afterOpenChange={(open) => {
-        open && actionRef.current?.reload();
-        props.afterOpenChange?.(open);
+        open && actionRef.current?.reload()
+        props.afterOpenChange?.(open)
       }}
     >
       <ProTable
@@ -65,15 +65,15 @@ const ImportModal: React.FC<ModalProps> = (props) => {
           const items = await listDbTable({
             tableName: params.tableName,
             tableComment: params.tableComment,
-          });
+          })
           return {
             data: items,
             total: items.length,
-          };
+          }
         }}
       />
     </Modal>
-  );
-};
+  )
+}
 
-export default ImportModal;
+export default ImportModal
