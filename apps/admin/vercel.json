@@ -1,8 +1,26 @@
 {
+  "version": 2,
+  "builds": [
+    {
+      "src": "package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
   "rewrites": [
     {
       "source": "/test-rewrite",
       "destination": "/favicon.ico"
+    },
+    {
+      "source": "/api/(.*)",
+      "destination": "http://104.233.162.167:6010/api/$1"
+    },
+    {
+      "source": "/((?!api|.*\\..*$).*)",
+      "destination": "/index.html"
     }
   ]
 }

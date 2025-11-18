@@ -62,8 +62,5 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5",
     "umi-presets-pro": "^2.0.3"
-  },
-  "engines": {
-    "node": ">=16.0.0"
   }
 }
