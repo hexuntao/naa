@@ -5,7 +5,6 @@
   "compilerOptions": {
     "assets": ["assets/**/*", "**/*.hbs", "**/*.yaml", "**/*.mapper.xml"],
     "deleteOutDir": true,
-    "watchAssets": true,
-    "typeCheck": true
+    "watchAssets": true
   }
 }

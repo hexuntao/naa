@@ -107,8 +107,8 @@ export default defineConfig({
   },
 
   npmClient: 'pnpm',
-  jsMinifier: 'terser',
-  esbuildMinifyIIFE: true,
+  jsMinifier: 'esbuild',
+  // esbuildMinifyIIFE: true,
   jsMinifierOptions: {
     target: ['chrome90', 'es2020'], // 升级到更新的目标环境
   },
