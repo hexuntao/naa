@@ -37,3 +37,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Vercel config generated for admin app
+/apps/admin/vercel.json

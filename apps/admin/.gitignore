@@ -12,3 +12,6 @@
 /.mfsu
 .swc
 .DS_Store
+
+# Vercel config generated for admin app
+./vercel.json
